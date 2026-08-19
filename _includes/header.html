@@ -1,0 +1,15 @@
+<!-- ============================================================ -->
+<!-- En-tête du site : version « hero » sur l'accueil,           -->
+<!-- version compacte sur les pages d'article                    -->
+<!-- ============================================================ -->
+<header class="site-header{% if page.layout == 'home' %} site-header--hero{% endif %}" role="banner">
+  <div class="wrapper">
+
+    <a class="site-title" rel="author" href="{{ '/' | relative_url }}">{{ site.title | escape }}</a>
+
+    {%- if page.layout == 'home' -%}
+    <p class="site-tagline">{{ site.tagline | escape }}</p>
+    {%- endif -%}
+
+  </div><!-- /wrapper -->
+</header><!-- /site-header -->
