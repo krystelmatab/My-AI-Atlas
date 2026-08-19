@@ -1,0 +1,57 @@
+<!-- Sommaire de l'article : construit à la volée depuis les titres h2/h3 -->
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  var nav     = document.querySelector('.post-toc-list');
+  if (!content || !nav) return;
+
+  var headings = content.querySelectorAll('h2, h3');
+  if (headings.length < 2) return;   // pas de sommaire pour un article court
+
+  var links = [];
+
+  headings.forEach(function (h, i) {
+    if (!h.id) {
+      var slug = h.textContent.trim().toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')  // retire les accents
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      h.id = slug || ('section-' + i);
+    }
+
+    var a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    a.className = 'toc-link toc-' + h.tagName.toLowerCase();
+
+    var li = document.createElement('li');
+    li.appendChild(a);
+    nav.appendChild(li);
+    links.push(a);
+  });
+
+  document.querySelector('.post-toc').hidden = false;
+
+  /* Surligne le titre de la section actuellement lue */
+  var visible = new Set();
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { visible.add(e.target.id); }
+      else                  { visible.delete(e.target.id); }
+    });
+
+    var current = null;
+    for (var i = 0; i < headings.length; i++) {
+      if (visible.has(headings[i].id)) { current = headings[i].id; break; }
+    }
+    if (!current) return;
+
+    links.forEach(function (a) {
+      a.classList.toggle('is-active', a.getAttribute('href') === '#' + current);
+    });
+  }, { rootMargin: '-80px 0px -70% 0px' });
+
+  headings.forEach(function (h) { observer.observe(h); });
+})();
+</script>

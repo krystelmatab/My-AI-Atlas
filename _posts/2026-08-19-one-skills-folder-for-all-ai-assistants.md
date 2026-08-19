@@ -4,6 +4,8 @@ date: 2026-08-19
 excerpt: "Comment le format ouvert Agent Skills permet de centraliser ses compétences IA dans un seul dossier, partagé entre Claude Code, Codex et GitHub Copilot."
 ---
 
+![Un classeur central de skills, synchronisé vers Claude, Codex et Copilot]({{ '/assets/images/one-binder-every-ai.png' | relative_url }})
+
 ## 1. Introduction : le Jour où j'ai Écrit la Même Chose pour la Troisième Fois
 
 Voici une situation que tout utilisateur de plusieurs assistants IA finit par connaître : j'avais appris à Claude Code à créer des présentations PowerPoint à la charte de mon entreprise. Quelques semaines plus tard, je voulais la même compétence dans Codex. Puis dans GitHub Copilot. À chaque fois, la même question : vais-je vraiment recopier ces instructions une troisième fois ?
