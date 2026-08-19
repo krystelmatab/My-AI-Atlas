@@ -1,0 +1,20 @@
+title: My AI Atlas
+description: >-
+  A personal knowledge hub about AI — une bibliothèque vivante de mes articles,
+  découvertes, réflexions et apprentissages sur l'intelligence artificielle.
+lang: fr
+theme: minima
+show_excerpts: true
+
+author:
+  name: Krystel Matab
+
+minima:
+  date_format: "%d/%m/%Y"
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
