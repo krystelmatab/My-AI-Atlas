@@ -1,0 +1,200 @@
+---
+---
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "minima";
+
+/* ============ Palette ============ */
+$ink: #211c15;
+$paper: #faf6ef;
+$muted: #756c5e;
+$accent: #c14f14;
+$accent-dark: #9c3f0f;
+$card: #fffdf9;
+$line: #e7dfd2;
+
+/* ============ Base ============ */
+body {
+  background: $paper;
+  color: $ink;
+  font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+a, a:visited { color: $accent; }
+a:hover { color: $accent-dark; text-decoration: none; }
+
+h1, h2, h3, h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  color: $ink;
+  letter-spacing: -0.01em;
+}
+
+code, pre {
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.85em;
+  background: #f1ebe0;
+  border: 1px solid $line;
+  border-radius: 6px;
+}
+pre { padding: 14px 18px; }
+pre code { border: none; background: none; }
+
+/* ============ En-tête du site ============ */
+.site-header {
+  background: $paper;
+  border-top: 4px solid $accent;
+  border-bottom: 1px solid $line;
+  min-height: 72px;
+}
+.site-title, .site-title:visited {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.7rem;
+  color: $ink;
+  letter-spacing: -0.02em;
+  line-height: 72px;
+}
+.site-title:hover { color: $accent; text-decoration: none; }
+
+/* ============ Accueil ============ */
+.home-intro {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  color: $muted;
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 28px 0 48px;
+
+  strong { color: $ink; font-style: normal; }
+}
+
+.post-list-heading { display: none; }
+
+.post-list {
+  margin-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 26px;
+
+  > li { margin-bottom: 0; }
+}
+
+a.post-card, a.post-card:visited {
+  display: block;
+  background: $card;
+  border: 1px solid $line;
+  border-radius: 14px;
+  padding: 30px 34px;
+  color: $ink;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  box-shadow: 0 1px 3px rgba(33, 28, 21, 0.05);
+}
+a.post-card:hover {
+  transform: translateY(-3px);
+  border-color: darken($line, 12%);
+  box-shadow: 0 10px 28px rgba(33, 28, 21, 0.10);
+}
+.post-card .post-meta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: $accent;
+}
+.post-card h2 {
+  font-size: 1.55rem;
+  line-height: 1.3;
+  margin: 10px 0 12px;
+}
+.post-card p { color: $muted; margin-bottom: 14px; }
+.post-card .readmore {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $accent;
+}
+
+.rss-subscribe { display: none; }
+
+/* ============ Page article ============ */
+.post-header { margin: 42px 0 36px; }
+.post-title {
+  font-size: 2.35rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.post .post-meta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: $accent;
+}
+
+.post-content {
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 2.4em;
+    padding-top: 1.1em;
+    border-top: 1px solid $line;
+  }
+  h3 { font-size: 1.25rem; margin-top: 1.8em; }
+
+  img {
+    border-radius: 14px;
+    border: 1px solid $line;
+    box-shadow: 0 8px 30px rgba(33, 28, 21, 0.10);
+  }
+
+  blockquote {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: $ink;
+    border-left: 4px solid $accent;
+    background: #f4eee3;
+    border-radius: 0 12px 12px 0;
+    padding: 18px 26px;
+    letter-spacing: 0;
+  }
+
+  table {
+    border: 1px solid $line;
+    border-radius: 10px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    font-size: 0.95em;
+
+    th {
+      background: #f1ebe0;
+      border: none;
+      border-bottom: 2px solid $line;
+      font-weight: 600;
+    }
+    td { border: none; border-bottom: 1px solid $line; background: $card; }
+    tr:last-child td { border-bottom: none; }
+  }
+}
+
+/* ============ Pied de page ============ */
+.site-footer {
+  background: #f1ebe0;
+  border-top: 1px solid $line;
+  color: $muted;
+
+  .footer-heading { font-family: 'Fraunces', Georgia, serif; }
+  a, a:visited { color: $muted; }
+  a:hover { color: $accent; }
+}
+
+/* ============ Mobile ============ */
+@media screen and (max-width: 600px) {
+  a.post-card { padding: 22px 22px; }
+  .post-card h2 { font-size: 1.3rem; }
+  .post-title { font-size: 1.8rem; }
+  .home-intro { font-size: 1.15rem; }
+}

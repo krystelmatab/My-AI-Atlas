@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<div class="home">
+
+  <div class="home-intro">{{ content }}</div>
+
+  {%- if site.posts.size > 0 -%}
+  <ul class="post-list">
+    {%- for post in site.posts -%}
+    <li>
+      <a class="post-card" href="{{ post.url | relative_url }}">
+        <span class="post-meta">{{ post.date | date: site.minima.date_format }}</span>
+        <h2>{{ post.title | escape }}</h2>
+        {%- if post.excerpt -%}
+        <p>{{ post.excerpt | strip_html | truncate: 220 }}</p>
+        {%- endif -%}
+        <span class="readmore">Lire l'article →</span>
+      </a>
+    </li>
+    {%- endfor -%}
+  </ul>
+  {%- endif -%}
+
+</div>
