@@ -1,0 +1,7 @@
+# Notes personnelles — jamais publiées sur le blog public
+NOTES-PERSO.md
+
+# Jekyll
+_site/
+.jekyll-cache/
+.sass-cache/
