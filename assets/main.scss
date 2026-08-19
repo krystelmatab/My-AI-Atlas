@@ -257,17 +257,19 @@ a.post-card:hover {
 }
 
 .post-title {
-  font-size: 2.5rem;
-  line-height: 1.16;
+  font-size: 2.15rem;
+  line-height: 1.18;
   letter-spacing: -0.025em;
   margin: 16px 0 0;
 }
 
 .post-content {
   margin-top: 8px;
+  font-size: 16px;
+  line-height: 1.72;
 
   h2 {
-    font-size: 1.55rem;
+    font-size: 1.38rem;
     line-height: 1.3;
     margin-top: 2.6em;
     padding-top: 1.2em;
@@ -275,7 +277,7 @@ a.post-card:hover {
   }
 
   h3 {
-    font-size: 1.2rem;
+    font-size: 1.08rem;
     color: $terracotta;
     margin-top: 2em;
   }
@@ -296,7 +298,7 @@ a.post-card:hover {
   blockquote {
     font-family: 'Fraunces', Georgia, serif;
     font-style: italic;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     line-height: 1.6;
     color: $maroon;
     background: rgba($amber, 0.20);
@@ -360,6 +362,92 @@ a.post-card:hover {
       padding: 0;
     }
   }
+}
+
+/* ============================================================ */
+/* Sommaire latéral de l'article                                */
+/* ============================================================ */
+
+/* La page d'article s'élargit pour loger le sommaire à droite */
+.wrapper:has(.post-shell) { max-width: 1180px; }
+
+.post-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 232px;
+  gap: 60px;
+  align-items: start;
+}
+
+.post-toc {
+  position: sticky;
+  top: 34px;
+  padding-left: 22px;
+  border-left: 1px solid $line;
+  font-family: 'Inter', sans-serif;
+
+  &[hidden] { display: none; }
+}
+
+.post-toc-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $terracotta;
+  margin: 0 0 14px;
+}
+
+.post-toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li { margin: 0; }
+}
+
+.toc-link {
+  display: block;
+  position: relative;
+  font-size: 0.79rem;
+  line-height: 1.42;
+  color: $muted;
+  padding: 5px 0 5px 14px;
+  border-bottom: none;
+
+  /* repère vertical, coloré quand la section est à l'écran */
+  &::before {
+    content: "";
+    position: absolute;
+    left: -23px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: transparent;
+    border-radius: 2px;
+  }
+
+  &:hover { color: $terracotta; }
+
+  &.is-active {
+    color: $maroon;
+    font-weight: 600;
+
+    &::before { background: $terracotta; }
+  }
+}
+
+.toc-h3 {
+  padding-left: 28px;
+  font-size: 0.75rem;
+}
+
+/* Sous 1080 px, l'écran est trop étroit : on retire le sommaire */
+@media screen and (max-width: 1080px) {
+  .wrapper:has(.post-shell) { max-width: 800px; }
+
+  .post-shell { display: block; }
+
+  .post-toc { display: none; }
 }
 
 .post-footer {

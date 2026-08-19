@@ -1,6 +1,8 @@
 ---
 layout: default
 ---
+<div class="post-shell">
+
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <!-- En-tête de l'article -->
@@ -21,3 +23,13 @@ layout: default
   </footer><!-- /post-footer -->
 
 </article><!-- /post -->
+
+  <!-- Sommaire latéral (rempli par toc.html, masqué si l'article est court) -->
+  <aside class="post-toc" hidden>
+    <p class="post-toc-title">Sur cette page</p>
+    <ul class="post-toc-list"></ul>
+  </aside><!-- /post-toc -->
+
+</div><!-- /post-shell -->
+
+{% include toc.html %}
