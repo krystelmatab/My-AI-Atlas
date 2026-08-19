@@ -3,23 +3,29 @@ layout: default
 ---
 <div class="home">
 
+  <!-- Texte d'introduction (contenu de index.md) -->
+  {%- if content != "" -%}
   <div class="home-intro">{{ content }}</div>
+  {%- endif -%}
 
   {%- if site.posts.size > 0 -%}
+  <!-- Liste des articles, en cartes -->
+  <h2 class="section-label">Articles</h2>
+
   <ul class="post-list">
     {%- for post in site.posts -%}
     <li>
       <a class="post-card" href="{{ post.url | relative_url }}">
-        <span class="post-meta">{{ post.date | date: site.minima.date_format }}</span>
-        <h2>{{ post.title | escape }}</h2>
+        <span class="post-date">{% include date-fr.html date=post.date %}</span>
+        <h3 class="post-card-title">{{ post.title | escape }}</h3>
         {%- if post.excerpt -%}
-        <p>{{ post.excerpt | strip_html | truncate: 220 }}</p>
+        <p class="post-card-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
         {%- endif -%}
-        <span class="readmore">Lire l'article →</span>
+        <span class="readmore">Lire l'article <span class="arrow">→</span></span>
       </a>
     </li>
     {%- endfor -%}
-  </ul>
+  </ul><!-- /post-list -->
   {%- endif -%}
 
-</div>
+</div><!-- /home -->

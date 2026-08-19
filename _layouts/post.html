@@ -1,0 +1,23 @@
+---
+layout: default
+---
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <!-- En-tête de l'article -->
+  <header class="post-header">
+    <a class="back-link" href="{{ '/' | relative_url }}"><span class="arrow">←</span> Tous les articles</a>
+    <span class="post-date">{% include date-fr.html date=page.date %}</span>
+    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+  </header><!-- /post-header -->
+
+  <!-- Corps de l'article -->
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div><!-- /post-content -->
+
+  <!-- Retour à l'index -->
+  <footer class="post-footer">
+    <a class="back-link" href="{{ '/' | relative_url }}"><span class="arrow">←</span> Retour à tous les articles</a>
+  </footer><!-- /post-footer -->
+
+</article><!-- /post -->

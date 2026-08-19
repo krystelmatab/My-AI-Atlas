@@ -1,0 +1,20 @@
+<!-- ============================================================ -->
+<!-- Pied de page : identité du site + liens de contexte         -->
+<!-- ============================================================ -->
+<footer class="site-footer h-card" role="contentinfo">
+  <data class="u-url" href="{{ '/' | relative_url }}"></data>
+  <div class="wrapper">
+
+    <h2 class="footer-heading">{{ site.title | escape }}</h2>
+    <p class="footer-desc">{{ site.description | strip_html | strip_newlines }}</p>
+
+    <p class="footer-meta">
+      <span>© {{ site.time | date: '%Y' }} {{ site.author }}</span>
+      <span class="dot">·</span>
+      <a href="https://github.com/krystelmatab/My-AI-Atlas">Code source</a>
+      <span class="dot">·</span>
+      <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+    </p>
+
+  </div><!-- /wrapper -->
+</footer><!-- /site-footer -->
