@@ -60,11 +60,11 @@ layout: bare
   }
   .hero{position:relative;z-index:1;padding:72px 24px 56px;max-width:1180px;width:100%;margin:0 auto;text-align:left;}
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;color:var(--hero-muted);text-transform:uppercase;margin-bottom:18px;}
-  .hero h1{font-size:clamp(28px,4.2vw,44px);line-height:1.15;letter-spacing:-0.01em;max-width:820px;color:var(--hero-text);}
+  .hero h1{font-size:clamp(28px,4.2vw,44px);line-height:1.15;letter-spacing:-0.01em;color:var(--hero-text);}
   .hero h1 .accent{color:var(--image-mod);}
   .hero h1 .unify{color:var(--audio-mod);}
-  .hero .sub{margin-top:20px;max-width:620px;font-size:16px;color:var(--hero-muted);}
-  .hero .lede{margin-top:22px;max-width:640px;font-size:16.5px;font-family:var(--display);font-style:italic;color:var(--hero-text);line-height:1.6;}
+  .hero .sub{margin-top:20px;font-size:16px;color:var(--hero-muted);}
+  .hero .lede{margin-top:22px;font-size:16.5px;font-family:var(--display);font-style:italic;color:var(--hero-text);line-height:1.6;}
 
   /* ---------- FLOW DIAGRAM (sits inside the dark hero band) ---------- */
   .flow-box{margin-top:40px;background:rgba(0,0,0,0.16);border:1px solid rgba(251,247,242,0.14);border-radius:14px;padding:18px 8px;overflow:hidden;}
@@ -79,7 +79,7 @@ layout: bare
   .b64-section{max-width:1180px;width:100%;margin:64px auto 0;padding:0 24px;}
   .b64-section .eyebrow{color:var(--transport);}
   .b64-section h2{font-size:24px;margin-top:6px;}
-  .b64-analogy{font-size:15px;max-width:660px;margin-top:14px;}
+  .b64-analogy{font-size:15px;margin-top:14px;}
   .b64-card{margin-top:22px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:26px;}
 
   .b64-stepper{min-height:210px;}
@@ -165,7 +165,7 @@ layout: bare
   #panel-image .kicker{color:var(--image-mod);}
   #panel-audio .kicker{color:var(--unify);}
   #panel-video .kicker{color:var(--unify);}
-  .panel p.desc{margin-top:14px;max-width:620px;font-size:15px;}
+  .panel p.desc{margin-top:14px;font-size:15px;}
   .panel .note{margin-top:14px;font-size:13px;color:var(--muted);border-left:2px solid var(--border);padding-left:12px;max-width:600px;}
 
   .demo-card{margin-top:24px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;}
@@ -481,7 +481,7 @@ layout: bare
 <section class="unify-section">
   <div class="eyebrow">Then it all becomes one thing</div>
   <h2>Everything ends up the same size and shape</h2>
-  <p style="margin-top:12px;max-width:640px;">One last small step lines everything up: whatever list of numbers came out — from a word, a tile of an image, or a slice of sound — gets resized to exactly the same length as the others. During training, the model gradually learns to place numbers that "mean" similar things close together in this space, no matter which type of content they came from.</p>
+  <p style="margin-top:12px;">One last small step lines everything up: whatever list of numbers came out — from a word, a tile of an image, or a slice of sound — gets resized to exactly the same length as the others. During training, the model gradually learns to place numbers that "mean" similar things close together in this space, no matter which type of content they came from.</p>
 
   <div class="unify-card">
     <canvas id="embed-canvas"></canvas>
