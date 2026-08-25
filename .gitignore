@@ -5,3 +5,8 @@ NOTES-PERSO.md
 _site/
 .jekyll-cache/
 .sass-cache/
+
+# Outillage de prévisualisation locale (usage perso, jamais publié)
+tools/preview.py
+tools/.cache/
+tools/__pycache__/
