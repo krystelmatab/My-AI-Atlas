@@ -81,6 +81,10 @@ layout: bare
   .b64-section h2{font-size:24px;margin-top:6px;}
   .b64-analogy{font-size:15px;margin-top:14px;}
   .b64-card{margin-top:22px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:26px;}
+  /* Side-by-side layout for the stepper card and the playground card */
+  .b64-row{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;}
+  .b64-row .b64-card{flex:1 1 380px;margin-top:0;}
+  @media (max-width:760px){.b64-row{display:block;}.b64-row .b64-card{margin-top:22px;}}
 
   .b64-stepper{min-height:210px;}
   .b64-step{display:none;}
@@ -116,20 +120,27 @@ layout: bare
   .b64-playground label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
   .b64-playground input{width:100%;max-width:400px;margin-top:8px;display:block;background:var(--bg-alt);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:14px;padding:10px 12px;border-radius:8px;}
   .mono-output{margin-top:12px;font-family:var(--mono);font-size:14px;color:var(--transport);background:var(--bg-alt);border:1px solid var(--border);border-radius:8px;padding:10px 12px;word-break:break-all;min-height:20px;}
-  .b64-flow-note{margin-top:26px;font-size:13.5px;color:var(--muted);max-width:700px;}
+  .b64-flow-note{margin-top:26px;font-size:13.5px;color:var(--muted);}
   .b64-recap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px;font-family:var(--mono);font-size:11.5px;}
   .b64-recap .box{border:1px solid var(--border);border-radius:8px;padding:7px 11px;background:var(--bg-alt);color:var(--text);}
   .b64-recap .arrow{color:var(--muted);}
 
-  .b64-recap-v{margin-top:20px;display:flex;flex-direction:column;gap:0;max-width:420px;}
-  .b64-recap-v .rstep{display:flex;align-items:center;gap:14px;}
+  /* Recap strip: left-to-right row of boxes linked by real arrows */
+  .b64-recap-v{margin-top:20px;display:flex;flex-direction:row;align-items:stretch;gap:10px;flex-wrap:wrap;max-width:100%;}
+  .b64-recap-v .rstep{display:flex;flex:1 1 160px;min-width:150px;}
   .b64-recap-v .rbox{flex:1;border:1px solid var(--border);border-radius:10px;padding:12px 16px;background:var(--bg-alt);}
   .b64-recap-v .rbox .rlabel{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text);}
   .b64-recap-v .rbox .rsub{font-size:11.5px;color:var(--muted);margin-top:2px;}
   .b64-recap-v .rbox.transport{border-color:rgba(124,98,87,.4);background:rgba(124,98,87,.08);}
   .b64-recap-v .rbox.transport .rlabel{color:var(--transport);}
-  .b64-recap-v .rarrow{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 8px 6px;margin-left:2px;border-left:2px dashed var(--border);}
-  .b64-recap-v .rarrow span{font-size:11px;color:var(--muted);font-family:var(--body);white-space:nowrap;padding-left:12px;}
+  .b64-recap-v .rarrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:0 0 auto;padding:0 2px;}
+  .b64-recap-v .rarrow::before{content:'\2192';font-size:16px;color:var(--muted);line-height:1;}
+  .b64-recap-v .rarrow span{font-size:10.5px;color:var(--muted);font-family:var(--body);text-align:center;max-width:80px;}
+  @media (max-width:700px){
+    .b64-recap-v{flex-direction:column;}
+    .b64-recap-v .rarrow{flex-direction:row;padding:6px 0;}
+    .b64-recap-v .rarrow::before{content:'\2193';}
+  }
 
   details.why{margin-top:16px;border:1px solid var(--border);border-radius:8px;background:var(--bg-alt);max-width:560px;}
   details.why summary{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--transport);padding:10px 14px;list-style:none;display:flex;align-items:center;justify-content:space-between;}
@@ -166,7 +177,7 @@ layout: bare
   #panel-audio .kicker{color:var(--unify);}
   #panel-video .kicker{color:var(--unify);}
   .panel p.desc{margin-top:14px;font-size:15px;}
-  .panel .note{margin-top:14px;font-size:13px;color:var(--muted);border-left:2px solid var(--border);padding-left:12px;max-width:600px;}
+  .panel .note{margin-top:14px;font-size:13px;color:var(--muted);border-left:2px solid var(--border);padding-left:12px;}
 
   .demo-card{margin-top:24px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;}
   .demo-btn{
@@ -320,6 +331,7 @@ layout: bare
   <h2>How a file becomes safe to put inside a text message</h2>
   <p class="b64-analogy">Picture a mail system that only accepts flat postcards — nothing fragile, nothing oddly shaped. If you need to send a glass sculpture through it, you'd melt it down into flat, standard letters, mail those, then rebuild the sculpture at the other end. Base64 does the same job for a photo or a voice clip: it rewrites the raw data using only 64 plain text characters (letters, digits, and two symbols), so it can safely ride inside a text-only message like a JSON request. Let's walk through it with a real example — the text "Hi!".</p>
 
+  <div class="b64-row"><!-- side-by-side: stepper + playground -->
   <div class="b64-card">
     <div class="b64-stepper" id="b64-stepper">
       <div class="b64-step active" data-step="1">
@@ -382,6 +394,7 @@ layout: bare
     <button class="demo-btn" id="b64-decode-btn" style="border-color:var(--transport);color:var(--transport);margin-top:14px;">Decode it back →</button>
     <div class="mono-output" id="b64-decoded" style="display:none;"></div>
   </div>
+  </div><!-- /.b64-row -->
 
   <div class="b64-flow-note">
     <strong style="color:var(--text);">The part that matters most:</strong> this whole process is just repackaging. It's fully reversible, and it carries no meaning — the model never looks at "SGkh" and tries to interpret it. The moment it arrives, it gets decoded straight back into the original bytes. Only <em>then</em> does the real understanding step begin: the tiling, the spectrogram, the tokens — everything in the tabs below.
