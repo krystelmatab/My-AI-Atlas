@@ -1,9 +1,8 @@
 title: My AI Atlas
 tagline: A personal knowledge hub about AI
 description: >-
-  A personal knowledge hub about AI — une bibliothèque vivante de mes articles,
-  découvertes, réflexions et apprentissages sur l'intelligence artificielle.
-lang: fr
+  A personal knowledge hub about AI: a living library of discoveries, thoughts, and learnings about artificial intelligence.
+lang: en
 theme: minima
 show_excerpts: true
 
@@ -11,7 +10,7 @@ show_excerpts: true
 # (minuit UTC) n'est pas encore atteint au moment précis de la construction.
 future: true
 
-author: Krystel Matab
+author: Krystel Mata
 
 minima:
   date_format: "%d %B %Y"
