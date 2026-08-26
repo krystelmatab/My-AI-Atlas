@@ -2,18 +2,11 @@
 title: "LangChain, Mapped in Three Modules"
 date: 2026-08-26
 excerpt: "A structured, code-first recap of LangChain Academy's free 'Foundation: Introduction to LangChain (Python)' course — the skeleton, the key functions, and the reflexes worth keeping from all three modules."
-layout: bare
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LangChain, Mapped in Three Modules — My AI Atlas</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
   /* ============================================================ */
   /* Design tokens                                                 */
   /* ============================================================ */
@@ -38,20 +31,19 @@ layout: bare
     --code-border:#25363C;
     --code-text:#E7E2DA;
   }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--body);width:100%;}
-  body{padding-bottom:60px;}
-  h1,h2,h3,h4{font-family:var(--display);font-weight:600;margin:0;color:var(--text);}
-  p{line-height:1.6;color:var(--muted);margin:0;}
-  a{color:#00353F;}
-  .wrap{max-width:1360px;width:100%;margin:0 auto;padding:0 24px;}
+  /* Tout est scopé sous .lc-recap pour ne jamais déborder sur le thème du site
+     (qui utilise lui-même des sélecteurs génériques comme .wrap, p, a, h2...). */
+  .lc-recap{padding-bottom:20px;}
+  .lc-recap *{box-sizing:border-box;}
+  .lc-recap h2,.lc-recap h3,.lc-recap h4{font-family:var(--display);font-weight:600;margin:0;color:var(--text);}
+  .lc-recap p{line-height:1.6;color:var(--muted);margin:0;}
+  .lc-recap a{color:#00353F;}
 
   /* ---------- PAGE HEADER (plain, no hero banner) ---------- */
-  .page-header{max-width:1360px;margin:0 auto;padding:48px 24px 0;}
+  .page-header{max-width:1360px;margin:0 auto;padding:0;}
   .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;}
-  .page-header h1{font-size:clamp(26px,3.6vw,38px);line-height:1.18;margin-top:12px;max-width:820px;}
-  .page-header .intro{margin-top:16px;font-size:15.5px;max-width:760px;}
-  .page-header .intro a{text-decoration:underline;text-underline-offset:2px;}
+  .page-header .intro{margin-top:10px;font-size:15.5px;max-width:760px;}
+  .page-header .intro a{border-bottom:none;text-decoration:underline;text-underline-offset:2px;}
   .page-header .mindmap{margin-top:26px;display:flex;justify-content:center;}
   .page-header .mindmap img{max-width:380px;width:100%;height:auto;display:block;border:1px solid var(--border);border-radius:12px;background:#fff;padding:10px;}
 
@@ -60,7 +52,8 @@ layout: bare
 
   .module-col-head{border-left:4px solid var(--accent);padding-left:14px;margin-bottom:18px;}
   .module-col-head .tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);}
-  .module-col-head h2{font-size:21px;margin-top:5px;}
+  /* neutralise le style générique .post-content h2 du site (bordure, grande marge) */
+  .module-col-head h2{font-size:21px;margin-top:5px !important;padding-top:0 !important;border-top:none !important;}
 
   .accordion{display:flex;flex-direction:column;gap:9px;}
   .acc-item{border:1px solid var(--border);border-radius:10px;background:var(--surface);overflow:hidden;}
@@ -81,13 +74,15 @@ layout: bare
 
   .codeblock{margin-top:12px;background:var(--code-bg);border:1px solid var(--code-border);border-radius:9px;padding:13px 15px;overflow-x:auto;}
   .codeblock .lang{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#7C9A94;margin-bottom:8px;}
-  .codeblock pre{margin:0;font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--code-text);white-space:pre;}
+  /* neutralise le style générique .post-content pre du site (fond, arrondi, marge) */
+  .codeblock pre{margin:0 !important;padding:0 !important;background:none !important;border-radius:0 !important;font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--code-text);white-space:pre;}
   .codeblock .c{color:#8A9A93;font-style:italic;}
   .codeblock .dec{color:#F0C674;}
 
   .mermaid-card{margin-top:12px;background:#fff;border:1px solid var(--border);border-radius:9px;padding:14px;overflow-x:auto;}
   .mermaid-card .cap{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-  .mermaid-card .mermaid{display:flex;justify-content:center;}
+  /* neutralise le style générique .post-content pre du site (le diagramme est un <pre>) */
+  .mermaid-card pre.mermaid{margin:0 !important;padding:0 !important;background:none !important;border-radius:0 !important;display:flex;justify-content:center;}
   .mermaid-card svg{max-width:100%;height:auto;}
 
   table.elements-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px;}
@@ -108,26 +103,21 @@ layout: bare
   .acc-body h4{font-size:13px;color:var(--accent);margin-top:16px;}
   .acc-body h4:first-child{margin-top:0;}
 
-  footer.page-footer{max-width:1360px;margin:56px auto 0;padding:24px 24px 0;font-family:var(--mono);font-size:11px;color:var(--muted);border-top:1px solid var(--border);}
-
-  @media(max-width:600px){
-    .page-header{padding:32px 20px 0;}
-  }
+  .course-note{max-width:1360px;margin:56px auto 0;padding:24px 0 0;font-family:var(--mono);font-size:11px;color:var(--muted);border-top:1px solid var(--border);}
 </style>
-</head>
-<body>
+
+<div class="lc-recap"><!-- tout le contenu de l'article est isolé ici -->
 
 <!-- ============================================================ -->
 <!-- Section : Page header (plain, no promotional banner)          -->
 <!-- ============================================================ -->
-<header class="page-header">
+<div class="page-header">
   <div class="eyebrow">Course recap · LangChain Academy · Free &amp; self-paced</div>
-  <h1>LangChain, mapped in three modules</h1>
   <p class="intro">A personal recap of <em>Foundation: Introduction to LangChain (Python)</em>, a free, self-paced course on <a href="https://academy.langchain.com/courses/take/foundation-introduction-to-langchain-python/" target="_blank" rel="noopener">LangChain Academy</a>, linked here for anyone who wants to take it directly. Click a row to open it — every module stays visible at a glance, nothing to scroll past.</p>
   <div class="mindmap">
     <img src="{{ '/assets/images/mindmap_radial-cropped.svg' | relative_url }}" alt="Radial mindmap of the three LangChain course modules" />
   </div>
-</header>
+</div>
 
 <!-- ============================================================ -->
 <!-- Section : Three columns, one per module, each an accordion    -->
@@ -696,9 +686,9 @@ agent = create_agent(
 
 </div><!-- /modules-grid -->
 
-<footer class="page-footer">
-  Personal recap of LangChain Academy's free course — not official course material.
-</footer>
+<p class="course-note">Personal recap of LangChain Academy's free course — not official course material.</p>
+
+</div><!-- /lc-recap -->
 
 <!-- ============================================================ -->
 <!-- Section : Accordion behaviour + Mermaid rendering             -->
@@ -749,6 +739,3 @@ agent = create_agent(
   }
   renderDiagrams();
 </script>
-
-</body>
-</html>
