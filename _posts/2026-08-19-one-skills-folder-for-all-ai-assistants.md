@@ -4,6 +4,8 @@ date: 2026-08-19
 excerpt: "Comment le format ouvert Agent Skills permet de centraliser ses compétences IA dans un seul dossier, partagé entre Claude Code, Codex et GitHub Copilot."
 ---
 
+<div class="post-tags"><span class="post-tag">Skills</span><span class="post-tag">Productivité</span><span class="post-tag">Automatisation</span></div>
+
 ![Un classeur central de skills, synchronisé vers Claude, Codex et Copilot]({{ '/assets/images/one-binder-every-ai.png' | relative_url }})
 
 ## 1. Introduction : le Jour où j'ai Écrit la Même Chose pour la Troisième Fois
