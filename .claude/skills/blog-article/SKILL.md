@@ -29,6 +29,50 @@ explicitement une page 100 % autonome, très visuelle et interactive (comme
 `2026-08-20-how-does-a-model-read-a-photo-or-a-voice-clip.html`). Un `bare`
 mal justifié prive l'article de tout l'habillage du site (voir section 4).
 
+## 1 bis. Étiquettes de sujet — obligatoires sur tout article
+
+**Tout article du blog porte des étiquettes de sujet**, sans exception et sans
+avoir à le demander. Règle fixée par l'utilisatrice : c'est un élément
+d'identité du blog, pas une option.
+
+- **Trois étiquettes**, courtes, en rapport direct avec le contenu réel de
+  l'article (ex. `LLM` · `Fondamentaux` · `Transformer`).
+- **Placées tout en haut du corps de l'article**, avant le chapô — jamais en
+  bas de page.
+- **Style** : pastilles arrondies (`border-radius:999px`), police mono, ~11 px,
+  majuscules, `letter-spacing:0.08em`, couleur `$teal #00353F` sur fond
+  `rgba(0,53,63,0.08)` avec bordure `rgba(0,53,63,0.20)`.
+
+Pour un article **Markdown**, la classe partagée `.post-tags` / `.post-tag`
+existe déjà dans `assets/main.scss` — il suffit de l'utiliser :
+
+```html
+<div class="post-tags"><span class="post-tag">Agents IA</span><span class="post-tag">Sécurité</span><span class="post-tag">Gouvernance</span></div>
+```
+
+Pour une page **HTML sur-mesure** au CSS scopé, redéfinir les mêmes pastilles
+sous le préfixe de l'article (ex. `.llm-tags` / `.llm-topic`), en reprenant
+les valeurs ci-dessus pour rester identique aux autres articles.
+
+## 1 ter. Mention de prudence en fin d'article — obligatoire aussi
+
+**Tout article se termine par une courte mention** qui délimite ce que le
+contenu prétend être. Objectif : protéger l'autrice (pas de revendication
+d'officialité, pas d'affirmation sur des systèmes propriétaires).
+
+- **Une phrase**, en pied d'article, après le dernier bloc de contenu.
+- **Même style que la note de fin** : filet de séparation au-dessus
+  (`border-top`), police mono, ~11 px, couleur `--muted`.
+- **Toujours adaptée au contenu réel** — jamais une formule générique
+  recopiée. Le point à couvrir dépend du type d'article :
+
+| Type d'article | Ce que la mention doit écarter | Exemple en place |
+|---|---|---|
+| Résumé d'un cours / d'un contenu tiers | Toute impression de matériel officiel | « Personal recap of LangChain Academy's free course — not official course material. » |
+| Schéma d'architecture technique | Toute prétention sur les internes d'un modèle propriétaire | « General multimodal architecture overview — not a confirmed diagram of any specific proprietary model's internals. » |
+| Démonstration avec chiffres illustratifs | Que les valeurs passent pour de vraies sorties de modèle | « Les identifiants de tokens, vecteurs et probabilités affichés sont illustratifs, et ne sont pas les sorties réelles d'un modèle en particulier. » |
+| Retour d'expérience / montage personnel | Que ce soit lu comme une recommandation universelle | à formuler selon le cas |
+
 ## 2. Structure du contenu : jamais un mur de texte qui défile
 
 - Découper avec des `##`/`###` clairs : ils alimentent automatiquement le
@@ -46,6 +90,13 @@ mal justifié prive l'article de tout l'habillage du site (voir section 4).
 - Images : taille modeste (~400 px de large maximum), jamais pleine largeur.
   Utiliser une balise `<img>` HTML brute avec `width="..."` si besoin de
   contrôler la taille finement (kramdown laisse passer le HTML brut).
+- **Largeurs : tout aligner sur la même colonne.** Paragraphes, encadrés,
+  grilles et visualisations doivent partager exactement le même bord gauche
+  ET le même bord droit. Ne jamais poser de `max-width` en `ch` ou en `px`
+  sur un paragraphe ou un encadré « pour la lisibilité » : l'utilisatrice l'a
+  signalé plusieurs fois comme un défaut visuel, pas comme un confort. Si un
+  bloc paraît trop étroit, chercher le `max-width` en dur qui le contraint
+  (y compris sur un élément **parent**, qui plafonne toujours son enfant).
 
 ## 3. Diagrammes Mermaid — piège vérifié, solution qui marche
 

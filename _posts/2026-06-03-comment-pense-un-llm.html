@@ -1,0 +1,514 @@
+---
+title: "Comment pense vraiment un LLM"
+date: 2026-06-03
+excerpt: "Un seul passage avant, décomposé étape par étape : tokenisation, vecteurs, attention et tirage du mot suivant — animé sous vos yeux."
+---
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  /* ============================================================ */
+  /* Palette du blog, reprise à l'identique                       */
+  /* ============================================================ */
+  .llm-think{
+    --maroon:#430C05;      /* encre : titres */
+    --terracotta:#D46F4D;  /* accent chaud */
+    --amber:#FFBF66;       /* signal : attention, poids */
+    --cyan:#08C5D1;        /* éclat : vecteurs, activations */
+    --teal:#00353F;        /* profondeur : blocs sombres */
+    --paper:#FBF7F2;
+    --card:#FFFFFF;
+    --panel:#F5EFE8;
+    --ink:#3A241C;
+    --muted:#7C6257;
+    --line:#EADFD5;
+
+    --display:'Fraunces',Georgia,serif;
+    --body:'Inter',sans-serif;
+    --mono:'JetBrains Mono',Consolas,monospace;
+  }
+
+  .llm-think *{box-sizing:border-box;}
+  .llm-think{padding-bottom:20px;}
+
+  /* Neutralise les styles génériques du thème là où l'article a les siens */
+  .llm-think h2,.llm-think h3{
+    font-family:var(--display);
+    font-weight:600;
+    color:var(--maroon);
+    margin:0 0 18px !important;
+    padding-top:0 !important;
+    border-top:none !important;
+  }
+  .llm-think p{line-height:1.65;color:var(--muted);margin:0;}
+
+  /* ---------- CHAPÔ ---------- */
+  .llm-lede{
+    font-size:18px;
+    color:var(--muted);
+    margin:0 0 8px !important;
+  }
+  .llm-lede strong{color:var(--maroon);font-weight:600;}
+
+  /* ---------- ÉTIQUETTES DE SUJET ---------- */
+  .llm-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;}
+  .llm-topic{
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--teal);
+    background:rgba(0,53,63,0.08);
+    border:1px solid rgba(0,53,63,0.20);
+    border-radius:999px;
+    padding:5px 12px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  .llm-step{
+    padding:44px 0 8px;
+    border-top:1px solid var(--line);
+    margin-top:44px;
+  }
+  .llm-step:first-of-type{border-top:none;margin-top:28px;padding-top:8px;}
+
+  .llm-tag{
+    display:block;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    margin-bottom:12px;
+  }
+  .llm-step h2{font-size:1.42rem;line-height:1.28;max-width:none;}
+  .llm-text{font-size:16px;margin-bottom:28px !important;}
+  .llm-text strong{color:var(--ink);font-weight:600;}
+
+  /* ---------- ENCADRÉS ---------- */
+  .llm-callout{
+    font-family:var(--mono);
+    font-size:13px;
+    line-height:1.6;
+    color:var(--ink);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--cyan);
+    padding:14px 18px;
+    border-radius:0 8px 8px 0;
+    margin:24px 0 0;
+  }
+  .llm-callout.amber{border-left-color:var(--amber);}
+  .llm-callout .hl{color:var(--teal);font-weight:600;}
+
+  /* ---------- ÉTAPE 1 : TOKENISATION ---------- */
+  .llm-sentence{
+    font-family:var(--mono);
+    font-size:clamp(17px,2.2vw,22px);
+    color:var(--muted);
+    margin-bottom:22px;
+  }
+  .llm-tokens{display:flex;flex-wrap:wrap;gap:9px;}
+  .llm-token{
+    font-family:var(--mono);
+    font-size:14px;
+    padding:9px 14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:8px;
+    color:var(--ink);
+    opacity:0;
+    transform:translateY(10px);
+    animation:llmTokenIn .5s ease forwards;
+  }
+  @keyframes llmTokenIn{to{opacity:1;transform:translateY(0);}}
+  .llm-token .id{
+    display:block;
+    margin-top:3px;
+    font-size:10.5px;
+    color:var(--terracotta);
+  }
+
+  /* ---------- ÉTAPE 2 : VECTEURS ---------- */
+  .llm-vecs{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:14px;
+  }
+  .llm-vec{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px;
+  }
+  .llm-vec .w{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+  .llm-bars{display:flex;align-items:flex-end;gap:3px;height:42px;}
+  .llm-bar{
+    flex:1;
+    background:linear-gradient(180deg,var(--cyan),rgba(8,197,209,0.18));
+    border-radius:2px 2px 0 0;
+  }
+
+  /* ---------- ÉTAPE 3 : ATTENTION ---------- */
+  .llm-attn{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:28px 24px;
+  }
+  .llm-attn-words{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:space-between;
+  }
+  .llm-attn-word{
+    font-family:var(--mono);
+    font-size:14px;
+    padding:8px 13px;
+    border-radius:8px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--muted);
+    transition:all .25s ease;
+  }
+  .llm-attn-word.focus{
+    background:var(--amber);
+    border-color:var(--amber);
+    color:var(--maroon);
+    font-weight:600;
+  }
+  .llm-attn-legend{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--muted);
+    margin-top:18px;
+  }
+  .llm-attn-legend b{color:var(--amber);}
+
+  /* ---------- ÉTAPE 4 : PRÉDICTION ---------- */
+  .llm-predict{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:12px;
+    margin-bottom:28px;
+    font-family:var(--mono);
+    font-size:clamp(15px,2vw,19px);
+    color:var(--muted);
+  }
+  .llm-blank{
+    display:inline-block;
+    min-width:78px;
+    text-align:center;
+    color:var(--terracotta);
+    font-weight:600;
+    border-bottom:2px dashed var(--terracotta);
+  }
+  .llm-probs{width:100%;}
+  .llm-prob{
+    display:grid;
+    grid-template-columns:96px 1fr 50px;
+    align-items:center;
+    gap:12px;
+    margin-bottom:11px;
+    font-family:var(--mono);
+    font-size:13px;
+  }
+  .llm-prob .w{color:var(--ink);}
+  .llm-track{
+    height:10px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .llm-fill{
+    height:100%;
+    width:0%;
+    border-radius:6px;
+    background:linear-gradient(90deg,var(--cyan),var(--terracotta));
+    transition:width 1.1s cubic-bezier(.2,.8,.2,1);
+  }
+  .llm-prob .pct{color:var(--muted);text-align:right;}
+  .llm-prob.winner .w,.llm-prob.winner .pct{color:var(--terracotta);font-weight:600;}
+
+  /* ---------- BOUCLE ---------- */
+  .llm-loop{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:4px;
+    padding:4px 0;
+  }
+  .llm-loop-step{
+    font-family:var(--mono);
+    font-size:12.5px;
+    padding:11px 17px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:24px;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  .llm-loop-step.last{border-color:var(--terracotta);color:var(--terracotta);}
+  .llm-loop-arrow{color:var(--cyan);font-size:16px;padding:0 6px;}
+
+  /* ---------- MYTHE / RÉALITÉ ---------- */
+  .llm-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  .llm-cell{background:var(--card);padding:20px;}
+  .llm-cell .head{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .llm-cell .head.no{color:var(--muted);}
+  .llm-cell .head.yes{color:var(--teal);}
+  .llm-cell p{font-size:14px;}
+  @media (max-width:640px){.llm-grid{grid-template-columns:1fr;}}
+
+  .llm-outro{
+    margin-top:44px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  /* Mention de prudence, en pied d'article */
+  .llm-disclaimer{
+    margin:48px 0 0 !important;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:11px;
+    line-height:1.7;
+    color:var(--muted);
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .llm-think *{animation:none !important;transition:none !important;}
+  }
+</style>
+
+<div class="llm-think"><!-- tout l'article est scopé ici -->
+
+<div class="llm-tags">
+  <span class="llm-topic">LLM</span>
+  <span class="llm-topic">Fondamentaux</span>
+  <span class="llm-topic">Transformer</span>
+</div>
+
+<p class="llm-lede">Pas de magie, pas de raisonnement caché : une suite d'opérations mathématiques répétée un mot à la fois. Cette page fait tourner <strong>un vrai passage</strong> sous vos yeux, étape par étape.</p>
+
+<!-- ============================================================ -->
+<!-- Section : Étape 1 — tokenisation                              -->
+<!-- ============================================================ -->
+<div class="llm-step">
+  <span class="llm-tag">Étape 1 / 4</span>
+  <h2>La phrase devient des jetons</h2>
+  <p class="llm-text">Le modèle ne lit pas des mots. Il découpe le texte en <strong>tokens</strong> — des fragments (mots entiers, bouts de mots, ponctuation) tirés d'un vocabulaire fixe d'environ 100 000 entrées. Chaque token reçoit un identifiant numérique.</p>
+
+  <div class="llm-sentence">« Le chat dort sur le »</div>
+  <div class="llm-tokens" id="llmTokens"></div>
+
+  <div class="llm-callout">Ce que le modèle reçoit réellement : <span class="hl">[496, 1723, 5089, 402, 496]</span> — une liste d'entiers, rien d'autre.</div>
+</div><!-- fin étape 1 -->
+
+<!-- ============================================================ -->
+<!-- Section : Étape 2 — vecteurs                                  -->
+<!-- ============================================================ -->
+<div class="llm-step">
+  <span class="llm-tag">Étape 2 / 4</span>
+  <h2>Chaque jeton devient un vecteur</h2>
+  <p class="llm-text">Chaque identifiant est converti en un <strong>vecteur</strong> — une liste de plusieurs centaines de nombres qui positionne le mot dans un espace géométrique. Les mots au sens proche finissent avec des vecteurs proches. C'est ici, et seulement ici, que le modèle « comprend » quelque chose au sens du calcul.</p>
+
+  <div class="llm-vecs" id="llmVecs"></div>
+
+  <div class="llm-callout">« chat » et « chien » : vecteurs proches. « chat » et « voiture » : vecteurs éloignés. La proximité géométrique <em>est</em> la notion de sens, pour le modèle.</div>
+</div><!-- fin étape 2 -->
+
+<!-- ============================================================ -->
+<!-- Section : Étape 3 — attention                                 -->
+<!-- ============================================================ -->
+<div class="llm-step">
+  <span class="llm-tag">Étape 3 / 4</span>
+  <h2>L'attention pondère le contexte</h2>
+  <p class="llm-text">Avant de produire le mot suivant, le modèle fait relire à <strong>chaque token</strong> tous les autres tokens de la phrase, et calcule combien chacun compte pour lui. C'est le mécanisme d'<strong>attention</strong> — le vrai cœur du Transformer.</p>
+
+  <div class="llm-attn">
+    <div class="llm-attn-words" id="llmAttn"></div>
+    <div class="llm-attn-legend"><b>■</b> = les tokens que « dort » regarde le plus fort pour se situer dans la phrase</div>
+  </div>
+
+  <div class="llm-callout amber">Ce n'est pas une lecture linéaire gauche→droite. Chaque token regarde tous les autres <em>simultanément</em>, avec un poids différent pour chacun.</div>
+</div><!-- fin étape 3 -->
+
+<!-- ============================================================ -->
+<!-- Section : Étape 4 — prédiction                                -->
+<!-- ============================================================ -->
+<div class="llm-step" id="llmStep4">
+  <span class="llm-tag">Étape 4 / 4</span>
+  <h2>Un seul mot est choisi — au hasard pondéré</h2>
+  <p class="llm-text">Après les couches d'attention, le modèle produit <strong>une probabilité pour chaque mot possible du vocabulaire</strong>. Il n'y a pas de « bonne réponse » calculée : juste une distribution. Le mot suivant est tiré selon ces probabilités.</p>
+
+  <div class="llm-predict">
+    <span>« Le chat dort sur le</span>
+    <span class="llm-blank" id="llmBlank">?</span>
+    <span>»</span>
+  </div>
+
+  <div class="llm-probs" id="llmProbs"></div>
+
+  <div class="llm-callout">Le token choisi est <strong>ajouté à la phrase</strong>, et tout recommence à l'étape 1 pour prédire le token suivant. Un LLM ne génère jamais une phrase entière d'un coup : il la construit un token à la fois.</div>
+</div><!-- fin étape 4 -->
+
+<!-- ============================================================ -->
+<!-- Section : La boucle complète                                  -->
+<!-- ============================================================ -->
+<div class="llm-step">
+  <span class="llm-tag">La boucle complète</span>
+  <h2>Un « raisonnement » n'est qu'une boucle répétée</h2>
+  <p class="llm-text">Ce que l'on perçoit comme une réponse réfléchie est en réalité cette même boucle exécutée des centaines de fois, chaque nouveau token rallongeant le contexte que le modèle relit en entier.</p>
+
+  <div class="llm-loop">
+    <span class="llm-loop-step">tokeniser</span><span class="llm-loop-arrow">→</span>
+    <span class="llm-loop-step">vectoriser</span><span class="llm-loop-arrow">→</span>
+    <span class="llm-loop-step">attention</span><span class="llm-loop-arrow">→</span>
+    <span class="llm-loop-step">probabilités</span><span class="llm-loop-arrow">→</span>
+    <span class="llm-loop-step last">tirer 1 token</span><span class="llm-loop-arrow">↺</span>
+  </div>
+</div><!-- fin boucle -->
+
+<!-- ============================================================ -->
+<!-- Section : Ce que ça implique                                  -->
+<!-- ============================================================ -->
+<div class="llm-step">
+  <span class="llm-tag">Ce que ça implique</span>
+  <h2>Pourquoi c'est important de le savoir</h2>
+
+  <div class="llm-grid">
+    <div class="llm-cell">
+      <div class="head no">Ce que ce n'est pas</div>
+      <p>Un LLM ne consulte pas une base de faits, ne vérifie rien pendant qu'il écrit, et n'a pas de plan fixé pour la phrase avant de la commencer.</p>
+    </div>
+    <div class="llm-cell">
+      <div class="head yes">Ce que c'est</div>
+      <p>Un calcul de probabilités sur le mot suivant, ré-exécuté à chaque token, où le seul « souvenir » est le texte déjà généré, relu en entier à chaque tour.</p>
+    </div>
+    <div class="llm-cell">
+      <div class="head no">D'où viennent les erreurs</div>
+      <p>Une hallucination n'est pas un bug isolé : c'est une suite de tokens plausibles, statistiquement cohérents, mais qui ne correspond à aucun fait vérifié.</p>
+    </div>
+    <div class="llm-cell">
+      <div class="head yes">D'où vient la cohérence</div>
+      <p>Chaque token tient compte de tous les précédents via l'attention — c'est ce qui donne l'illusion d'un fil conducteur, sans qu'il y ait de plan explicite.</p>
+    </div>
+  </div>
+
+  <p class="llm-outro">Un seul forward pass, quatre étapes, répété jusqu'au dernier token.</p>
+</div><!-- fin implications -->
+
+<p class="llm-disclaimer">Schéma pédagogique du mécanisme général d'un Transformer — les identifiants de tokens, les vecteurs et les probabilités affichés ici sont illustratifs, et ne sont pas les sorties réelles d'un modèle en particulier.</p>
+
+</div><!-- fin .llm-think -->
+
+<script>
+(function(){
+  // ---------- Étape 1 : tokens ----------
+  var tokens = [
+    {t:'Le', id:496}, {t:' chat', id:1723}, {t:' dort', id:5089},
+    {t:' sur', id:402}, {t:' le', id:496}
+  ];
+  var tokenRow = document.getElementById('llmTokens');
+  tokens.forEach(function(tok,i){
+    var el = document.createElement('div');
+    el.className = 'llm-token';
+    el.style.animationDelay = (i*0.12)+'s';
+    el.innerHTML = tok.t + '<span class="id">#' + tok.id + '</span>';
+    tokenRow.appendChild(el);
+  });
+
+  // ---------- Étape 2 : vecteurs ----------
+  var vecWords = ['Le','chat','dort','sur','le'];
+  var vecGrid = document.getElementById('llmVecs');
+  vecWords.forEach(function(w){
+    var card = document.createElement('div');
+    card.className = 'llm-vec';
+    var bars = '';
+    for (var i = 0; i < 12; i++){
+      bars += '<div class="llm-bar" style="height:' + (Math.random()*100+10) + '%"></div>';
+    }
+    card.innerHTML = '<div class="w">' + w + '</div><div class="llm-bars">' + bars + '</div>';
+    vecGrid.appendChild(card);
+  });
+
+  // ---------- Étape 3 : attention ----------
+  var attnWords = ['Le','chat','dort','sur','le'];
+  var weights   = [0.08, 0.62, 1, 0.15, 0.3];
+  var attnBox = document.getElementById('llmAttn');
+  attnWords.forEach(function(w,i){
+    var el = document.createElement('div');
+    el.className = 'llm-attn-word' + (weights[i] > 0.4 ? ' focus' : '');
+    el.textContent = w;
+    attnBox.appendChild(el);
+  });
+
+  // ---------- Étape 4 : prédiction ----------
+  var preds = [
+    {w:'canapé', p:38},
+    {w:'lit',    p:24},
+    {w:'tapis',  p:17},
+    {w:'toit',   p:12},
+    {w:'clavier',p:6}
+  ];
+  var probList = document.getElementById('llmProbs');
+  preds.forEach(function(p,i){
+    var row = document.createElement('div');
+    row.className = 'llm-prob' + (i===0 ? ' winner' : '');
+    row.innerHTML =
+      '<span class="w">' + p.w + '</span>' +
+      '<div class="llm-track"><div class="llm-fill" data-w="' + p.p + '"></div></div>' +
+      '<span class="pct">' + p.p + '%</span>';
+    probList.appendChild(row);
+  });
+
+  // ---------- Animation au défilement ----------
+  var step4 = document.getElementById('llmStep4');
+  if (step4 && 'IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        obs.disconnect();
+        setTimeout(function(){
+          document.querySelectorAll('.llm-fill').forEach(function(f){
+            f.style.width = f.dataset.w + '%';
+          });
+        }, 300);
+        setTimeout(function(){
+          document.getElementById('llmBlank').textContent = 'canapé';
+        }, 1500);
+      });
+    }, {threshold:0.35});
+    obs.observe(step4);
+  }
+})();
+</script>
