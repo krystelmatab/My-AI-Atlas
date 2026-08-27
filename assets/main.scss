@@ -35,6 +35,10 @@ h1, h2, h3, h4 {
   font-weight: 600;
   color: $maroon;
   letter-spacing: -0.015em;
+
+  /* Fraunces a des jambages descendants prononcés (« J », « g », « y ») :
+     sans cette marge, ils se font rogner par la boîte de la ligne. */
+  padding-bottom: 0.06em;
 }
 
 a, a:visited { color: $teal; text-decoration: none; }
@@ -98,7 +102,8 @@ a:hover      { color: $terracotta; text-decoration: none; }
   .site-title {
     display: block;
     font-size: 3.4rem;
-    line-height: 1.05;
+    /* 1.05 rognait les jambages descendants de Fraunces (le « J » notamment) */
+    line-height: 1.16;
   }
 }
 
