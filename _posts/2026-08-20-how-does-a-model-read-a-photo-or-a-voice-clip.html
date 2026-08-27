@@ -60,6 +60,8 @@ layout: bare
   }
   .hero{position:relative;z-index:1;padding:72px 24px 56px;max-width:1180px;width:100%;margin:0 auto;text-align:left;}
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;color:var(--hero-muted);text-transform:uppercase;margin-bottom:18px;}
+  .hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;}
+  .hero-tag{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:5px 12px;border:1px solid rgba(251,247,242,0.28);color:var(--hero-text);background:rgba(251,247,242,0.10);}
   .hero h1{font-size:clamp(28px,4.2vw,44px);line-height:1.15;letter-spacing:-0.01em;color:var(--hero-text);}
   .hero h1 .accent{color:var(--image-mod);}
   .hero h1 .unify{color:var(--audio-mod);}
@@ -266,7 +268,8 @@ layout: bare
 
 <div class="hero-band">
 <header class="hero">
-  
+
+  <div class="hero-tags"><span class="hero-tag">Multimodal</span><span class="hero-tag">Fondamentaux</span><span class="hero-tag">Tokenisation</span></div>
   <h1>Text, pictures, sound, video — the model doesn't read <span class="accent">any</span> of them directly. It only reads <span class="unify">numbers</span>.</h1>
   <p class="sub">Whatever you send in — a sentence, a photo, a voice clip — gets turned into the same kind of thing before the model ever looks at it: a long list of numbers. Below is how that happens for each type of content.</p>
   <p class="lede">Every time you drop a photo into a chat with an AI model, something happens that's easy to wave away with one word: "multimodal." The model didn't grow eyes. It doesn't have ears. So what does it actually mean, mechanically, for it to "look at" a picture or "listen to" a voice clip? Click through below to find out — for real, not just in theory.</p>

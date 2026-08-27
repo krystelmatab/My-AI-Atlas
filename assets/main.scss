@@ -263,6 +263,28 @@ a.post-card:hover {
   margin: 16px 0 0;
 }
 
+/* Étiquettes de sujet, affichées entre le lien retour et le titre */
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.post-tag {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $teal;
+  background: rgba($teal, 0.10);
+  border: 1px solid rgba($teal, 0.22);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
 .post-content {
   margin-top: 8px;
   font-size: 16px;

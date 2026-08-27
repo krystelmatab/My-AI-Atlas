@@ -4,6 +4,8 @@ date: 2026-03-12
 excerpt: "Human in the Loop : le plus grand risque des agents IA n'est pas le bug évident, mais l'erreur subtile commise avec une assurance totale."
 ---
 
+<div class="post-tags"><span class="post-tag">Agents IA</span><span class="post-tag">Sécurité</span><span class="post-tag">Gouvernance</span></div>
+
 <img width="2752" height="1536" alt="image" src="https://github.com/user-attachments/assets/803e2e6f-dc60-454b-b0a2-208d0486470b" />
 
 
