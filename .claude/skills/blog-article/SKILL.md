@@ -29,7 +29,107 @@ explicitement une page 100 % autonome, très visuelle et interactive (comme
 `2026-08-20-how-does-a-model-read-a-photo-or-a-voice-clip.html`). Un `bare`
 mal justifié prive l'article de tout l'habillage du site (voir section 4).
 
-## 1 bis. Étiquettes de sujet — obligatoires sur tout article
+## 1 bis. Langue du contenu — indépendante de la langue de conversation
+
+Une instruction globale (ex. « réponds toujours en français ») régit la
+langue des **échanges avec l'utilisatrice**, pas la langue du **contenu d'un
+article**. Erreur déjà commise : traduire en français un article dont la
+source était en anglais, sans qu'on le demande, simplement parce que la
+conversation se déroulait en français.
+
+- Par défaut, un article reprend **la langue de sa source** (contenu collé,
+  artifact fourni, cours résumé, etc.) si une source est donnée.
+- Si aucune source n'impose de langue, ce blog mélange déjà l'anglais et le
+  français d'un article à l'autre — regarder 1-2 articles récents dans
+  `_posts/` pour prendre le pli, ou simplement demander.
+- Ne jamais supposer qu'une consigne de langue de conversation s'applique
+  aussi au contenu généré : en cas de doute, poser la question avant
+  d'écrire l'article plutôt que de traduire puis de devoir tout refaire.
+
+## 1 ter. Adapter les couleurs d'un artifact/design source à la palette du blog
+
+Quand on transpose un artifact HTML existant (Claude, mockup, etc.) vers un
+article du blog, l'utilisatrice attend que **son schéma de couleurs reste
+reconnaissable**, pas une réinterprétation libre. Deux pièges déjà rencontrés :
+
+- **Remapper couleur par couleur, pas par « ambiance ».** Si la source
+  utilise un bleu/cyan pour les icônes et un orange/amber pour les mises en
+  avant, chercher la teinte la plus proche dans la palette du blog pour
+  *chaque rôle précis* (ex. `$cyan #08C5D1` pour le bleu, pas `$teal
+  #00353F` qui est aussi « bleu » au sens large mais visuellement bien plus
+  sombre et différent). Si l'utilisatrice donne un code hex exact à
+  utiliser, l'appliquer tel quel plutôt que la teinte la plus proche de la
+  palette existante.
+- **Le fond de page n'est pas qu'une question de couleur : c'est aussi une
+  question de contraste.** Un artifact source à fond sombre a souvent été
+  conçu avec des couleurs vives (cyan clair, amber clair) pensées pour
+  contraster sur du noir. En les reportant telles quelles sur le fond crème
+  clair du blog, le contraste peut devenir insuffisant pour du texte en gras
+  (ex. `#08C5D1` en texte sur fond blanc ≈ 2:1, sous le seuil de lisibilité).
+  Assombrir légèrement la teinte pour les usages **texte**, en gardant la
+  teinte vive d'origine pour les usages **graphiques** (icônes, traits,
+  pastilles) qui n'ont pas cette contrainte. Demander à l'utilisatrice si un
+  doute existe entre garder le fond sombre de l'artifact ou basculer sur le
+  fond clair du blog — c'est un choix de cohérence visuelle, pas un détail.
+- **Ne pas oublier les styles hérités du thème du site.** Un `<h2>` dans une
+  page HTML sur-mesure récupère automatiquement les règles globales de
+  `.post-content h2` (`assets/main.scss`) : `border-top`, `margin-top: 2.6em`,
+  `padding-top: 1.2em`. Si l'artifact source a son titre collé juste sous un
+  petit label (« THE BASIC IDEA » suivi immédiatement du titre), cet
+  espacement hérité casse ce rapprochement visuel voulu. Neutraliser
+  explicitement (`border-top: none !important; margin-top: 0 !important;
+  padding-top: 0 !important;`) sous le wrapper scopé de l'article dès que la
+  maquette source a une disposition serrée entre label et titre.
+
+## 1 quater. Utiliser la palette franchement, pas en pointillé
+
+La palette officielle du blog (voir `assets/main.scss`) :
+
+| Couleur | Hex | Rôle |
+|---|---|---|
+| `$maroon` | `#430C05` | encre : titres, aplats sombres |
+| `$terracotta` | `#D46F4D` | accent chaud : liens, cartes |
+| `$amber` | `#FFBF66` | signal : citations, mises en avant |
+| `$cyan` | `#08C5D1` | éclat : touches vives, bleu de la palette |
+| `$teal` | `#00353F` | profondeur : liens, blocs de code |
+
+Retour explicite de l'utilisatrice : les couleurs sont bien celles de la
+palette, mais utilisées **avec trop de douceur** — des `rgba(couleur, 0.06)`
+à `0.16)` partout, des teintes assourdies « pour rester safe ». Résultat :
+une page où la palette est techniquement respectée mais visuellement fade,
+alors que la référence donnée (Coolors — palettes de branding/UI réelles)
+montre des aplats francs, des contrastes marqués, des couleurs qui
+structurent la page plutôt que de la nuancer discrètement.
+
+À appliquer sur chaque nouvel article ou refonte :
+
+- **Utiliser les couleurs en aplat plein**, pas seulement en fond translucide
+  à faible opacité. Un bloc, une pastille, un fond de section peuvent
+  légitimement être `$amber` ou `$terracotta` à pleine saturation (avec le
+  texte en `$maroon` ou blanc dessus selon le contraste), pas uniquement
+  `rgba($amber, 0.1)` sur fond crème.
+- **Faire porter le contraste par la couleur, pas seulement par la
+  typographie.** Dans les exemples de référence, une carte entière change de
+  fond d'une couleur de la palette à l'autre (voir la grille « Little
+  Planet » : bordeaux / terracotta / amber / teal / cyan, une couleur pleine
+  par carte) plutôt que de garder un fond blanc partout et de ne varier que
+  de petits accents.
+- **Varier la couleur dominante d'un bloc à l'autre**, comme le fait déjà
+  `post-list` sur la page d'accueil (`--accent` qui tourne entre les 4
+  couleurs vives selon `nth-child`). Réutiliser ce principe à l'intérieur
+  d'un article : une grille de cartes de concepts, par exemple, peut faire
+  tourner sa couleur d'accent (bordure, icône, fond léger) entre
+  terracotta / amber / cyan / teal plutôt que de mettre la même teinte
+  partout.
+- Garder les opacités faibles (`rgba(couleur, 0.06–0.16)`) pour les usages où
+  c'est justifié (fond très large derrière du texte long, halo décoratif
+  d'arrière-plan) — mais dès qu'un élément est petit, ponctuel ou doit
+  attirer l'œil (pastille, icône, carte, callout), préférer l'aplat franc.
+- Toujours vérifier le contraste texte/fond une fois l'aplat plein posé
+  (voir 1 ter pour le cas `$cyan` en texte sur fond clair) — l'audace de
+  couleur ne doit pas sacrifier la lisibilité.
+
+## 1 quinquies. Étiquettes de sujet — obligatoires sur tout article
 
 **Tout article du blog porte des étiquettes de sujet**, sans exception et sans
 avoir à le demander. Règle fixée par l'utilisatrice : c'est un élément
