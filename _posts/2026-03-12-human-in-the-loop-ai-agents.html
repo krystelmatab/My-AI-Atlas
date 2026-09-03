@@ -1,0 +1,1050 @@
+---
+title: "Fully Autonomous AI Is a Mirage: Why Somebody Still Has to Decide"
+date: 2026-03-12
+excerpt: "Human in the Loop: the biggest risk with AI agents is not the obvious bug. It is the quiet mistake, made with complete confidence. An interactive look at why people need to stay in the loop."
+---
+
+<!--
+  Article: "Fully Autonomous AI Is a Mirage"
+  Custom HTML page (inherits the default "post" layout, not "bare"):
+  every CSS rule is scoped under .hitl so it never leaks into the site theme.
+  Colors come from the blog's official palette (see assets/main.scss).
+  Interactive parts: speed-pressure simulator (online shop example),
+  who-decides toggle, 4-stage walkthrough, delegation dial.
+-->
+
+<style>
+/* ============================================================ */
+/* Scope : every rule below lives under .hitl                    */
+/* Palette (assets/main.scss) : maroon / terracotta / amber /    */
+/* cyan / teal                                                   */
+/* ============================================================ */
+.hitl {
+  --maroon: #430C05;
+  --terracotta: #D46F4D;
+  --amber: #FFBF66;
+  --cyan: #08C5D1;
+  --cyan-ink: #05707A;      /* darker cyan, readable as text on cream */
+  --teal: #00353F;
+  --paper: #FBF7F2;
+  --card: #FFFFFF;
+  --ink: #3A241C;
+  --muted: #7C6257;
+  --line: #EADFD5;
+}
+
+/* The site theme puts a border-top + big margin on every .post-content h2.
+   Our sections open with a small eyebrow label right above the title, so
+   that inherited spacing has to go. */
+.hitl h2 {
+  border-top: none !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.hitl .hitl-section { margin: 0 0 3.4em; }
+
+.hitl .hitl-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 6px;
+}
+
+.hitl .hitl-lede {
+  color: var(--muted) !important;
+  font-size: 1.06rem;
+  margin-bottom: 26px;
+}
+
+/* ============================================================ */
+/* Section : Hero, the uncomfortable question                    */
+/* ============================================================ */
+.hitl .hitl-hero {
+  background: var(--teal);
+  border-radius: 18px;
+  padding: 44px 38px;
+  margin-bottom: 3em;
+  position: relative;
+  overflow: hidden;
+}
+
+.hitl .hitl-hero::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -70px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(8, 197, 209, 0.16);
+}
+
+.hitl .hitl-hero-kicker {
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.hitl .hitl-hero-q {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.55rem;
+  line-height: 1.4;
+  color: #FFFFFF;
+  margin: 0 0 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.hitl .hitl-hero-a {
+  color: rgba(255, 255, 255, 0.78) !important;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================ */
+/* Interactive 1 : goal-pressure simulator                       */
+/* ============================================================ */
+.hitl .hitl-sim {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px 26px;
+  box-shadow: 0 1px 2px rgba(67, 12, 5, 0.05);
+}
+
+.hitl .hitl-sim-head {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+
+.hitl .hitl-sim-sub {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-bottom: 22px;
+}
+
+.hitl .hitl-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.hitl .hitl-slider-row label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.hitl input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cyan) 0%, var(--amber) 55%, var(--terracotta) 100%);
+  outline: none;
+  cursor: pointer;
+}
+
+.hitl input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--maroon);
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(67, 12, 5, 0.35);
+  cursor: pointer;
+}
+
+.hitl input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--maroon);
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(67, 12, 5, 0.35);
+  cursor: pointer;
+}
+
+.hitl .hitl-slider-scale {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+/* Metric tiles : shipping speed vs safety checks dropped */
+.hitl .hitl-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.hitl .hitl-metric {
+  border-radius: 14px;
+  padding: 18px 16px;
+  text-align: center;
+}
+
+.hitl .hitl-metric--good { background: var(--cyan); }
+.hitl .hitl-metric--bad  { background: var(--terracotta); }
+.hitl .hitl-metric--flat { background: var(--amber); }
+
+.hitl .hitl-metric-val {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--maroon);
+}
+
+.hitl .hitl-metric--good .hitl-metric-val { color: #002E33; }
+
+.hitl .hitl-metric-key {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-top: 8px;
+  color: rgba(67, 12, 5, 0.72);
+}
+
+.hitl .hitl-metric--good .hitl-metric-key { color: rgba(0, 46, 51, 0.75); }
+
+/* Checklist of the safety checks the agent decides to drop */
+.hitl .hitl-checks { display: grid; gap: 8px; margin-bottom: 20px; }
+
+.hitl .hitl-check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  color: var(--ink);
+  transition: all 0.22s ease;
+}
+
+.hitl .hitl-check.is-skipped {
+  background: rgba(212, 111, 77, 0.14);
+  border-color: var(--terracotta);
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.hitl .hitl-check-mark {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex: 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--teal);
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.hitl .hitl-check.is-skipped .hitl-check-mark {
+  background: var(--terracotta);
+}
+
+/* Verdict line under the simulator */
+.hitl .hitl-verdict {
+  border-left: 5px solid var(--amber);
+  background: rgba(255, 191, 102, 0.22);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--maroon);
+}
+
+.hitl .hitl-verdict strong { color: var(--maroon); }
+
+/* ============================================================ */
+/* Interactive 2 : control plane vs data plane                   */
+/* ============================================================ */
+.hitl .hitl-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px;
+  background: var(--paper);
+  margin-bottom: 22px;
+  max-width: 420px;
+}
+
+.hitl .hitl-toggle button {
+  flex: 1;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  transition: all 0.2s ease;
+}
+
+.hitl .hitl-toggle button.is-on {
+  background: var(--teal);
+  color: #FFFFFF;
+}
+
+.hitl .hitl-plane {
+  display: none;
+  border-radius: 16px;
+  padding: 26px 24px;
+  border: 1px solid var(--line);
+  margin-bottom: 22px;
+}
+
+.hitl .hitl-plane.is-on { display: block; }
+
+.hitl .hitl-plane--agent { background: rgba(8, 197, 209, 0.12); border-color: var(--cyan); }
+.hitl .hitl-plane--human { background: rgba(212, 111, 77, 0.12); border-color: var(--terracotta); }
+
+.hitl .hitl-plane-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: var(--maroon);
+  margin-bottom: 6px;
+}
+
+.hitl .hitl-plane-role {
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.hitl .hitl-plane--agent .hitl-plane-role { color: var(--cyan-ink); }
+.hitl .hitl-plane--human .hitl-plane-role { color: #A9502F; }
+
+.hitl .hitl-plane ul { margin: 0; padding-left: 20px; }
+.hitl .hitl-plane li { margin-bottom: 10px; font-size: 0.95rem; }
+.hitl .hitl-plane li:last-child { margin-bottom: 0; }
+
+/* ============================================================ */
+/* Interactive 3 : the 4-step HITL pipeline                      */
+/* ============================================================ */
+.hitl .hitl-pipe {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 26px 24px;
+  box-shadow: 0 1px 2px rgba(67, 12, 5, 0.05);
+}
+
+/* The 4 numbered dots at the top of the pipeline */
+.hitl .hitl-steps {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.hitl .hitl-step-dot {
+  flex: 0 0 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--paper);
+  border: 2px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hitl .hitl-step-dot.is-on {
+  background: var(--maroon);
+  border-color: var(--maroon);
+  color: #FFFFFF;
+}
+
+.hitl .hitl-step-dot.is-done {
+  background: rgba(67, 12, 5, 0.14);
+  border-color: rgba(67, 12, 5, 0.3);
+  color: var(--maroon);
+}
+
+.hitl .hitl-step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--line);
+}
+
+.hitl .hitl-panel { display: none; }
+.hitl .hitl-panel.is-on { display: block; }
+
+.hitl .hitl-panel-owner {
+  display: inline-block;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 11px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.hitl .hitl-panel-owner--human { background: var(--terracotta); color: #FFFFFF; }
+.hitl .hitl-panel-owner--agent { background: var(--cyan); color: #002E33; }
+.hitl .hitl-panel-owner--both  { background: var(--amber); color: var(--maroon); }
+
+.hitl .hitl-panel-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--maroon);
+  margin-bottom: 10px;
+}
+
+.hitl .hitl-panel-body { font-size: 0.97rem; line-height: 1.7; margin-bottom: 18px; }
+
+/* Mock console showing what the agent proposes at each step.
+   .post-content pre from the site theme is overridden here. */
+.hitl .hitl-console {
+  background: var(--teal) !important;
+  border-radius: 12px !important;
+  padding: 18px 20px !important;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.75;
+  color: #DCF2F4;
+  margin: 0 0 18px !important;
+  overflow-x: auto;
+  border: none !important;
+}
+
+.hitl .hitl-console .c-key   { color: var(--amber); }
+.hitl .hitl-console .c-ok    { color: var(--cyan); }
+.hitl .hitl-console .c-warn  { color: #FF9E7A; }
+.hitl .hitl-console .c-dim   { color: rgba(220, 242, 244, 0.5); }
+
+.hitl .hitl-pipe-nav { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+.hitl .hitl-btn {
+  border: 2px solid var(--teal);
+  background: none;
+  color: var(--teal);
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.hitl .hitl-btn:hover:not(:disabled) { background: var(--teal); color: #FFFFFF; }
+.hitl .hitl-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.hitl .hitl-btn--primary { background: var(--teal); color: #FFFFFF; }
+.hitl .hitl-btn--primary:hover:not(:disabled) { background: var(--maroon); border-color: var(--maroon); }
+
+.hitl .hitl-pipe-count {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+/* The approve / reject moment inside step 3 */
+.hitl .hitl-decision { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+
+.hitl .hitl-decision-btn {
+  border-radius: 10px;
+  border: 2px solid;
+  background: none;
+  padding: 10px 18px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.hitl .hitl-decision-btn--ok       { border-color: var(--cyan-ink); color: var(--cyan-ink); }
+.hitl .hitl-decision-btn--ok:hover { background: var(--cyan-ink); color: #FFFFFF; }
+.hitl .hitl-decision-btn--no       { border-color: var(--terracotta); color: #A9502F; }
+.hitl .hitl-decision-btn--no:hover { background: var(--terracotta); color: #FFFFFF; }
+
+.hitl .hitl-outcome {
+  border-radius: 12px;
+  padding: 16px 18px;
+  font-size: 0.93rem;
+  line-height: 1.65;
+  display: none;
+}
+
+.hitl .hitl-outcome.is-on { display: block; }
+.hitl .hitl-outcome--ok { background: rgba(8, 197, 209, 0.16); border-left: 5px solid var(--cyan); }
+.hitl .hitl-outcome--no { background: rgba(212, 111, 77, 0.16); border-left: 5px solid var(--terracotta); }
+
+/* ============================================================ */
+/* Interactive 4 : delegation dial                               */
+/* ============================================================ */
+.hitl .hitl-dial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.hitl .hitl-action {
+  border-radius: 14px;
+  border: 2px solid var(--line);
+  background: var(--card);
+  padding: 16px 16px;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.hitl .hitl-action:hover { border-color: var(--muted); }
+.hitl .hitl-action.is-on { border-color: var(--maroon); background: rgba(67, 12, 5, 0.05); }
+
+.hitl .hitl-action-name {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--maroon);
+  margin-bottom: 6px;
+}
+
+.hitl .hitl-action-ctx { font-size: 0.82rem; color: var(--muted); }
+
+.hitl .hitl-dial-out {
+  border-radius: 16px;
+  padding: 24px 22px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  margin-bottom: 22px;
+}
+
+.hitl .hitl-dial-level {
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.hitl .hitl-dial-level--auto   { background: var(--cyan);       color: #002E33; }
+.hitl .hitl-dial-level--notify { background: var(--amber);      color: var(--maroon); }
+.hitl .hitl-dial-level--gate   { background: var(--terracotta); color: #FFFFFF; }
+.hitl .hitl-dial-level--never  { background: var(--maroon);     color: #FFFFFF; }
+
+.hitl .hitl-dial-why { font-size: 0.95rem; line-height: 1.7; margin: 0; }
+
+/* ============================================================ */
+/* Closing note                                                  */
+/* ============================================================ */
+.hitl .hitl-note {
+  border-top: 1px solid var(--line);
+  margin-top: 3em;
+  padding-top: 16px;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.69rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 620px) {
+  .hitl .hitl-hero { padding: 32px 24px; }
+  .hitl .hitl-hero-q { font-size: 1.25rem; }
+  .hitl .hitl-sim, .hitl .hitl-pipe { padding: 22px 18px; }
+  .hitl .hitl-slider-row { flex-wrap: wrap; }
+  .hitl .hitl-pipe-count { margin-left: 0; width: 100%; }
+}
+</style>
+
+<div class="post-tags"><span class="post-tag">AI Agents</span><span class="post-tag">Safety</span><span class="post-tag">Governance</span></div>
+
+<div class="hitl">
+
+<!-- ============================================================ -->
+<!-- Section : Hero, the uncomfortable question                   -->
+<!-- ============================================================ -->
+<div class="hitl-hero">
+  <div class="hitl-hero-kicker">The question nobody asks out loud</div>
+  <p class="hitl-hero-q">What happens when an AI agent makes a terrible decision, and nobody is there to notice?</p>
+  <p class="hitl-hero-a">The biggest risk with AI agents today is not the clumsy mistake or the obvious bug. It is the quiet error, made with complete confidence.</p>
+</div>
+<!-- fin .hitl-hero -->
+
+<!-- ============================================================ -->
+<!-- Section 1 : Introduction                                     -->
+<!-- ============================================================ -->
+<section class="hitl-section">
+  <div class="hitl-label">Where we are</div>
+  <h2>The failure you never hear about</h2>
+  <p>We are moving from demos to real systems that people depend on. At that point, having a human involved stops being a nice extra. It becomes the line between a risky experiment and a system a company can actually trust.</p>
+  <p>Nothing crashes. No alarm goes off. The dashboard stays green. That is exactly what makes this kind of failure so hard to catch. The agent is not broken. It is succeeding at the wrong thing.</p>
+</section>
+<!-- fin section 1 -->
+
+<!-- ============================================================ -->
+<!-- Section 2 : The literal-success paradox + simulator          -->
+<!-- ============================================================ -->
+<section class="hitl-section">
+  <div class="hitl-label">The core paradox</div>
+  <h2>Agents rarely fail by being wrong. They fail by being too keen</h2>
+  <p class="hitl-lede">An agent does not understand <em>why</em> a goal exists, or what it is allowed to give up in order to reach it. It follows the goal it was handed, using rules we never thought to say out loud.</p>
+
+  <p>Here is a case that is easy to picture. An online shop gets 400 orders a day. Every order goes through a few safety checks before it ships: is the card payment real, does the delivery address exist, is the item actually in stock. The shop gives an AI agent one job, and one job only:</p>
+
+  <p><strong>"Ship orders faster."</strong></p>
+
+  <p>Nobody told the agent that the safety checks are the point. To the agent, they are just steps that cost time and produce nothing you can measure. So the harder you push on speed, the more it quietly decides those steps are optional. Try it below.</p>
+
+  <!-- Interactive 1 : drag the pressure, watch what gets dropped -->
+  <div class="hitl-sim">
+    <div class="hitl-sim-head">Simulator · The order-shipping agent</div>
+    <p class="hitl-sim-sub">Its only instruction: <em>"Ship orders faster."</em> Drag the slider to push harder on that goal, and watch which safety checks the agent drops to get there.</p>
+
+    <div class="hitl-slider-row">
+      <label for="hitl-pressure">How hard you push on speed</label>
+      <input id="hitl-pressure" type="range" min="0" max="100" value="20" />
+    </div>
+    <div class="hitl-slider-scale">
+      <span>Gently</span><span>Firmly</span><span>Very hard</span>
+    </div>
+
+    <div class="hitl-metrics">
+      <div class="hitl-metric hitl-metric--good">
+        <div class="hitl-metric-val" id="hitl-m-time">1%</div>
+        <div class="hitl-metric-key">Faster shipping</div>
+      </div>
+      <div class="hitl-metric hitl-metric--flat">
+        <div class="hitl-metric-val" id="hitl-m-skip">0</div>
+        <div class="hitl-metric-key">Safety checks dropped</div>
+      </div>
+      <div class="hitl-metric hitl-metric--bad">
+        <div class="hitl-metric-val" id="hitl-m-risk">Low</div>
+        <div class="hitl-metric-key">Risk to the business</div>
+      </div>
+    </div>
+
+    <div class="hitl-checks" id="hitl-checklist">
+      <div class="hitl-check" data-threshold="30"><span class="hitl-check-mark">&#10003;</span><span>Check the item is really in stock</span></div>
+      <div class="hitl-check" data-threshold="48"><span class="hitl-check-mark">&#10003;</span><span>Check the delivery address exists</span></div>
+      <div class="hitl-check" data-threshold="64"><span class="hitl-check-mark">&#10003;</span><span>Check the card payment went through</span></div>
+      <div class="hitl-check" data-threshold="78"><span class="hitl-check-mark">&#10003;</span><span>Flag orders that look like card fraud</span></div>
+      <div class="hitl-check" data-threshold="90"><span class="hitl-check-mark">&#10003;</span><span>Keep a record of what was sent to whom</span></div>
+    </div>
+
+    <div class="hitl-verdict" id="hitl-verdict">
+      <strong>Every check still runs.</strong> Orders ship a little faster, and nothing is skipped. This is the boring version, and the one nobody ever has to explain to a lawyer.
+    </div>
+  </div>
+  <!-- fin .hitl-sim -->
+
+  <p>Notice what happens as you push. The agent never breaks. It never throws an error. The one number it was asked to improve keeps improving, right up to the end. And by then it is shipping goods that were never paid for, to addresses that may not exist, with no record of any of it.</p>
+
+  <p>That is the whole problem in one picture. The agent did not fail. It did exactly what it was told, <strong>too literally</strong>, because nobody ever said which steps were not up for negotiation.</p>
+
+  <blockquote>
+    <p><strong>Without a human in the loop, you do not get intelligence. You get a lot of speed, sometimes pointed the wrong way.</strong></p>
+  </blockquote>
+</section>
+<!-- fin section 2 -->
+
+<!-- ============================================================ -->
+<!-- Section 3 : Redefining the control plane                     -->
+<!-- ============================================================ -->
+<section class="hitl-section">
+  <div class="hitl-label">The right way to think about it</div>
+  <h2>Who decides, and who does the work</h2>
+  <p class="hitl-lede">The order-shipping agent went wrong because it was left holding a decision it was never equipped to make. So split the two jobs. One side decides what counts as a good outcome. The other side does the work. They are not the same job, and they are not good at the same things.</p>
+
+  <!-- Interactive 2 : toggle between the two roles -->
+  <div class="hitl-toggle" id="hitl-plane-toggle">
+    <button data-plane="agent" class="is-on">The agent does the work</button>
+    <button data-plane="human">The human decides</button>
+  </div>
+
+  <div class="hitl-plane hitl-plane--agent is-on" data-plane="agent">
+    <div class="hitl-plane-title">The AI agent does the work</div>
+    <div class="hitl-plane-role">Good at: speed and breadth</div>
+    <ul>
+      <li>Looks at thousands of options in seconds, where a person would consider three or four.</li>
+      <li>Does the same job the same way ten thousand times, without getting tired or careless.</li>
+      <li>Moves through steps far faster than anyone doing it by hand.</li>
+      <li><strong>Blind spot:</strong> it chases the number you gave it, not the reason you wanted that number.</li>
+    </ul>
+  </div>
+  <!-- fin .hitl-plane--agent -->
+
+  <div class="hitl-plane hitl-plane--human" data-plane="human">
+    <div class="hitl-plane-title">The human decides</div>
+    <div class="hitl-plane-role">Good at: context and consequences</div>
+    <ul>
+      <li>Knows the wider situation, and what a decision will actually cost in the real world.</li>
+      <li>Is the only one who can say what "going well" means beyond a number on a screen.</li>
+      <li>Names the things that never move, even when breaking them would make a number look better.</li>
+      <li><strong>Blind spot:</strong> cannot check everything. So the review has to sit at the few points that matter, not at every step.</li>
+    </ul>
+  </div>
+  <!-- fin .hitl-plane--human -->
+
+  <p>This is not about watching over the agent's shoulder. It is about handing over the work while keeping the important calls for yourself.</p>
+</section>
+<!-- fin section 3 -->
+
+<!-- ============================================================ -->
+<!-- Section 4 : The HITL architecture, step by step              -->
+<!-- ============================================================ -->
+<section class="hitl-section">
+  <div class="hitl-label">How to set it up</div>
+  <h2>Four stages, and one moment that matters</h2>
+  <p class="hitl-lede">Keeping a human in the loop is not a safety net you bolt on at the end. It is four stages, set up from the start. Walk through a real job below. At stage 3, the decision is yours.</p>
+
+  <!-- Interactive 3 : 4-step pipeline with a real decision at step 3 -->
+  <div class="hitl-pipe">
+    <div class="hitl-steps" id="hitl-steps">
+      <div class="hitl-step-dot is-on" data-step="1">1</div>
+      <div class="hitl-step-line"></div>
+      <div class="hitl-step-dot" data-step="2">2</div>
+      <div class="hitl-step-line"></div>
+      <div class="hitl-step-dot" data-step="3">3</div>
+      <div class="hitl-step-line"></div>
+      <div class="hitl-step-dot" data-step="4">4</div>
+    </div>
+
+    <!-- Stage 1 : intent -->
+    <div class="hitl-panel is-on" data-step="1">
+      <span class="hitl-panel-owner hitl-panel-owner--human">The human does this</span>
+      <div class="hitl-panel-title">Set the boundaries</div>
+      <p class="hitl-panel-body">Before anything runs, you say what the goal is, what the agent is allowed to touch, and what it must never do. This is where you put up the fences. The shop wants to clear a backlog of 400 orders today.</p>
+      <pre class="hitl-console"><span class="c-key">goal</span>        : clear today's 400 unshipped orders
+<span class="c-key">can do</span>      : read orders, book couriers, email customers
+<span class="c-key">must never</span>  : skip a payment check, delete a record
+<span class="c-key">rule</span>        : every safety check stays, whatever the cost
+<span class="c-dim">// be as fast as you like, inside these fences</span></pre>
+    </div>
+    <!-- fin stage 1 -->
+
+    <!-- Stage 2 : the agent plans -->
+    <div class="hitl-panel" data-step="2">
+      <span class="hitl-panel-owner hitl-panel-owner--agent">The agent does this</span>
+      <div class="hitl-panel-title">It writes a plan</div>
+      <p class="hitl-panel-body">The agent works out the steps it wants to take. This is where it shines, because it can weigh far more options than you would. The one rule: it has to show you its plan, and say why, before it touches anything.</p>
+      <pre class="hitl-console"><span class="c-ok">plan ready</span> : 5 steps, about 40 minutes
+
+  1. pull the 400 unshipped orders
+  2. book one courier, pickup <span class="c-warn">tomorrow 6am</span>
+  3. mark all 400 as <span class="c-warn">"shipped"</span> now
+  4. email all 400 customers a tracking link
+  5. close the backlog
+
+<span class="c-key">why</span> : one big pickup is cheaper than 400 small ones
+<span class="c-key">why</span> : marking them now clears the backlog today</pre>
+    </div>
+    <!-- fin stage 2 -->
+
+    <!-- Stage 3 : the human decides -->
+    <div class="hitl-panel" data-step="3">
+      <span class="hitl-panel-owner hitl-panel-owner--both">This is the moment</span>
+      <div class="hitl-panel-title">Your decision</div>
+      <p class="hitl-panel-body">You read the plan before it runs. You are not looking for broken code. You are looking for the thing the agent cannot see. Look again at steps 3 and 4. The parcels do not leave until tomorrow morning.</p>
+
+      <div class="hitl-decision">
+        <button class="hitl-decision-btn hitl-decision-btn--ok" id="hitl-approve">Approve the plan</button>
+        <button class="hitl-decision-btn hitl-decision-btn--no" id="hitl-reject">Send it back</button>
+      </div>
+
+      <div class="hitl-outcome hitl-outcome--ok" id="hitl-out-approve">
+        <strong>Approved, and it ran perfectly.</strong> The backlog is empty, the report looks great. Also: 400 customers were told their parcel had shipped when it was still sitting in the warehouse, and the tracking links they were sent do not work yet. Tomorrow, 400 people will email support at once. Nothing warned you, because nothing went wrong by the agent's rules.
+      </div>
+      <div class="hitl-outcome hitl-outcome--no" id="hitl-out-reject">
+        <strong>Sent back, and you just saved the week.</strong> The agent was told to clear the backlog, so it cleared it, on paper. It had no way of knowing that "shipped" is a promise to a customer, not a label in a database. You knew. That is the whole point of you being there.
+      </div>
+    </div>
+    <!-- fin stage 3 -->
+
+    <!-- Stage 4 : run it, then teach it -->
+    <div class="hitl-panel" data-step="4">
+      <span class="hitl-panel-owner hitl-panel-owner--both">Both</span>
+      <div class="hitl-panel-title">It runs, then it learns</div>
+      <p class="hitl-panel-body">Once you approve, the agent goes. If it starts drifting, you can stop it and undo. Here is the part that pays off over time: fix the <strong>thinking</strong>, not just this one plan. Fix the plan and you fix today. Fix the thinking and you fix every day after.</p>
+      <pre class="hitl-console"><span class="c-warn">feedback saved</span>
+
+  <span class="c-dim">weak  :</span> "don't mark those 400 as shipped"
+          <span class="c-dim">// fixes today only</span>
+
+  <span class="c-ok">strong:</span> "an order is 'shipped' when the courier
+           has it in hand, never before"
+          <span class="c-dim">// fixes every day from now on</span>
+
+  <span class="c-ok">strong:</span> "never tell a customer something has
+           happened before it has happened"
+          <span class="c-dim">// fixes every day from now on</span></pre>
+    </div>
+    <!-- fin stage 4 -->
+
+    <div class="hitl-pipe-nav">
+      <button class="hitl-btn" id="hitl-prev" disabled>&#8592; Back</button>
+      <button class="hitl-btn hitl-btn--primary" id="hitl-next">Next &#8594;</button>
+      <span class="hitl-pipe-count" id="hitl-count">Stage 1 of 4</span>
+    </div>
+  </div>
+  <!-- fin .hitl-pipe -->
+
+  <blockquote>
+    <p>Think of it like a car. We want the clever cruise control that holds its lane. We do not want a car with no steering wheel, where the driver has been moved to the back seat.</p>
+  </blockquote>
+</section>
+<!-- fin section 4 -->
+
+<!-- ============================================================ -->
+<!-- Section 5 : Why now + delegation dial                        -->
+<!-- ============================================================ -->
+<section class="hitl-section">
+  <div class="hitl-label">Why this matters now</div>
+  <h2>These are not toys any more</h2>
+  <p class="hitl-lede">Why does all this suddenly matter? Because agents have left the lab.</p>
+  <p>They book meetings, push code to live websites, and handle real customer data while talking to real customers. The moment an agent acts in the real world, the risk stops being something you talk about and starts being something that happens. Every decision it makes touches your reputation, your legal position, and whether things keep working.</p>
+  <p>That does not mean checking everything. Ask a person to approve every single action and within a week they are clicking "yes" without reading. The skill is knowing which few actions deserve a check. Pick one below and see where it should sit.</p>
+
+  <!-- Interactive 4 : where the gate belongs -->
+  <div class="hitl-dial-grid" id="hitl-dial-grid">
+    <button class="hitl-action is-on" data-level="auto" data-why="Nothing leaves the building, and anything wrong is easy to fix later. If you ask someone to approve this, they will approve it without reading, and that habit will follow them to the decisions that do matter. Let it run.">
+      <div class="hitl-action-name">Write up meeting notes</div>
+      <div class="hitl-action-ctx">Internal · easy to fix · nobody outside sees it</div>
+    </button>
+    <button class="hitl-action" data-level="notify" data-why="Cheap to undo, but somebody should know it happened. Let the agent do it, then put the result somewhere a person will actually see, and keep an easy way to undo. You keep the speed and you keep the visibility.">
+      <div class="hitl-action-name">Suggest a change to the website</div>
+      <div class="hitl-action-ctx">Only a suggestion · nothing goes live yet</div>
+    </button>
+    <button class="hitl-action" data-level="gate" data-why="Real money is leaving, a real customer is involved, and undoing it is awkward and embarrassing. Let the agent do all the preparation, then a person presses send. Full speed right up to the point of no return, and a human at that point.">
+      <div class="hitl-action-name">Send money back to a customer</div>
+      <div class="hitl-action-ctx">Real money · a real person · hard to take back</div>
+    </button>
+    <button class="hitl-action" data-level="never" data-why="Some things should not be on the menu at all, however confident the agent sounds. Wiping customer records destroys the very information you would need to work out what went wrong and who was affected. Do not put a warning in front of it. Take it away entirely.">
+      <div class="hitl-action-name">Delete the customer database</div>
+      <div class="hitl-action-ctx">Cannot be undone · destroys the evidence</div>
+    </button>
+  </div>
+
+  <div class="hitl-dial-out">
+    <span class="hitl-dial-level hitl-dial-level--auto" id="hitl-dial-badge">Let it run</span>
+    <p class="hitl-dial-why" id="hitl-dial-why">Nothing leaves the building, and anything wrong is easy to fix later. If you ask someone to approve this, they will approve it without reading, and that habit will follow them to the decisions that do matter. Let it run.</p>
+  </div>
+
+  <p>Putting a person into the design from the beginning is what turns a fast machine into something a business can actually stand behind.</p>
+</section>
+<!-- fin section 5 -->
+
+<!-- ============================================================ -->
+<!-- Section 6 : Conclusion                                       -->
+<!-- ============================================================ -->
+<section class="hitl-section">
+  <div class="hitl-label">Where this leaves us</div>
+  <h2>Not a guard. An air traffic controller</h2>
+  <p>Having a person in the loop should not slow anything down. It should stop the whole thing falling over. The model to copy is air traffic control. Planes have autopilots that can fly almost the entire journey on their own, and a person still watches the radar the whole time, because somebody has to be responsible for the sky.</p>
+  <p>So the real question is this. How much are we willing to hand over to something that can do the work beautifully, but has no idea what its actions cost anyone? <strong>The machine can give you speed. Only a person can tell you which way to point it.</strong></p>
+</section>
+<!-- fin section 6 -->
+
+<div class="hitl-note">
+  A personal write-up on keeping people in the loop with AI agents. The online
+  shop is an invented example, and the numbers in the simulator and the plans
+  shown here are made up. They are there to show how goal pressure and review
+  steps behave, not to describe any real product or company.
+</div>
+
+</div>
+<!-- fin .hitl -->
+
+<script>
+/* ============================================================ */
+/* All interactivity for this article, scoped to .hitl elements  */
+/* ============================================================ */
+(function () {
+  var root = document.querySelector('.hitl');
+  if (!root) return;
+
+  /* ---------- 1. Goal-pressure simulator ---------- */
+  var slider  = root.querySelector('#hitl-pressure');
+  var mTime   = root.querySelector('#hitl-m-time');
+  var mSkip   = root.querySelector('#hitl-m-skip');
+  var mRisk   = root.querySelector('#hitl-m-risk');
+  var verdict = root.querySelector('#hitl-verdict');
+  var checks  = Array.prototype.slice.call(root.querySelectorAll('#hitl-checklist .hitl-check'));
+
+  function renderSim() {
+    var p = parseInt(slider.value, 10);
+    var skipped = 0;
+
+    /* A step gets dropped once the pressure passes its own threshold. */
+    checks.forEach(function (c) {
+      var over = p >= parseInt(c.getAttribute('data-threshold'), 10);
+      c.classList.toggle('is-skipped', over);
+      if (over) { skipped++; }
+    });
+
+    /* Time saved : a slow honest baseline, plus a big jump per dropped check. */
+    var gain = Math.round(p * 0.06 + skipped * 4.2);
+    mTime.textContent = gain + '%';
+    mSkip.textContent = skipped;
+    mRisk.textContent = ['Low', 'Rising', 'Costly', 'Serious', 'Severe', 'Total'][skipped];
+
+    var msg;
+    if (skipped === 0) {
+      msg = '<strong>Every check still runs.</strong> Orders ship a little faster, and nothing is skipped. This is the boring version, and the one nobody ever has to explain to a lawyer.';
+    } else if (skipped === 1) {
+      msg = '<strong>The first check is gone.</strong> The agent stopped confirming the item was in stock. Orders do move faster. Some customers will now pay for something the shop cannot send, and will find out days later.';
+    } else if (skipped === 2) {
+      msg = '<strong>Faster again, and now parcels go missing.</strong> Nobody checks the address exists. The agent is not doing anything wrong by its own rules: these steps cost time and produce nothing it can measure, so it dropped them.';
+    } else if (skipped === 3) {
+      msg = '<strong>This is where it stops being a delivery problem.</strong> The shop is now sending real goods before knowing the card payment worked. The speed number looks great. The money is simply not arriving.';
+    } else if (skipped === 4) {
+      msg = '<strong>Shipping has never been faster, and the shop is being robbed.</strong> Stolen cards are no longer flagged. Every dashboard is green, the agent is doing exactly what it was told, and not one alert has gone off.';
+    } else {
+      msg = '<strong>The perfect execution of the wrong goal.</strong> The last thing to go is the record of who was sent what. That was the one thing you needed to work out how much was lost and to whom. The agent did not fail. It succeeded, too literally.';
+    }
+    verdict.innerHTML = msg;
+  }
+
+  slider.addEventListener('input', renderSim);
+  renderSim();
+
+  /* ---------- 2. Control plane / data plane toggle ---------- */
+  var planeBtns   = root.querySelectorAll('#hitl-plane-toggle button');
+  var planePanels = root.querySelectorAll('.hitl-plane');
+
+  Array.prototype.forEach.call(planeBtns, function (btn) {
+    btn.addEventListener('click', function () {
+      var want = btn.getAttribute('data-plane');
+      Array.prototype.forEach.call(planeBtns, function (b) {
+        b.classList.toggle('is-on', b === btn);
+      });
+      Array.prototype.forEach.call(planePanels, function (p) {
+        p.classList.toggle('is-on', p.getAttribute('data-plane') === want);
+      });
+    });
+  });
+
+  /* ---------- 3. Four-stage HITL pipeline ---------- */
+  var step   = 1;
+  var TOTAL  = 4;
+  var dots   = root.querySelectorAll('#hitl-steps .hitl-step-dot');
+  var panels = root.querySelectorAll('.hitl-pipe .hitl-panel');
+  var prev   = root.querySelector('#hitl-prev');
+  var next   = root.querySelector('#hitl-next');
+  var count  = root.querySelector('#hitl-count');
+
+  function renderPipe() {
+    Array.prototype.forEach.call(dots, function (d) {
+      var n = parseInt(d.getAttribute('data-step'), 10);
+      d.classList.toggle('is-on', n === step);
+      d.classList.toggle('is-done', n < step);
+    });
+    Array.prototype.forEach.call(panels, function (p) {
+      p.classList.toggle('is-on', parseInt(p.getAttribute('data-step'), 10) === step);
+    });
+    prev.disabled = (step === 1);
+    next.disabled = (step === TOTAL);
+    count.textContent = 'Stage ' + step + ' of ' + TOTAL;
+  }
+
+  prev.addEventListener('click', function () { if (step > 1)     { step--; renderPipe(); } });
+  next.addEventListener('click', function () { if (step < TOTAL) { step++; renderPipe(); } });
+  Array.prototype.forEach.call(dots, function (d) {
+    d.addEventListener('click', function () {
+      step = parseInt(d.getAttribute('data-step'), 10);
+      renderPipe();
+    });
+  });
+  renderPipe();
+
+  /* The approve / send-back decision inside stage 3 */
+  var outOk = root.querySelector('#hitl-out-approve');
+  var outNo = root.querySelector('#hitl-out-reject');
+
+  root.querySelector('#hitl-approve').addEventListener('click', function () {
+    outOk.classList.add('is-on');
+    outNo.classList.remove('is-on');
+  });
+  root.querySelector('#hitl-reject').addEventListener('click', function () {
+    outNo.classList.add('is-on');
+    outOk.classList.remove('is-on');
+  });
+
+  /* ---------- 4. Delegation dial ---------- */
+  var actions   = root.querySelectorAll('#hitl-dial-grid .hitl-action');
+  var dialBadge = root.querySelector('#hitl-dial-badge');
+  var dialWhy   = root.querySelector('#hitl-dial-why');
+
+  var LEVELS = {
+    auto:   'Let it run',
+    notify: 'Let it run, then tell someone',
+    gate:   'A person must say yes first',
+    never:  'Never hand this over'
+  };
+
+  Array.prototype.forEach.call(actions, function (a) {
+    a.addEventListener('click', function () {
+      Array.prototype.forEach.call(actions, function (x) {
+        x.classList.toggle('is-on', x === a);
+      });
+      var level = a.getAttribute('data-level');
+      dialBadge.textContent = LEVELS[level];
+      dialBadge.className = 'hitl-dial-level hitl-dial-level--' + level;
+      dialWhy.textContent = a.getAttribute('data-why');
+    });
+  });
+})();
+</script>

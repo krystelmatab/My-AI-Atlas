@@ -7,7 +7,7 @@ A living library of articles, discoveries, reflections, and learnings gathered t
 
 ## Articles
 
-- [Human in the Loop: Why AI Agents Still Need Humans](_posts/2026-03-12-human-in-the-loop-ai-agents.md)
+- [Fully Autonomous AI Is a Mirage: Why Somebody Still Has to Decide](_posts/2026-03-12-human-in-the-loop-ai-agents.html)
 - [One Skills Folder for All AI Assistants: la fin du copier-coller de skills](_posts/2026-08-19-one-skills-folder-for-all-ai-assistants.md)
 - [How Does a Model Actually 'Read' a Photo or a Voice Clip?](_posts/2026-08-20-how-does-a-model-read-a-photo-or-a-voice-clip.html)
 - [LangChain, Mapped in Three Modules](_posts/2026-08-26-langchain-foundations-course-recap.md)
