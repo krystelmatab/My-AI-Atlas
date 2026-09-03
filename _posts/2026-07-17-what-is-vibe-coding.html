@@ -215,6 +215,15 @@ excerpt: "You describe what you want, in plain English. The AI writes the code. 
 /* Colors match the blog's official palette                      */
 /* (assets/main.scss): maroon / terracotta / amber / cyan / teal  */
 /* ============================================================ */
+/* Fraunces soude par defaut certaines paires de lettres (« fa », « fi »,
+   « ff »...). En gros corps le « f » parait colle a la lettre suivante,
+   comme un defaut d'affichage. On garde chaque lettre dessinee a part. */
+.vc-wrap, .vc-wrap * {
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+}
+
 .vc-wrap {
   --maroon: #430C05;
   --terracotta: #D46F4D;
