@@ -33,7 +33,16 @@ excerpt: "A structured, code-first recap of LangChain Academy's free 'Foundation
   }
   /* Tout est scopé sous .lc-recap pour ne jamais déborder sur le thème du site
      (qui utilise lui-même des sélecteurs génériques comme .wrap, p, a, h2...). */
-  .lc-recap{padding-bottom:20px;}
+  /* Fraunces soude par defaut certaines paires de lettres (« fa », « fi »,
+   « ff »...). En gros corps le « f » parait colle a la lettre suivante,
+   comme un defaut d'affichage. On garde chaque lettre dessinee a part. */
+.lc-recap, .lc-recap * {
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+}
+
+.lc-recap{padding-bottom:20px;}
   .lc-recap *{box-sizing:border-box;}
   .lc-recap h2,.lc-recap h3,.lc-recap h4{font-family:var(--display);font-weight:600;margin:0;color:var(--text);}
   .lc-recap p{line-height:1.6;color:var(--muted);margin:0;}

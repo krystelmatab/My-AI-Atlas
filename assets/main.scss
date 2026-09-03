@@ -19,6 +19,21 @@ $muted: #7C6257;
 $line:  #EADFD5;
 
 /* ============================================================ */
+/* Réglage typographique partagé                                */
+/* ============================================================ */
+
+/* Fraunces soude par défaut certaines paires de lettres en un seul
+   dessin (« fa », « fi », « ff »…). En gros corps, le « f » paraît alors
+   collé à la lettre suivante et se lit comme un défaut d'affichage.
+   Ce mixin garde chaque lettre dessinée séparément.
+   À appliquer partout où Fraunces est utilisé. */
+@mixin lettres-non-soudees {
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+}
+
+/* ============================================================ */
 /* Base                                                         */
 /* ============================================================ */
 body {
@@ -39,6 +54,8 @@ h1, h2, h3, h4 {
   /* Fraunces a des jambages descendants prononcés (« J », « g », « y ») :
      sans cette marge, ils se font rogner par la boîte de la ligne. */
   padding-bottom: 0.06em;
+
+  @include lettres-non-soudees;
 }
 
 a, a:visited { color: $teal; text-decoration: none; }
@@ -86,6 +103,7 @@ a:hover      { color: $terracotta; text-decoration: none; }
   display: inline-block;
   float: none;
   font-family: 'Fraunces', Georgia, serif;
+  @include lettres-non-soudees;
   font-weight: 700;
   font-size: 1.5rem;
   line-height: 1.2;
@@ -109,6 +127,7 @@ a:hover      { color: $terracotta; text-decoration: none; }
 
 .site-tagline {
   font-family: 'Fraunces', Georgia, serif;
+  @include lettres-non-soudees;
   font-style: italic;
   font-size: 1.25rem;
   line-height: 1.5;
@@ -324,6 +343,7 @@ a.post-card:hover {
   /* Citation mise en exergue : jaune signal */
   blockquote {
     font-family: 'Fraunces', Georgia, serif;
+    @include lettres-non-soudees;
     font-style: italic;
     font-size: 1.05rem;
     line-height: 1.6;
@@ -497,6 +517,7 @@ a.post-card:hover {
 
   .footer-heading {
     font-family: 'Fraunces', Georgia, serif;
+    @include lettres-non-soudees;
     font-weight: 700;
     font-size: 1.35rem;
     color: $amber;

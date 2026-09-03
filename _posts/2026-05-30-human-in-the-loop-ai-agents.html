@@ -19,6 +19,15 @@ excerpt: "Human in the Loop: the biggest risk with AI agents is not the obvious 
 /* Palette (assets/main.scss) : maroon / terracotta / amber /    */
 /* cyan / teal                                                   */
 /* ============================================================ */
+/* Fraunces soude par defaut certaines paires de lettres (« fa », « fi »,
+   « ff »...). En gros corps le « f » parait colle a la lettre suivante,
+   comme un defaut d'affichage. On garde chaque lettre dessinee a part. */
+.hitl, .hitl * {
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+}
+
 .hitl {
   --maroon: #430C05;
   --terracotta: #D46F4D;
