@@ -13,8 +13,8 @@ mêmes erreurs.
 
 Sauf demande explicite d'une page interactive sur-mesure, créer un fichier
 `.md` classique dans `_posts/`, sur le modèle des articles existants
-(`2026-03-12-human-in-the-loop-ai-agents.md`,
-`2026-08-19-one-skills-folder-for-all-ai-assistants.md`).
+(`2026-05-30-human-in-the-loop-ai-agents.html`,
+`2026-06-15-one-skills-folder-for-all-ai-assistants.md`).
 
 ```yaml
 ---
@@ -26,7 +26,7 @@ excerpt: "Résumé en une phrase, affiché sur la page d'accueil."
 
 **Ne jamais mettre `layout: bare`** sauf si l'utilisateur demande
 explicitement une page 100 % autonome, très visuelle et interactive (comme
-`2026-08-20-how-does-a-model-read-a-photo-or-a-voice-clip.html`). Un `bare`
+`2026-06-29-how-does-a-model-read-a-photo-or-a-voice-clip.html`). Un `bare`
 mal justifié prive l'article de tout l'habillage du site (voir section 4).
 
 ## 1 bis. Langue du contenu — indépendante de la langue de conversation

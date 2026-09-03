@@ -1,6 +1,6 @@
 ---
 title: "Un Seul Classeur pour Tous mes Assistants IA : la fin du copier-coller de skills"
-date: 2026-08-19
+date: 2026-06-15
 excerpt: "Comment le format ouvert Agent Skills permet de centraliser ses compétences IA dans un seul dossier, partagé entre Claude Code, Codex et GitHub Copilot."
 ---
 
