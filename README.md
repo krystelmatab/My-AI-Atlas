@@ -12,4 +12,5 @@ A living library of articles, discoveries, reflections, and learnings gathered t
 - [How Does a Model Actually 'Read' a Photo or a Voice Clip?](_posts/2026-06-29-how-does-a-model-read-a-photo-or-a-voice-clip.html)
 - [LangChain, Mapped in Three Modules](_posts/2026-08-26-langchain-foundations-course-recap.html)
 - [What Is Vibe Coding?](_posts/2026-07-17-what-is-vibe-coding.html)
+- [What Is Shadow AI?](_posts/2026-09-25-what-is-shadow-ai.html)
 
