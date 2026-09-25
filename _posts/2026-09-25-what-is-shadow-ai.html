@@ -1,0 +1,881 @@
+---
+title: "What Is Shadow AI?"
+date: 2026-09-25
+excerpt: "AI tools used at work without the company knowing. Why almost everyone does it, where the pasted data really goes, the stories that made headlines, and how to bring it all back into the light."
+---
+
+<!--
+  Article: "What Is Shadow AI?"
+  ELI5-style visual explainer: big inline SVG drawings, very few words.
+  Custom HTML page (inherits the default "post" layout, not "bare"): all CSS
+  is scoped under .sa-wrap so it never touches the site's global theme.
+  Colors match the blog's official palette (see assets/main.scss).
+-->
+
+<div class="post-tags"><span class="post-tag">Shadow AI</span><span class="post-tag">Security</span><span class="post-tag">Governance</span></div>
+
+<div class="sa-wrap">
+
+<!-- ============================================================ -->
+<!-- Section : The basic idea (hero: light side vs shadow side)   -->
+<!-- ============================================================ -->
+<section class="sa-section">
+  <div class="sa-label">THE BASIC IDEA</div>
+  <h2>AI at work… that nobody approved</h2>
+  <p class="sa-intro">Shadow AI = employees using AI tools <strong>the company doesn't know about</strong>. It's the AI cousin of "shadow IT" (any software used at work without IT's OK).</p>
+
+  <div class="sa-hero">
+    <svg viewBox="0 0 640 280" role="img" aria-label="Left: an approved AI tool the IT team can see. Right: a personal AI account used in the dark, invisible to IT.">
+      <!-- Left panel : in the light -->
+      <rect x="0" y="0" width="320" height="280" fill="#FFBF66"/>
+      <circle cx="52" cy="50" r="20" fill="#FFFFFF"/>
+      <g stroke="#FFFFFF" stroke-width="4" stroke-linecap="round">
+        <path d="M52 16v-8M52 92v-8M18 50h-8M94 50h-8M28 26l-6-6M82 80l-6-6M76 26l6-6M28 74l-6 6"/>
+      </g>
+      <!-- Watching eye (IT can see) -->
+      <g transform="translate(250 50)">
+        <path d="M-30 0c10-16 50-16 60 0c-10 16-50 16-60 0z" fill="#FFFFFF" stroke="#430C05" stroke-width="3"/>
+        <circle cx="0" cy="0" r="8" fill="#00353F"/>
+      </g>
+      <!-- Laptop with approved badge -->
+      <rect x="95" y="115" width="130" height="85" rx="8" fill="#FFFFFF" stroke="#430C05" stroke-width="4"/>
+      <path d="M75 212h170l-12 16H87z" fill="#430C05"/>
+      <circle cx="160" cy="157" r="24" fill="#00353F"/>
+      <path d="M148 157l8 8l16-16" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Right panel : in the shadow -->
+      <rect x="320" y="0" width="320" height="280" fill="#430C05"/>
+      <path d="M602 32a22 22 0 1 0 12 40a18 18 0 0 1-12-40z" fill="#FFBF66"/>
+      <!-- Blind eye (IT can't see) -->
+      <g transform="translate(390 50)">
+        <path d="M-30 0c10-16 50-16 60 0c-10 16-50 16-60 0z" fill="none" stroke="#FFBF66" stroke-width="3" opacity="0.55"/>
+        <path d="M-26 18L26 -18" stroke="#FFBF66" stroke-width="4" stroke-linecap="round"/>
+      </g>
+      <!-- Person -->
+      <circle cx="480" cy="112" r="22" fill="#D46F4D"/>
+      <path d="M440 190c0-30 18-46 40-46s40 16 40 46z" fill="#D46F4D"/>
+      <!-- Laptop seen from behind -->
+      <path d="M430 175h100l-8 50h-84z" fill="#6B2213" stroke="#D46F4D" stroke-width="3"/>
+      <circle cx="480" cy="200" r="6" fill="#D46F4D"/>
+      <!-- AI chat bubble -->
+      <path d="M540 92h72a10 10 0 0 1 10 10v36a10 10 0 0 1-10 10h-44l-16 14v-14h-12a10 10 0 0 1-10-10v-36a10 10 0 0 1 10-10z" fill="#08C5D1"/>
+      <text x="576" y="128" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="800" fill="#430C05">AI</text>
+    </svg>
+
+    <div class="sa-hero-captions">
+      <div class="sa-hero-cap sa-hero-cap--light"><strong>In the light</strong>An AI tool the company chose. IT can see it and protect it.</div>
+      <div class="sa-hero-cap sa-hero-cap--dark"><strong>In the shadow</strong>A personal AI account. Nobody knows what goes into it.</div>
+    </div>
+  </div><!-- end .sa-hero -->
+
+  <!-- Where the name comes from -->
+  <div class="sa-origin">
+    <div class="sa-origin-year">2023</div>
+    <p><strong>No single inventor.</strong> The phrase popped up in 2023, when people started pasting work into ChatGPT. It borrows from "shadow IT", an older phrase IT teams used for years about software employees installed on their own.</p>
+  </div><!-- end .sa-origin -->
+</section>
+
+<!-- ============================================================ -->
+<!-- Section : Why people do it (3 big-icon cards)                -->
+<!-- ============================================================ -->
+<section class="sa-section">
+  <div class="sa-label">WHY IT HAPPENS</div>
+  <h2>Nobody is trying to be a villain</h2>
+  <p class="sa-intro">People just want to get their work done. Three simple reasons:</p>
+
+  <div class="sa-why">
+
+    <div class="sa-why-card">
+      <div class="sa-why-icon sa-bg-terracotta">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
+        </svg>
+      </div>
+      <div class="sa-why-title">It's faster</div>
+      <div class="sa-why-desc">A report in 5 minutes instead of 2 hours.</div>
+    </div>
+
+    <div class="sa-why-card">
+      <div class="sa-why-icon sa-bg-teal">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+        </svg>
+      </div>
+      <div class="sa-why-title">It's one click away</div>
+      <div class="sa-why-desc">Free, no ticket, no approval, no waiting.</div>
+    </div>
+
+    <div class="sa-why-card">
+      <div class="sa-why-icon sa-bg-cyan">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#430C05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="14" rx="2"/>
+          <path d="M9 9l6 6M15 9l-6 6"/>
+        </svg>
+      </div>
+      <div class="sa-why-title">No official tool</div>
+      <div class="sa-why-desc">The company hasn't offered one (yet). So people bring their own.</div>
+    </div>
+
+  </div><!-- end .sa-why -->
+
+  <!-- Big number: how common it is -->
+  <div class="sa-bignum sa-bignum--terracotta">
+    <div class="sa-bignum-value">78%</div>
+    <div class="sa-bignum-text">of people who use AI at work bring their <strong>own</strong> tools. Almost 4 out of 5.<span class="sa-bignum-src">Microsoft &amp; LinkedIn survey, 2024, 31,000 workers in 31 countries</span></div>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- Section : Where the data goes (4-step journey)               -->
+<!-- ============================================================ -->
+<section class="sa-section">
+  <div class="sa-label">THE JOURNEY OF ONE COPY-PASTE</div>
+  <h2>Where your data actually goes</h2>
+
+  <div class="sa-journey">
+
+    <div class="sa-step">
+      <div class="sa-step-icon sa-bg-teal">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/>
+          <path d="M14 3v6h6M8 13h8M8 17h5"/>
+        </svg>
+      </div>
+      <div class="sa-step-title">A client file</div>
+      <div class="sa-step-sub">confidential, inside the company</div>
+    </div>
+
+    <div class="sa-arrow" aria-hidden="true">→</div>
+
+    <div class="sa-step">
+      <div class="sa-step-icon sa-bg-terracotta">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="8" width="12" height="12" rx="2"/>
+          <path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/>
+        </svg>
+      </div>
+      <div class="sa-step-title">Copy-paste</div>
+      <div class="sa-step-sub">into a personal AI chat</div>
+    </div>
+
+    <div class="sa-arrow" aria-hidden="true">→</div>
+
+    <div class="sa-step">
+      <div class="sa-step-icon sa-bg-cyan">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#430C05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 18a4.5 4.5 0 01-.5-9A6 6 0 0118 9.5a4 4 0 01-1 8.5z"/>
+        </svg>
+      </div>
+      <div class="sa-step-title">Someone else's servers</div>
+      <div class="sa-step-sub">outside the company, maybe abroad</div>
+    </div>
+
+    <div class="sa-arrow" aria-hidden="true">→</div>
+
+    <div class="sa-step">
+      <div class="sa-step-icon sa-bg-maroon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFBF66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v6M12 16.5v.5"/>
+        </svg>
+      </div>
+      <div class="sa-step-title">Out of your hands</div>
+      <div class="sa-step-sub">may be stored, read, or used to train the AI</div>
+    </div>
+
+  </div><!-- end .sa-journey -->
+
+  <div class="sa-callout">
+    <div class="sa-callout-icon" aria-hidden="true">📎</div>
+    <p><strong>Think of it like this:</strong> photocopying a confidential file and leaving the copy at the corner print shop. Once it's out, you can't pull it back.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section : The 4 risks (full-color grid)                      -->
+<!-- ============================================================ -->
+<section class="sa-section">
+  <div class="sa-label">WHAT CAN GO WRONG</div>
+  <h2>Four risks, in plain words</h2>
+
+  <div class="sa-risks">
+
+    <div class="sa-risk sa-risk--maroon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FFBF66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"/>
+        <path d="M8 11V7a4 4 0 017.5-2"/>
+      </svg>
+      <div class="sa-risk-title">Secrets leak out</div>
+      <div class="sa-risk-desc">Client data, code, contracts leave the building.</div>
+    </div>
+
+    <div class="sa-risk sa-risk--amber">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#430C05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.2-1.5 2.5M12 17v.5"/>
+      </svg>
+      <div class="sa-risk-title">Wrong answers slip through</div>
+      <div class="sa-risk-desc">AI can invent facts. Nobody checks what nobody sees.</div>
+    </div>
+
+    <div class="sa-risk sa-risk--teal">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#08C5D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v18M5 7h14M5 7l-3 7a3 3 0 006 0zM19 7l-3 7a3 3 0 006 0zM8 21h8"/>
+      </svg>
+      <div class="sa-risk-title">Rules get broken</div>
+      <div class="sa-risk-desc">Privacy laws (like GDPR in Europe) and client contracts still apply.</div>
+    </div>
+
+    <div class="sa-risk sa-risk--cyan">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#430C05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3l18 18M10.6 5.1A10 10 0 0122 12a17 17 0 01-2.2 3.1M6.6 6.6A17 17 0 002 12s3.5 7 10 7a9.6 9.6 0 005.4-1.6"/>
+        <path d="M9.9 9.9a3 3 0 004.2 4.2"/>
+      </svg>
+      <div class="sa-risk-title">No trace, no help</div>
+      <div class="sa-risk-desc">If something goes wrong, nobody knows what was shared, or where.</div>
+    </div>
+
+  </div><!-- end .sa-risks -->
+
+  <!-- Big numbers: what it costs -->
+  <div class="sa-numpair">
+    <div class="sa-bignum sa-bignum--maroon">
+      <div class="sa-bignum-value">1 in 5</div>
+      <div class="sa-bignum-text">companies studied had a data breach <strong>linked to shadow AI</strong>.</div>
+    </div>
+    <div class="sa-bignum sa-bignum--amber">
+      <div class="sa-bignum-value">+$670K</div>
+      <div class="sa-bignum-text">extra cost per breach, on average, when shadow AI is <strong>widespread</strong>.</div>
+    </div>
+  </div><!-- end .sa-numpair -->
+  <div class="sa-numpair-src">IBM, Cost of a Data Breach report, 2025</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section : When it made the news (3 real stories)          -->
+<!-- ============================================================ -->
+<section class="sa-section">
+  <div class="sa-label">WHEN IT MADE THE NEWS</div>
+  <h2>It already happened</h2>
+
+  <!-- Story 1 : Samsung, dated timeline -->
+  <div class="sa-story-head">Samsung, 2023: three leaks in 20 days</div>
+  <div class="sa-story">
+    <div class="sa-story-step">
+      <div class="sa-story-num">1</div>
+      <div class="sa-story-text"><strong>March 11.</strong> Samsung lets its chip engineers use ChatGPT.</div>
+    </div>
+    <div class="sa-story-step">
+      <div class="sa-story-num">2</div>
+      <div class="sa-story-text"><strong>Less than 20 days later.</strong> Three slips: secret code pasted to fix a bug, a chip test sequence to "optimize", a recorded meeting turned into notes.</div>
+    </div>
+    <div class="sa-story-step">
+      <div class="sa-story-num">3</div>
+      <div class="sa-story-text"><strong>First fix.</strong> A cap on how much text each question can hold.</div>
+    </div>
+    <div class="sa-story-step">
+      <div class="sa-story-num">4</div>
+      <div class="sa-story-text"><strong>May.</strong> Public AI tools are banned on work devices.</div>
+    </div>
+  </div><!-- end .sa-story -->
+
+  <!-- Stories 2 and 3 : two short cards -->
+  <div class="sa-tales">
+
+    <div class="sa-tale sa-tale--teal">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#08C5D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 13l-7.5 7.5a2.1 2.1 0 01-3-3L11 10M16 16l6-6M8 8l6-6M9 7l8 8M21 11l-8-8"/>
+      </svg>
+      <div class="sa-tale-when">New York, 2023</div>
+      <div class="sa-tale-title">The lawyer and the six fake cases</div>
+      <div class="sa-tale-desc">A lawyer asked ChatGPT for past court rulings. It invented six of them, with names and quotes. Nobody checked. The judge fined the lawyers <strong>$5,000</strong>.</div>
+    </div>
+
+    <div class="sa-tale sa-tale--cyan">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#430C05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="M21 21l-5-5"/>
+      </svg>
+      <div class="sa-tale-when">Summer 2025</div>
+      <div class="sa-tale-title">The chats that landed on Google</div>
+      <div class="sa-tale-desc">One small checkbox, "make this chat discoverable", and <strong>4,500+</strong> shared ChatGPT conversations showed up in Google, some with work details. OpenAI removed the option.</div>
+    </div>
+
+  </div><!-- end .sa-tales -->
+</section>
+
+<!-- ============================================================ -->
+<!-- Section : The fix (ban vs light + traffic-light rule)        -->
+<!-- ============================================================ -->
+<section class="sa-section">
+  <div class="sa-label">THE FIX</div>
+  <h2>Don't ban it. Bring it into the light.</h2>
+
+  <div class="sa-compare">
+    <div class="sa-compare-col sa-compare-col--ban">
+      <div class="sa-compare-head">🚫 Just ban it</div>
+      <div class="sa-compare-body">People keep using it, on their phone or at home. The shadow gets <strong>bigger</strong>.</div>
+    </div>
+    <div class="sa-compare-col sa-compare-col--light">
+      <div class="sa-compare-head">💡 Light it up</div>
+      <div class="sa-compare-body">Offer an approved AI tool, set simple rules, teach people. The shadow <strong>shrinks</strong>.</div>
+    </div>
+  </div><!-- end .sa-compare -->
+
+  <p class="sa-intro sa-intro--tight">The simplest rule to remember: a traffic light.</p>
+
+  <div class="sa-traffic">
+
+    <div class="sa-light">
+      <div class="sa-light-dot sa-light-dot--green"></div>
+      <div>
+        <div class="sa-light-title">Public info</div>
+        <div class="sa-light-desc">A press release, a public web page → OK in any AI tool.</div>
+      </div>
+    </div>
+
+    <div class="sa-light">
+      <div class="sa-light-dot sa-light-dot--amber"></div>
+      <div>
+        <div class="sa-light-title">Internal info</div>
+        <div class="sa-light-desc">Team notes, internal docs → only in the company's approved AI tool.</div>
+      </div>
+    </div>
+
+    <div class="sa-light">
+      <div class="sa-light-dot sa-light-dot--red"></div>
+      <div>
+        <div class="sa-light-title">Sensitive info</div>
+        <div class="sa-light-desc">Client data, passwords, health data, source code → never in a personal AI account.</div>
+      </div>
+    </div>
+
+  </div><!-- end .sa-traffic -->
+</section>
+
+<!-- ============================================================ -->
+<!-- Section : Key takeaway                                       -->
+<!-- ============================================================ -->
+<section class="sa-section">
+  <div class="sa-label">KEY TAKEAWAY</div>
+  <h2>The one thing to remember</h2>
+  <div class="sa-card--dark">
+    <p>Shadow AI is a <strong class="sa-accent-amber">signal</strong>, not a crime: it shows people need AI. The answer is to give them a <strong class="sa-accent-cyan">safe, approved way</strong> to use it.</p>
+  </div>
+</section>
+
+</div><!-- end .sa-wrap -->
+
+<div class="sa-footnote">
+  <p>A plain-language overview of a workplace trend, not legal advice or a security policy for any specific organization. The stories and figures are summarized from the sources below, as publicly reported.</p>
+  <p>Sources: <a href="https://news.microsoft.com/source/2024/05/08/microsoft-and-linkedin-release-the-2024-work-trend-index-on-the-state-of-ai-at-work/">Microsoft &amp; LinkedIn, Work Trend Index 2024</a> · <a href="https://www.ibm.com/think/x-force/2025-cost-of-a-data-breach-navigating-ai">IBM, Cost of a Data Breach 2025</a> · <a href="https://www.bloomberg.com/news/articles/2023-05-02/samsung-bans-chatgpt-and-other-generative-ai-use-by-staff-after-leak">Bloomberg on Samsung</a> · <a href="https://incidentdatabase.ai/cite/768/">AI Incident Database #768</a> · <a href="https://www.engadget.com/ai/openai-is-removing-chatgpt-conversations-from-google-194735704.html">Engadget on shared chats in Google</a></p>
+</div><!-- end .sa-footnote -->
+
+<style>
+/* ============================================================ */
+/* Scope: all CSS for this article lives under .sa-wrap          */
+/* Colors match the blog's official palette                      */
+/* (assets/main.scss): maroon / terracotta / amber / cyan / teal  */
+/* ============================================================ */
+
+/* Fraunces merges some letter pairs by default ("fa", "fi"...):
+   keep each letter drawn separately. */
+.sa-wrap, .sa-wrap * {
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+}
+
+.sa-wrap {
+  --maroon: #430C05;
+  --terracotta: #D46F4D;
+  --amber: #FFBF66;
+  --cyan: #08C5D1;
+  --teal: #00353F;
+  --paper: #FBF7F2;
+  --card: #FFFFFF;
+  --ink: #3A241C;
+  --muted: #7C6257;
+  --line: #EADFD5;
+}
+
+
+/* ---------- Sections & headings ---------- */
+.sa-wrap .sa-section { margin: 0 0 3.2em; }
+
+/* The site theme adds border-top/margin-top/padding-top to every
+   .post-content h2: neutralize so the label sits right above it. */
+.sa-wrap h2 {
+  border-top: none !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.sa-wrap .sa-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 6px;
+}
+
+.sa-wrap .sa-intro {
+  color: var(--muted) !important;
+  font-size: 1.05rem;
+  margin-bottom: 22px;
+}
+.sa-wrap .sa-intro strong { color: var(--maroon); }
+.sa-wrap .sa-intro--tight { margin: 28px 0 14px; }
+
+.sa-wrap .sa-bg-terracotta { background: var(--terracotta); }
+.sa-wrap .sa-bg-teal       { background: var(--teal); }
+.sa-wrap .sa-bg-cyan       { background: var(--cyan); }
+.sa-wrap .sa-bg-maroon     { background: var(--maroon); }
+
+
+/* ---------- Hero: light side vs shadow side ---------- */
+.sa-wrap .sa-hero {
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(67, 12, 5, 0.18);
+}
+.sa-wrap .sa-hero svg { display: block; width: 100%; height: auto; }
+
+.sa-wrap .sa-hero-captions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.sa-wrap .sa-hero-cap {
+  padding: 16px 20px 20px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.sa-wrap .sa-hero-cap strong {
+  display: block;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+.sa-wrap .sa-hero-cap--light { background: var(--amber); color: var(--maroon); }
+.sa-wrap .sa-hero-cap--dark  { background: var(--maroon); color: #FBF7F2; }
+.sa-wrap .sa-hero-cap--dark strong { color: var(--amber); }
+
+
+/* ---------- Why: 3 big-icon cards ---------- */
+.sa-wrap .sa-why {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.sa-wrap .sa-why-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px 20px 24px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(67, 12, 5, 0.05);
+}
+
+.sa-wrap .sa-why-icon {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(67, 12, 5, 0.16);
+}
+
+.sa-wrap .sa-why-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--maroon);
+  margin-bottom: 6px;
+}
+
+.sa-wrap .sa-why-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+
+/* ---------- Journey: 4 steps with arrows ---------- */
+.sa-wrap .sa-journey {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  box-shadow: 0 1px 2px rgba(67, 12, 5, 0.05);
+}
+
+.sa-wrap .sa-step {
+  width: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.sa-wrap .sa-step-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(67, 12, 5, 0.14);
+}
+
+.sa-wrap .sa-step-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--maroon);
+}
+
+.sa-wrap .sa-step-sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.sa-wrap .sa-arrow {
+  color: var(--terracotta);
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 22px;
+}
+
+
+/* ---------- Callout: full amber fill ---------- */
+.sa-wrap .sa-callout {
+  margin-top: 16px;
+  background: var(--amber);
+  border-radius: 14px;
+  padding: 20px 24px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: 0 8px 20px rgba(255, 191, 102, 0.35);
+}
+.sa-wrap .sa-callout-icon { font-size: 22px; flex-shrink: 0; }
+.sa-wrap .sa-callout p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--maroon) !important;
+}
+
+
+/* ---------- Risks: one full-color card per risk ---------- */
+.sa-wrap .sa-risks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.sa-wrap .sa-risk {
+  border-radius: 16px;
+  padding: 26px 24px;
+  box-shadow: 0 8px 22px rgba(67, 12, 5, 0.14);
+}
+.sa-wrap .sa-risk svg { display: block; margin-bottom: 14px; }
+
+.sa-wrap .sa-risk-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.sa-wrap .sa-risk-desc { font-size: 14.5px; line-height: 1.5; }
+
+.sa-wrap .sa-risk--maroon { background: var(--maroon); color: #FBF7F2; }
+.sa-wrap .sa-risk--maroon .sa-risk-title { color: var(--amber); }
+.sa-wrap .sa-risk--amber  { background: var(--amber); color: var(--maroon); }
+.sa-wrap .sa-risk--teal   { background: var(--teal); color: #FBF7F2; }
+.sa-wrap .sa-risk--teal .sa-risk-title { color: var(--cyan); }
+.sa-wrap .sa-risk--cyan   { background: var(--cyan); color: var(--maroon); }
+
+
+/* ---------- Story: 3 numbered steps on a terracotta rail ---------- */
+.sa-wrap .sa-story {
+  border-left: 6px solid var(--terracotta);
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sa-wrap .sa-story-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.sa-wrap .sa-story-num {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: var(--maroon);
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sa-wrap .sa-story-text {
+  font-size: 15.5px;
+  color: var(--ink);
+  padding-top: 9px;
+}
+.sa-wrap .sa-story-text strong { color: var(--maroon); }
+
+
+/* ---------- Compare: ban vs light ---------- */
+.sa-wrap .sa-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.sa-wrap .sa-compare-col {
+  border-radius: 16px;
+  padding: 24px;
+}
+.sa-wrap .sa-compare-head {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.sa-wrap .sa-compare-body { font-size: 14.5px; line-height: 1.5; }
+
+.sa-wrap .sa-compare-col--ban {
+  background: var(--card);
+  border: 2px dashed var(--muted);
+  color: var(--muted);
+}
+.sa-wrap .sa-compare-col--ban .sa-compare-head { color: var(--ink); }
+
+.sa-wrap .sa-compare-col--light {
+  background: var(--teal);
+  color: #FBF7F2;
+  box-shadow: 0 10px 26px rgba(0, 53, 63, 0.25);
+}
+.sa-wrap .sa-compare-col--light .sa-compare-head,
+.sa-wrap .sa-compare-col--light strong { color: var(--amber); }
+
+
+/* ---------- Traffic-light rule ---------- */
+.sa-wrap .sa-traffic {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 10px 24px;
+  box-shadow: 0 1px 2px rgba(67, 12, 5, 0.05);
+}
+
+.sa-wrap .sa-light {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.sa-wrap .sa-light:last-child { border-bottom: none; }
+
+.sa-wrap .sa-light-dot {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 4px solid var(--maroon);
+}
+.sa-wrap .sa-light-dot--green { background: #2E9E6A; }
+.sa-wrap .sa-light-dot--amber { background: var(--amber); }
+.sa-wrap .sa-light-dot--red   { background: #C8341F; }
+
+.sa-wrap .sa-light-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--maroon);
+}
+.sa-wrap .sa-light-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+
+/* ---------- Dark takeaway card ---------- */
+.sa-wrap .sa-card--dark {
+  background: linear-gradient(135deg, var(--maroon) 0%, #5A1608 100%);
+  border-radius: 16px;
+  padding: 28px 30px;
+  box-shadow: 0 10px 28px rgba(67, 12, 5, 0.22);
+}
+.sa-wrap .sa-card--dark p {
+  margin: 0;
+  font-size: 17px;
+  color: #FBF7F2 !important;
+}
+.sa-wrap .sa-accent-amber { color: var(--amber); }
+.sa-wrap .sa-accent-cyan  { color: var(--cyan); }
+
+
+/* ---------- Caution note in the footer ---------- */
+.sa-footnote {
+  margin-top: 44px;
+  padding-top: 18px;
+  border-top: 1px solid #EADFD5;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 11px;
+  color: #7C6257;
+}
+
+
+/* ---------- Where the name comes from ---------- */
+.sa-wrap .sa-origin {
+  margin-top: 16px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--cyan);
+  border-radius: 4px 14px 14px 4px;
+  padding: 18px 22px;
+}
+.sa-wrap .sa-origin-year {
+  flex-shrink: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--teal);
+}
+.sa-wrap .sa-origin p { margin: 0; font-size: 14.5px; color: var(--ink) !important; }
+.sa-wrap .sa-origin strong { color: var(--maroon); }
+
+
+/* ---------- Big numbers ---------- */
+.sa-wrap .sa-bignum {
+  margin-top: 16px;
+  border-radius: 16px;
+  padding: 22px 26px;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  box-shadow: 0 8px 22px rgba(67, 12, 5, 0.14);
+}
+.sa-wrap .sa-bignum-value {
+  flex-shrink: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1;
+}
+.sa-wrap .sa-bignum-text { font-size: 15px; line-height: 1.5; }
+.sa-wrap .sa-bignum-src {
+  display: block;
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.sa-wrap .sa-bignum--terracotta { background: var(--terracotta); color: var(--maroon); }
+.sa-wrap .sa-bignum--maroon     { background: var(--maroon); color: #FBF7F2; }
+.sa-wrap .sa-bignum--maroon .sa-bignum-value { color: var(--amber); }
+.sa-wrap .sa-bignum--amber      { background: var(--amber); color: var(--maroon); }
+
+.sa-wrap .sa-numpair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+.sa-wrap .sa-numpair .sa-bignum { flex-direction: column; align-items: flex-start; gap: 10px; }
+.sa-wrap .sa-numpair-src {
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+
+/* ---------- Stories: headline + short cards ---------- */
+.sa-wrap .sa-story-head {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--maroon);
+  margin-bottom: 14px;
+}
+
+.sa-wrap .sa-tales {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+.sa-wrap .sa-tale {
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 22px rgba(67, 12, 5, 0.14);
+}
+.sa-wrap .sa-tale svg { display: block; margin-bottom: 12px; }
+.sa-wrap .sa-tale-when {
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.sa-wrap .sa-tale-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.sa-wrap .sa-tale-desc { font-size: 14.5px; line-height: 1.55; }
+
+.sa-wrap .sa-tale--teal { background: var(--teal); color: #FBF7F2; }
+.sa-wrap .sa-tale--teal .sa-tale-when,
+.sa-wrap .sa-tale--teal strong { color: var(--cyan); }
+.sa-wrap .sa-tale--teal .sa-tale-title { color: var(--amber); }
+.sa-wrap .sa-tale--cyan { background: var(--cyan); color: var(--maroon); }
+
+
+/* ---------- Footnote: sources ---------- */
+.sa-footnote p { margin: 0 0 8px; }
+.sa-footnote a { color: #7C6257; text-decoration: underline; }
+
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+  .sa-wrap .sa-hero-cap { padding: 12px 14px 16px; font-size: 13px; }
+  .sa-wrap .sa-journey { padding: 26px 12px; }
+  .sa-wrap .sa-step { width: 110px; }
+  .sa-wrap .sa-arrow { display: none; }
+  .sa-wrap .sa-step-icon { width: 60px; height: 60px; }
+  .sa-wrap .sa-bignum { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .sa-wrap .sa-origin { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+</style>

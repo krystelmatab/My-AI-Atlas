@@ -154,6 +154,37 @@ Pour une page **HTML sur-mesure** au CSS scopé, redéfinir les mêmes pastilles
 sous le préfixe de l'article (ex. `.llm-tags` / `.llm-topic`), en reprenant
 les valeurs ci-dessus pour rester identique aux autres articles.
 
+## 1 sexies. Jamais le tiret cadratin « — »
+
+Règle fixée par l'utilisatrice : **le symbole « — » n'apparaît jamais**, ni
+dans le texte visible, ni dans le titre, l'extrait (`excerpt`), la mention de
+fin, les attributs `aria-label`, ni même dans les commentaires du code.
+
+- Le remplacer selon le sens : deux-points, virgule, point, ou parenthèses.
+- Avant de livrer, vérifier : `grep -c "—" _posts/<fichier>` doit renvoyer `0`.
+
+## 1 septies. Histoires vraies et faits marquants, sans les étiqueter
+
+Un article gagne à contenir des **histoires réelles et des faits frappants** :
+origine du terme (qui l'a inventé, quand), incidents publics et leurs
+conséquences, chiffres d'études reconnues. Mais **jamais présentés avec une
+étiquette du type « Fun fact », « Le saviez-vous ? », « Anecdote »** : ils
+s'intègrent naturellement au fil de l'article.
+
+- **Les placer là où ils prouvent quelque chose** : l'origine du mot sous
+  « l'idée de base », un chiffre d'usage sous « pourquoi ça arrive », un
+  chiffre de coût sous « les risques », les incidents dans une section au
+  titre neutre (ex. « When it made the news », « It already happened »).
+- **Formats visuels qui marchent** : un grand chiffre en aplat de couleur
+  (`78%`, `1 in 5`), une frise datée et numérotée, des cartes-histoires
+  courtes (lieu + date en petit, titre, 2 phrases).
+- **Vérifier chaque fait par une recherche web avant de l'écrire** (dates,
+  montants, nombres). Si un point n'est pas établi (ex. aucun inventeur
+  connu d'un terme), le dire tel quel plutôt qu'inventer.
+- **Citer les sources une seule fois**, en liens texte soulignés dans la
+  mention de fin (voir section suivante), avec la source courte sous chaque
+  grand chiffre.
+
 ## 1 ter. Mention de prudence en fin d'article — obligatoire aussi
 
 **Tout article se termine par une courte mention** qui délimite ce que le
