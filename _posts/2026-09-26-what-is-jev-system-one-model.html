@@ -1,30 +1,35 @@
 ---
-title: "What Is Jev? The AI That Doesn't Talk, It Decides"
+title: "Jev, explained simply"
 date: 2026-09-26
-excerpt: "Jev is not a chatbot and not an LLM: it is the first System One model, built to make fast, typed decisions inside software. How it works, why it is so fast, and where it stops."
+excerpt: "An AI that doesn't talk. It decides. Jev is not a chatbot and not an LLM: it is the first System One model, built for automation."
 ---
 
 <!--
-  Article: "What Is Jev?"
-  Visual explainer with two interactive blocks (architecture toggle, race).
-  Custom HTML page (inherits the default "post" layout, not "bare"): all CSS
-  is scoped under .jv-wrap and all JS only touches .jv-wrap elements.
-  Colors match the blog's official palette (see assets/main.scss):
-  the source artifact's amber = LLM side, its mint = Jev side (cyan here).
+  Article: "Jev, explained simply"
+  Same content and layout as the original artifact. Only the colors are
+  adapted to the blog palette (assets/main.scss), role by role:
+    dark background -> cream page ($paper), light text -> $ink
+    mint accent (Jev side) -> $cyan, amber accent (LLM side) -> $amber
+    slate -> $muted, dark panels -> white cards, code block -> $teal
+  On the light background, cyan and amber are too pale for text: text
+  uses a darker shade of the same hue, shapes keep the vivid color.
+  All CSS is scoped under .jv-wrap, all JS only touches .jv-wrap elements.
 -->
 
 <div class="post-tags"><span class="post-tag">System One</span><span class="post-tag">Foundation Models</span><span class="post-tag">Automation</span></div>
 
 <div class="jv-wrap">
 
-<!-- ============================================================ -->
-<!-- Section : The basic idea                                     -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">THE BASIC IDEA</div>
-  <h2>An AI that doesn't talk. It decides.</h2>
-  <p class="jv-intro">Jev was released on <strong>September 15, 2026</strong> by TypeSafe AI. It is not a chatbot and not an LLM: it is the first model of a new family of foundation models called <strong>System One models</strong>, built for automation.</p>
+<header class="jv-header">
+  <div class="jv-h1">Jev</div>
+  <p class="jv-sub">An AI that doesn't talk. It decides.</p>
+  <p class="jv-muted">Released September 15, 2026 by TypeSafe AI. Not a chatbot, not an LLM: the first model of a new family of foundation models called <b class="jv-ink">System One models</b>.</p>
+  <span class="jv-pill">Built for automation</span>
+</header>
 
+<!-- Added: the basic idea -->
+<section aria-labelledby="jv-t0">
+  <h2 id="jv-t0">The basic idea</h2>
   <div class="jv-hero">
     <div class="jv-hero-side jv-hero-side--llm">
       <div class="jv-hero-tag">LLM</div>
@@ -38,107 +43,89 @@ excerpt: "Jev is not a chatbot and not an LLM: it is the first System One model,
       <div class="jv-hero-out jv-mono">urgent: <b>yes</b> · p=0.92</div>
       <div class="jv-hero-foot">A value software can use directly</div>
     </div>
-  </div><!-- end .jv-hero -->
-</section>
-
-<!-- ============================================================ -->
-<!-- Section : Not an LLM (interactive architecture)              -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">A NEW KIND OF MODEL</div>
-  <h2>Not an LLM. A new kind of foundation model.</h2>
-  <p class="jv-intro">A <strong>foundation model</strong> is a big, general AI model trained once and reused for many tasks. GPT, Claude and Gemini are foundation models of one type: <strong>LLMs</strong>. Jev is a foundation model of a different type, with a different architecture.</p>
-
-  <div class="jv-stage">
-    <div class="jv-chips" role="group" aria-label="Choose a model type">
-      <button type="button" class="jv-chip" id="jvArchLLM" aria-pressed="true">How an LLM answers</button>
-      <button type="button" class="jv-chip" id="jvArchJev" aria-pressed="false">How Jev answers</button>
-    </div>
-    <svg class="jv-arch" id="jvArchSvg" viewBox="0 0 400 170" role="img" aria-label="Diagram comparing how the two models produce an answer"></svg>
-    <p class="jv-cap" id="jvArchCap" aria-live="polite"></p>
-  </div><!-- end .jv-stage -->
-
-  <div class="jv-pair">
-    <div class="jv-fam jv-fam--amber">
-      <div class="jv-fam-title">LLM · "autoregressive"</div>
-      <div class="jv-fam-desc">Predicts the next word, adds it, predicts again. One loop per word. Output: free text a human reads.</div>
-    </div>
-    <div class="jv-fam jv-fam--teal">
-      <div class="jv-fam-title">System One model · Jev</div>
-      <div class="jv-fam-desc">Skips word-by-word generation. One single pass. Output: typed answers and probabilities that software uses directly.</div>
-    </div>
-  </div><!-- end .jv-pair -->
-</section>
-
-<!-- ============================================================ -->
-<!-- Section : Why "System One"                                   -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">WHERE THE NAME COMES FROM</div>
-  <h2>Why "System One"?</h2>
-  <p class="jv-intro">The name comes from psychologist Daniel Kahneman and his book <em>Thinking, Fast and Slow</em>. He splits human thinking into two modes.</p>
-
-  <div class="jv-pair">
-    <div class="jv-sys jv-sys--cyan">
-      <svg width="52" height="52" viewBox="0 0 72 72" aria-hidden="true"><path d="M40 6L18 40h16l-4 26 24-36H38z" fill="#430C05"/></svg>
-      <div class="jv-sys-title">System 1: fast</div>
-      <div class="jv-sys-desc">Instant, intuitive, automatic.</div>
-      <div class="jv-sys-eg">Catching a ball. Braking when a car cuts in. Knowing a face is angry.</div>
-    </div>
-    <div class="jv-sys jv-sys--amber">
-      <svg width="52" height="52" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="26" fill="none" stroke="#430C05" stroke-width="5"/><path d="M36 20v16l11 8" fill="none" stroke="#430C05" stroke-width="5" stroke-linecap="round"/></svg>
-      <div class="jv-sys-title">System 2: slow</div>
-      <div class="jv-sys-desc">Deliberate, step by step, effortful.</div>
-      <div class="jv-sys-eg">Writing an essay. Solving 17 × 24. Planning a trip.</div>
-    </div>
-  </div><!-- end .jv-pair -->
-
-  <div class="jv-callout">
-    <p>LLMs are good at <strong>System 2</strong> work: writing, reasoning, explaining. Jev is built for <strong>System 1</strong> work: the thousands of small, fast judgment calls inside software.</p>
   </div>
 </section>
 
-<!-- ============================================================ -->
-<!-- Section : The race (interactive)                             -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">SEE IT IN ACTION</div>
-  <h2>Same question, two AIs</h2>
-  <p class="jv-intro">Pick a situation, then start the race.</p>
+<!-- 1. Not an LLM -->
+<section aria-labelledby="jv-t1">
+  <h2 id="jv-t1">Not an LLM. A new kind of foundation model.</h2>
+  <p>A <b>foundation model</b> is a big, general AI model trained once and then reused for many tasks. GPT, Claude and Gemini are foundation models of one type: <b>LLMs</b>. Jev is a foundation model of a different type, with a different architecture.</p>
 
   <div class="jv-stage">
+    <div class="jv-chips" role="group" aria-label="Choose a model type">
+      <button type="button" id="jvArchLLM" aria-pressed="true">How an LLM answers</button>
+      <button type="button" id="jvArchJev" aria-pressed="false">How Jev answers</button>
+    </div>
+    <svg class="jv-arch" id="jvArchSvg" viewBox="0 0 400 170" role="img" aria-label="Diagram comparing how the two models produce an answer"></svg>
+    <p class="jv-cap" id="jvArchCap" aria-live="polite"></p>
+  </div>
+
+  <div class="jv-fam">
+    <div class="l">
+      <h3>LLM · "autoregressive"</h3>
+      <p>Predicts the next word, adds it, predicts again. One loop per word. Output = free text a human reads.</p>
+    </div>
+    <div class="r">
+      <h3>System One model · Jev</h3>
+      <p>Skips word-by-word generation. One single pass. Output = typed answers + probabilities that software uses directly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. System 1 -->
+<section aria-labelledby="jv-t2">
+  <h2 id="jv-t2">Why "System One"?</h2>
+  <p>The name comes from psychologist Daniel Kahneman (<i>Thinking, Fast and Slow</i>). He splits human thinking into two modes.</p>
+  <div class="jv-sys">
+    <div>
+      <svg viewBox="0 0 72 72" aria-hidden="true"><path d="M40 6L18 40h16l-4 26 24-36H38z" fill="#08C5D1"/></svg>
+      <h3 class="jv-t-teal">System 1: fast</h3>
+      <p>Instant, intuitive, automatic.</p>
+      <p class="jv-eg">Catching a ball. Braking when a car cuts in. Knowing a face is angry.</p>
+    </div>
+    <div>
+      <svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="26" fill="none" stroke="#FFBF66" stroke-width="4"/><path d="M36 20v16l11 8" fill="none" stroke="#FFBF66" stroke-width="4" stroke-linecap="round"/></svg>
+      <h3 class="jv-t-amber">System 2: slow</h3>
+      <p>Deliberate, step by step, effortful.</p>
+      <p class="jv-eg">Writing an essay. Solving 17 × 24. Planning a trip.</p>
+    </div>
+  </div>
+  <p class="jv-after">LLMs are good at System 2 work: writing, reasoning, explaining. Jev is built for System 1 work: the thousands of small, fast judgment calls inside software.</p>
+</section>
+
+<!-- 3. Race -->
+<section aria-labelledby="jv-t3">
+  <h2 id="jv-t3">Same question, two AIs</h2>
+  <p>Pick a situation, then start the race.</p>
+  <div class="jv-stage">
     <div class="jv-chips" role="group" aria-label="Situation">
-      <button type="button" class="jv-chip" data-jv-s="0" aria-pressed="true">Customer email</button>
-      <button type="button" class="jv-chip" data-jv-s="1" aria-pressed="false">AI agent</button>
-      <button type="button" class="jv-chip" data-jv-s="2" aria-pressed="false">Drone</button>
+      <button type="button" data-jv-s="0" aria-pressed="true">Customer email</button>
+      <button type="button" data-jv-s="1" aria-pressed="false">AI agent</button>
+      <button type="button" data-jv-s="2" aria-pressed="false">Drone</button>
     </div>
     <p class="jv-q" id="jvQ"></p>
     <button type="button" class="jv-go" id="jvGo">Start the race</button>
     <div class="jv-lanes">
-      <div class="jv-lane jv-lane--llm"><span class="jv-who">LLM chatbot</span><span class="jv-clock" id="jvC1">0.0 s</span><div class="jv-out" id="jvO1" aria-live="polite"></div></div>
-      <div class="jv-lane jv-lane--jev"><span class="jv-who">Jev</span><span class="jv-clock" id="jvC2">0.0 s</span><div class="jv-out" id="jvO2" aria-live="polite"></div></div>
+      <div class="jv-lane llm"><span class="jv-who">LLM chatbot</span><span class="jv-clock" id="jvC1">0.0 s</span><div class="jv-out" id="jvO1" aria-live="polite"></div></div>
+      <div class="jv-lane jev"><span class="jv-who">Jev</span><span class="jv-clock" id="jvC2">0.0 s</span><div class="jv-out" id="jvO2" aria-live="polite"></div></div>
     </div>
-  </div><!-- end .jv-stage -->
-  <p class="jv-note">Race timings are illustrative. The LLM still needs code to parse its sentence into a decision; Jev's output is the decision.</p>
+  </div>
+  <p class="jv-muted jv-after">Race timings are illustrative. The LLM still needs code to parse its sentence into a decision; Jev's output is the decision.</p>
 </section>
 
-<!-- ============================================================ -->
-<!-- Section : Under the hood                                     -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">UNDER THE HOOD</div>
-  <h2>Four steps, one pass</h2>
-
+<!-- 4. Under the hood -->
+<section aria-labelledby="jv-t4">
+  <h2 id="jv-t4">Under the hood</h2>
   <ol class="jv-steps">
-    <li><div class="jv-step-title">Input: a "state"</div><div class="jv-step-desc">A snapshot of what's going on, as text or JSON: an email, an agent's plan and pending command, a game frame described as data.</div></li>
-    <li><div class="jv-step-title">Typed questions</div><div class="jv-step-desc">You define the answer format in advance. Three primitives: <strong>Yes/No</strong> (a probability), <strong>Choice</strong> (one option from a list), <strong>Score</strong> (a number on a scale). Many questions run in parallel on the same state.</div></li>
-    <li><div class="jv-step-title">One single pass</div><div class="jv-step-desc">No word-by-word loop. The model evaluates the state and scores every allowed answer at once. That's where the speed comes from, and why output is free: nothing is generated.</div></li>
-    <li><div class="jv-step-title">Output: typed values + confidence</div><div class="jv-step-desc">The answer can only be one of the values you allowed. No free text to parse, no invented category. This is what TypeSafe means by "can't hallucinate".</div></li>
+    <li><b>Input: a "state"</b><p>A snapshot of what's going on, as text or JSON: an email, an agent's plan and pending command, a game frame described as data.</p></li>
+    <li><b>Typed questions</b><p>You define the answer format in advance. Three primitives: <b>Yes/No</b> (a probability), <b>Choice</b> (pick one option from a list), <b>Score</b> (a number on a scale). Many questions run in parallel on the same state.</p></li>
+    <li><b>One single pass</b><p>No token loop. The model evaluates the state and scores every allowed answer at once, using a new sampler instead of next-word sampling. That's where the speed comes from, and why output is free: nothing is generated.</p></li>
+    <li><b>Output: typed values + confidence</b><p>The answer can only be one of the values you allowed. No free text to parse, no invented category. This is what TypeSafe means by "can't hallucinate".</p></li>
   </ol>
 
   <div class="jv-codes">
     <div>
-      <div class="jv-code-lbl">You send (simplified)</div>
+      <p class="jv-lbl">You send (simplified)</p>
 <pre class="jv-pre"><span class="k">state:</span> <span class="a">"I was charged twice
   this month, refund?"</span>
 <span class="k">questions:</span>
@@ -148,139 +135,79 @@ excerpt: "Jev is not a chatbot and not an LLM: it is the first System One model,
   <span class="k">anger</span>   → Score 0–1</pre>
     </div>
     <div>
-      <div class="jv-code-lbl">Jev returns</div>
+      <p class="jv-lbl">Jev returns</p>
 <pre class="jv-pre"><span class="k">urgent:</span> <span class="v">yes</span>      <span class="k">p=</span><span class="v">0.92</span>
 <span class="k">team:</span>   <span class="v">billing</span>  <span class="k">p=</span><span class="v">0.88</span>
 <span class="k">anger:</span>  <span class="v">0.74</span></pre>
     </div>
-  </div><!-- end .jv-codes -->
+  </div>
 
-  <div class="jv-origin">
-    <div class="jv-origin-big">90%</div>
-    <p><strong>The training trick: calibration.</strong> Jev is trained with a method TypeSafe calls <strong>RLCD</strong>, reinforcement learning for calibrated decisions: probabilities are scored against real outcomes, not against what human raters prefer. When Jev says 90%, it should be right about 9 times out of 10. That's what lets you set a rule like "act alone above 90%, ask a human below".</p>
+  <div class="jv-calib">
+    <h3>The training trick: calibration</h3>
+    <p>Jev is trained with a method TypeSafe calls <b>RLCD</b>, reinforcement learning for calibrated decisions. The goal: when Jev says 90%, it should be right about 9 times out of 10.</p>
+    <p class="jv-muted">That's what makes it usable in automation: you can set a rule like "act alone above 90%, ask a human below".</p>
   </div>
 </section>
 
-<!-- ============================================================ -->
-<!-- Section : The numbers                                        -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">WHY IT'S IN THE NEWS</div>
-  <h2>Fast enough to decide ten times per second</h2>
-
+<!-- 5. Numbers -->
+<section aria-labelledby="jv-t5">
+  <h2 id="jv-t5">Why it's in the news</h2>
   <div class="jv-nums">
-    <div class="jv-bignum jv-bignum--maroon">
-      <div class="jv-bignum-value">70–500 ms</div>
-      <div class="jv-bignum-text">per call, end to end.</div>
-    </div>
-    <div class="jv-bignum jv-bignum--amber">
-      <div class="jv-bignum-value">$0.042</div>
-      <div class="jv-bignum-text">per million input tokens. <strong>Output is free.</strong></div>
-    </div>
-    <div class="jv-bignum jv-bignum--teal">
-      <div class="jv-bignum-value">~100×</div>
-      <div class="jv-bignum-text">faster and cheaper than frontier LLMs on some tasks.</div>
-    </div>
-  </div><!-- end .jv-nums -->
-  <div class="jv-numsrc">Figures announced by TypeSafe AI at launch, September 2026</div>
+    <div><div class="jv-n">70–500 ms</div><p class="jv-muted">per call, end to end</p></div>
+    <div><div class="jv-n">$0.042</div><p class="jv-muted">per million input tokens. Output is free.</p></div>
+    <div><div class="jv-n">~100×</div><p class="jv-muted">faster and cheaper than LLMs on some tasks, per TypeSafe</p></div>
+  </div>
+  <p class="jv-after">Fast enough to decide <b>ten times per second</b>, inside real-time loops.</p>
 </section>
 
-<!-- ============================================================ -->
-<!-- Section : Uses                                               -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">WHAT IT'S FOR</div>
-  <h2>Optimised for automation</h2>
-
-  <div class="jv-uses">
-    <div class="jv-use jv-use--terracotta">
-      <svg width="40" height="40" viewBox="0 0 44 44" aria-hidden="true"><rect x="4" y="10" width="36" height="24" rx="4" fill="none" stroke="#FFFFFF" stroke-width="3"/><path d="M4 12l18 13 18-13" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/></svg>
-      <div class="jv-use-title">Classify and route</div>
-      <div class="jv-use-desc">Tickets, emails, requests.</div>
-    </div>
-    <div class="jv-use jv-use--teal">
-      <svg width="40" height="40" viewBox="0 0 44 44" aria-hidden="true"><path d="M22 4l15 6v11c0 9-6 16-15 19C13 37 7 30 7 21V10z" fill="none" stroke="#08C5D1" stroke-width="3" stroke-linejoin="round"/><path d="M15 22l5 5 9-10" fill="none" stroke="#FFBF66" stroke-width="3" stroke-linecap="round"/></svg>
-      <div class="jv-use-title">Guardrail for AI agents</div>
-      <div class="jv-use-desc">"Is this irreversible? Off-task?" before each command runs.</div>
-    </div>
-    <div class="jv-use jv-use--amber">
-      <svg width="40" height="40" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="6" fill="#430C05"/><path d="M22 4v8M22 32v8M4 22h8M32 22h8" stroke="#430C05" stroke-width="3" stroke-linecap="round"/></svg>
-      <div class="jv-use-title">Orchestration</div>
-      <div class="jv-use-desc">Pick which model or tool runs next.</div>
-    </div>
-    <div class="jv-use jv-use--cyan">
-      <svg width="40" height="40" viewBox="0 0 44 44" aria-hidden="true"><rect x="6" y="14" width="32" height="18" rx="9" fill="none" stroke="#430C05" stroke-width="3"/><circle cx="16" cy="23" r="3" fill="#430C05"/><path d="M28 20v6M25 23h6" stroke="#430C05" stroke-width="3" stroke-linecap="round"/></svg>
-      <div class="jv-use-title">Real-time control</div>
-      <div class="jv-use-desc">Games, robots, simulations. Launch demos: a Minecraft bot, a simulated drone.</div>
-    </div>
-  </div><!-- end .jv-uses -->
-
-  <p class="jv-note">Typical setup: Jev makes the fast calls, an LLM handles the writing and deep reasoning.</p>
+<!-- 6. Automation -->
+<section aria-labelledby="jv-t6">
+  <h2 id="jv-t6">Optimised for automation</h2>
+  <ul class="jv-uses">
+    <li><svg viewBox="0 0 44 44" aria-hidden="true"><rect x="4" y="10" width="36" height="24" rx="4" fill="none" stroke="#08C5D1" stroke-width="3"/><path d="M4 12l18 13 18-13" fill="none" stroke="#08C5D1" stroke-width="3" stroke-linejoin="round"/></svg><p><b>Classify and route</b> tickets, emails, requests.</p></li>
+    <li><svg viewBox="0 0 44 44" aria-hidden="true"><path d="M22 4l15 6v11c0 9-6 16-15 19C13 37 7 30 7 21V10z" fill="none" stroke="#08C5D1" stroke-width="3" stroke-linejoin="round"/><path d="M15 22l5 5 9-10" fill="none" stroke="#FFBF66" stroke-width="3" stroke-linecap="round"/></svg><p><b>Guardrail for AI agents</b>: "is this irreversible? off-task?" before each command runs.</p></li>
+    <li><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="6" fill="#08C5D1"/><path d="M22 4v8M22 32v8M4 22h8M32 22h8" stroke="#08C5D1" stroke-width="3" stroke-linecap="round"/></svg><p><b>Orchestration</b>: pick which model or tool runs next.</p></li>
+    <li><svg viewBox="0 0 44 44" aria-hidden="true"><rect x="6" y="14" width="32" height="18" rx="9" fill="none" stroke="#08C5D1" stroke-width="3"/><circle cx="16" cy="23" r="3" fill="#08C5D1"/><path d="M28 20v6M25 23h6" stroke="#08C5D1" stroke-width="3" stroke-linecap="round"/></svg><p><b>Real-time control</b>: games, robots, simulations (demos: a Minecraft bot, a drone).</p></li>
+  </ul>
+  <p class="jv-muted jv-after">Typical setup: Jev makes the fast calls, an LLM handles the writing and deep reasoning.</p>
 </section>
 
-<!-- ============================================================ -->
-<!-- Section : The story                                          -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">THE STORY</div>
-  <h2>From ChatGPT to a model that doesn't chat</h2>
-
-  <div class="jv-story">
-    <div class="jv-story-step">
-      <div class="jv-story-num">1</div>
-      <div class="jv-story-text"><strong>The founder.</strong> Diogo Almeida, ex-OpenAI, worked on RLHF and InstructGPT, the techniques behind ChatGPT. He co-founded TypeSafe AI in San Francisco in 2024.</div>
-    </div>
-    <div class="jv-story-step">
-      <div class="jv-story-num">2</div>
-      <div class="jv-story-text"><strong>September 15, 2026.</strong> TypeSafe comes out of stealth. Jev launches in early access, with a $40M seed round led by DCVC.</div>
-    </div>
-    <div class="jv-story-step">
-      <div class="jv-story-num">3</div>
-      <div class="jv-story-text"><strong>The name.</strong> A nod to economist William Stanley Jevons. In 1865 he noticed that more efficient steam engines made Britain burn <em>more</em> coal, not less: when a resource gets cheaper, we use much more of it. TypeSafe's bet: cheap decisions will end up everywhere.</div>
-    </div>
-  </div><!-- end .jv-story -->
+<!-- 7. Story -->
+<section aria-labelledby="jv-t7">
+  <h2 id="jv-t7">The story</h2>
+  <ol class="jv-tl">
+    <li><span class="jv-yr">The founder</span><p>Diogo Almeida, ex-OpenAI, worked on RLHF, InstructGPT and ChatGPT. Co-founded TypeSafe AI in 2024.</p></li>
+    <li><span class="jv-yr">Sept 15, 2026</span><p>Jev launches in early access, with a $40M seed round led by DCVC.</p></li>
+    <li><span class="jv-yr">The name</span><p>After economist William Stanley Jevons and his paradox: when a resource gets cheaper, we use much more of it. The bet: cheap decisions will be used everywhere.</p></li>
+  </ol>
 </section>
 
-<!-- ============================================================ -->
-<!-- Section : Limits                                             -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">KEEP IN MIND</div>
-  <h2>Where it stops</h2>
-
-  <div class="jv-limits">
-    <div class="jv-limit">
-      <div class="jv-limit-title">"Can't hallucinate" ≠ always right</div>
-      <div class="jv-limit-desc">It can't leave your format, but it can pick the wrong option.</div>
-    </div>
-    <div class="jv-limit">
-      <div class="jv-limit-title">Doesn't write</div>
-      <div class="jv-limit-desc">For drafting, summarising or open reasoning, you still need an LLM.</div>
-    </div>
-    <div class="jv-limit">
-      <div class="jv-limit-title">Text and JSON only</div>
-      <div class="jv-limit-desc">No images or audio as input, for now.</div>
-    </div>
-  </div><!-- end .jv-limits -->
+<!-- 8. Limits -->
+<section aria-labelledby="jv-t8">
+  <h2 id="jv-t8">Keep in mind</h2>
+  <div class="jv-limit">
+    <p><b>"Can't hallucinate" ≠ always right.</b> It can't leave your format, but it can pick the wrong option.</p>
+    <p><b>Doesn't write.</b> For drafting, summarising or open reasoning, you still need an LLM.</p>
+    <p><b>Text and JSON only</b> as input for now. No images or audio.</p>
+    <p class="jv-muted">Speed and cost figures come from TypeSafe itself. Early access.</p>
+  </div>
 </section>
 
-<!-- ============================================================ -->
-<!-- Section : Key takeaway                                       -->
-<!-- ============================================================ -->
-<section class="jv-section">
-  <div class="jv-label">KEY TAKEAWAY</div>
-  <h2>The one thing to remember</h2>
+<!-- Added: key takeaway -->
+<section aria-labelledby="jv-t9">
+  <h2 id="jv-t9">The one thing to remember</h2>
   <div class="jv-card--dark">
     <p>LLMs <strong class="jv-accent-amber">talk</strong>. Jev <strong class="jv-accent-cyan">decides</strong>: one fast pass, a typed answer, a calibrated probability. It doesn't replace LLMs, it takes over the small calls they were too slow and too costly for.</p>
   </div>
 </section>
 
+<footer class="jv-footer">Sources: <a href="https://en.wikipedia.org/wiki/Jev_(AI_model)">Wikipedia (Jev)</a>, <a href="https://finance.yahoo.com/technology/ai/articles/typesafe-ai-emerges-stealth-40m-190000776.html">Yahoo Finance</a>, <a href="https://www.mindstudio.ai/blog/jev-system-one-model-launch">MindStudio</a>, DataCamp, <a href="https://www.langchain.com/blog/building-a-harness-with-jev">LangChain</a>, Firecrawl, <a href="https://dev.to/valyuai/how-to-use-jev-a-practical-guide-to-typesafes-system-one-model-g5e">DEV Community</a>. September 2026.</footer>
+
 </div><!-- end .jv-wrap -->
 
 <div class="jv-footnote">
-  <p>A plain-language overview of a newly launched model in early access, not an independent benchmark. Speed and cost figures come from TypeSafe AI itself, and the race and code examples are illustrative, not real Jev outputs.</p>
-  <p>Sources: <a href="https://en.wikipedia.org/wiki/Jev_(AI_model)">Wikipedia, Jev (AI model)</a> · <a href="https://finance.yahoo.com/technology/ai/articles/typesafe-ai-emerges-stealth-40m-190000776.html">TypeSafe launch announcement (Yahoo Finance)</a> · <a href="https://www.dcvc.com/news-insights/typesafe-emerges-from-stealth-with-a-new-way-of-doing-ai/">DCVC</a> · <a href="https://www.mindstudio.ai/blog/jev-system-one-model-launch">MindStudio</a> · <a href="https://www.langchain.com/blog/building-a-harness-with-jev">LangChain</a> · <a href="https://dev.to/valyuai/how-to-use-jev-a-practical-guide-to-typesafes-system-one-model-g5e">DEV Community</a></p>
-</div><!-- end .jv-footnote -->
+  <p>A plain-language overview of a newly launched model in early access, not an independent benchmark. The race and code examples are illustrative, not real Jev outputs.</p>
+</div>
 
 <script>
 /* ============================================================ */
@@ -289,60 +216,63 @@ excerpt: "Jev is not a chatbot and not an LLM: it is the first System One model,
 (function(){
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var NS = 'http://www.w3.org/2000/svg';
-  var C = { maroon:'#430C05', terracotta:'#D46F4D', amber:'#FFBF66', amberDark:'#B8741A', cyan:'#08C5D1', teal:'#00353F', ink:'#3A241C', muted:'#7C6257' };
+  /* Blog palette, same roles as the original artifact colors */
+  var INK = '#3A241C', SLATE = '#7C6257', MAROON = '#430C05',
+      AMBER = '#FFBF66', AMBER_TEXT = '#9C5F00',
+      CYAN = '#08C5D1', CYAN_TEXT = '#047A81';
 
   /* ---------- Architecture diagram ---------- */
   var svg = document.getElementById('jvArchSvg'), cap = document.getElementById('jvArchCap'),
       bL = document.getElementById('jvArchLLM'), bJ = document.getElementById('jvArchJev');
   if (!svg) return;
   var at = [];
-  function mk(t, a, txt, parent){ var e = document.createElementNS(NS, t); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; (parent || svg).appendChild(e); return e; }
+  function el(t, a, txt, parent){ var e = document.createElementNS(NS, t); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; (parent || svg).appendChild(e); return e; }
   function box(x, y, w, h, stroke, label, fill){
-    mk('rect', {x:x, y:y, width:w, height:h, rx:10, fill:fill || '#FFFFFF', stroke:stroke, 'stroke-width':2.5});
-    return mk('text', {x:x + w/2, y:y + h/2 + 5, 'text-anchor':'middle', 'font-size':13, 'font-weight':600, fill:fill ? C.maroon : C.ink, 'font-family':'Inter, sans-serif'}, label);
+    el('rect', {x:x, y:y, width:w, height:h, rx:10, fill:fill || 'none', stroke:stroke, 'stroke-width':2.5});
+    return el('text', {x:x + w/2, y:y + h/2 + 5, 'text-anchor':'middle', 'font-size':13, fill:fill ? MAROON : INK, 'font-family':'IBM Plex Sans, sans-serif'}, label);
   }
   function arrow(x1, y1, x2, y2, c){
-    mk('line', {x1:x1, y1:y1, x2:x2, y2:y2, stroke:c, 'stroke-width':2.5});
-    mk('path', {d:'M' + (x2-7) + ' ' + (y2-5) + 'L' + x2 + ' ' + y2 + 'L' + (x2-7) + ' ' + (y2+5), fill:'none', stroke:c, 'stroke-width':2.5});
+    el('line', {x1:x1, y1:y1, x2:x2, y2:y2, stroke:c, 'stroke-width':2.5});
+    el('path', {d:'M' + (x2-7) + ' ' + (y2-5) + 'L' + x2 + ' ' + y2 + 'L' + (x2-7) + ' ' + (y2+5), fill:'none', stroke:c, 'stroke-width':2.5});
   }
   function clear(){ at.forEach(clearTimeout); at = []; while (svg.firstChild) svg.removeChild(svg.firstChild); }
 
   function drawLLM(){
     clear(); bL.setAttribute('aria-pressed', 'true'); bJ.setAttribute('aria-pressed', 'false');
-    box(8, 20, 90, 40, C.muted, 'prompt'); arrow(98, 40, 128, 40, C.terracotta);
-    box(128, 14, 110, 52, C.terracotta, 'LLM', C.amber);
-    mk('path', {d:'M238 30 C 290 30, 290 -4, 183 8', fill:'none', stroke:C.terracotta, 'stroke-width':2, 'stroke-dasharray':'5 5'});
-    mk('text', {x:292, y:22, 'font-size':12, 'font-weight':600, fill:C.terracotta, 'font-family':'Inter, sans-serif'}, 'loop ×1 per word');
-    arrow(183, 66, 183, 92, C.terracotta);
+    box(8, 20, 90, 40, SLATE, 'prompt'); arrow(98, 40, 128, 40, AMBER);
+    box(128, 14, 110, 52, AMBER, 'LLM');
+    el('path', {d:'M238 30 C 290 30, 290 -4, 183 8', fill:'none', stroke:AMBER, 'stroke-width':2, 'stroke-dasharray':'5 5'});
+    el('text', {x:292, y:22, 'font-size':12, fill:AMBER_TEXT, 'font-family':'IBM Plex Sans, sans-serif'}, 'loop ×1 per word');
+    arrow(183, 66, 183, 92, AMBER);
     var words = ['The','email','seems','to','be','about','billing','and','looks','urgent…'];
     var x = 10, y = 112;
     var toks = words.map(function(w){
       var wd = w.length * 7.2 + 14; if (x + wd > 392){ x = 10; y += 28; }
-      var g = mk('g', {opacity: reduce ? 1 : 0, 'class':'jv-tok'});
-      mk('rect', {x:x, y:y, width:wd, height:22, rx:6, fill:'#FFF3E0', stroke:C.amberDark, 'stroke-opacity':0.6}, null, g);
-      mk('text', {x:x + wd/2, y:y + 15, 'text-anchor':'middle', 'font-size':12, fill:C.ink, 'font-family':'Inter, sans-serif'}, w, g);
+      var g = el('g', {'class':'jv-tok', opacity: reduce ? 1 : 0});
+      el('rect', {x:x, y:y, width:wd, height:22, rx:6, fill:'none', stroke:AMBER}, null, g);
+      el('text', {x:x + wd/2, y:y + 15, 'text-anchor':'middle', 'font-size':12, fill:INK, 'font-family':'IBM Plex Sans, sans-serif'}, w, g);
       x += wd + 5; return g;
     });
     if (!reduce) toks.forEach(function(g, i){ at.push(setTimeout(function(){ g.setAttribute('opacity', 1); }, 300 + i * 320)); });
-    cap.innerHTML = '<strong class="jv-accent-terracotta">Autoregressive:</strong> one full pass of the model for every word. Then your code still has to read the sentence and turn it into a decision.';
+    cap.innerHTML = '<b class="jv-t-amber">Autoregressive:</b> one full pass of the model for every word. Then your code still has to read the sentence and turn it into a decision.';
   }
 
   function drawJev(){
     clear(); bJ.setAttribute('aria-pressed', 'true'); bL.setAttribute('aria-pressed', 'false');
-    box(8, 14, 110, 36, C.muted, 'state (text/JSON)'); box(8, 60, 110, 36, C.muted, 'typed questions');
-    arrow(118, 32, 150, 62, C.teal); arrow(118, 78, 150, 78, C.teal);
-    box(150, 50, 100, 56, C.teal, 'Jev', C.cyan);
-    mk('text', {x:200, y:124, 'text-anchor':'middle', 'font-size':12, 'font-weight':600, fill:C.teal, 'font-family':'Inter, sans-serif'}, '1 single pass');
+    box(8, 14, 110, 36, SLATE, 'state (text/JSON)'); box(8, 60, 110, 36, SLATE, 'typed questions');
+    arrow(118, 32, 150, 62, CYAN); arrow(118, 78, 150, 78, CYAN);
+    box(150, 50, 100, 56, CYAN, 'Jev', CYAN);
+    el('text', {x:200, y:124, 'text-anchor':'middle', 'font-size':12, fill:CYAN_TEXT, 'font-family':'IBM Plex Sans, sans-serif'}, '1 single pass');
     var outs = [['urgent: yes','92%'], ['team: billing','88%'], ['anger: 0.74','']];
     outs.forEach(function(o, i){
       var y = 22 + i * 44;
-      var g = mk('g', {opacity: reduce ? 1 : 0, 'class':'jv-tok'});
-      mk('rect', {x:268, y:y, width:128, height:34, rx:8, fill:'#FFFFFF', stroke:C.teal, 'stroke-width':2}, null, g);
-      mk('text', {x:275, y:y + 22, 'font-size':11, fill:C.teal, 'font-family':'JetBrains Mono, monospace'}, o[0] + (o[1] ? '  ' + o[1] : ''), g);
+      var g = el('g', {'class':'jv-tok', opacity: reduce ? 1 : 0});
+      el('rect', {x:268, y:y, width:128, height:34, rx:8, fill:'none', stroke:CYAN, 'stroke-width':2}, null, g);
+      el('text', {x:275, y:y + 22, 'font-size':11, fill:INK, 'font-family':'IBM Plex Mono, monospace'}, o[0] + (o[1] ? '  ' + o[1] : ''), g);
       if (!reduce) at.push(setTimeout(function(){ g.setAttribute('opacity', 1); }, 450));
     });
-    arrow(250, 78, 266, 78, C.teal);
-    cap.innerHTML = '<strong class="jv-accent-teal">Single pass:</strong> all questions answered at once, each as a typed value with a probability. Software uses it directly.';
+    arrow(250, 78, 266, 78, CYAN);
+    cap.innerHTML = '<b class="jv-t-teal">Single pass:</b> all questions answered at once, each as a typed value with a probability. Software uses it directly.';
   }
   bL.onclick = drawLLM; bJ.onclick = drawJev; drawLLM();
 
@@ -388,492 +318,216 @@ excerpt: "Jev is not a chatbot and not an LLM: it is the first System One model,
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap');
+
 /* ============================================================ */
 /* Scope: all CSS for this article lives under .jv-wrap          */
-/* Colors match the blog's official palette                      */
-/* (assets/main.scss): maroon / terracotta / amber / cyan / teal  */
+/* Same layout as the original artifact, blog palette colors     */
 /* ============================================================ */
-
-/* Fraunces merges some letter pairs by default ("fa", "fi"...):
-   keep each letter drawn separately. */
-.jv-wrap, .jv-wrap * {
-  -webkit-font-variant-ligatures: none;
-  font-variant-ligatures: none;
-  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
-}
-
 .jv-wrap {
-  --maroon: #430C05;
-  --terracotta: #D46F4D;
-  --amber: #FFBF66;
-  --cyan: #08C5D1;
-  --teal: #00353F;
-  --paper: #FBF7F2;
-  --card: #FFFFFF;
-  --ink: #3A241C;
-  --muted: #7C6257;
+  --ink: #3A241C;          /* original light text   -> blog ink       */
+  --head: #430C05;         /* headings              -> blog maroon    */
+  --teal: #08C5D1;         /* original mint accent  -> blog cyan      */
+  --teal-text: #047A81;    /* same hue, dark enough for text          */
+  --amber: #FFBF66;        /* original amber        -> blog amber     */
+  --amber-text: #9C5F00;   /* same hue, dark enough for text          */
+  --slate: #7C6257;        /* original slate        -> blog muted     */
+  --panel: #FFFFFF;        /* original dark panel   -> white card     */
   --line: #EADFD5;
+  --code: #00353F;         /* original code block   -> blog teal      */
+
+  color: var(--ink);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
-
-/* ---------- Sections & headings ---------- */
-.jv-wrap .jv-section { margin: 0 0 3.2em; }
-
+.jv-wrap h2, .jv-wrap h3, .jv-wrap .jv-h1 {
+  font-family: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  color: var(--head);
+  margin: 0;
+  line-height: 1.05;
+  font-variant-ligatures: normal;
+  font-feature-settings: normal;
+}
+.jv-wrap .jv-h1 { font-size: clamp(3.2rem, 15vw, 6rem); font-weight: 800; letter-spacing: -.03em; }
 /* The site theme adds border-top/margin-top/padding-top to every
-   .post-content h2: neutralize so the label sits right above it. */
+   .post-content h2: neutralize to keep the original spacing. */
 .jv-wrap h2 {
+  font-size: clamp(1.6rem, 6vw, 2.3rem) !important;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  margin: 0 0 .4em !important;
   border-top: none !important;
-  margin-top: 0 !important;
   padding-top: 0 !important;
 }
-
-.jv-wrap .jv-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--terracotta);
-  margin-bottom: 6px;
+.jv-wrap h3 { font-size: 1.2rem; margin: .5em 0 .2em; }
+.jv-wrap p { margin: .3em 0; color: var(--ink); }
+.jv-wrap b { color: var(--ink); }
+.jv-wrap .jv-sub { font-size: 1.3rem; margin-top: .5em; }
+.jv-wrap .jv-muted, .jv-wrap p.jv-muted { color: var(--slate); }
+.jv-wrap .jv-ink { color: var(--ink); }
+.jv-wrap section { margin-top: 72px; }
+.jv-wrap .jv-after { margin-top: 14px; }
+.jv-wrap svg { display: block; max-width: 100%; height: auto; }
+.jv-wrap .jv-mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+.jv-wrap .jv-t-teal  { color: var(--teal-text); }
+.jv-wrap .jv-t-amber { color: var(--amber-text); }
+.jv-wrap .jv-pill {
+  display: inline-block;
+  border: 1.5px solid var(--teal);
+  color: var(--teal-text);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-weight: 500;
+  margin-top: 14px;
 }
 
-.jv-wrap .jv-intro {
-  color: var(--muted) !important;
-  font-size: 1.05rem;
-  margin-bottom: 22px;
+/* Buttons */
+.jv-wrap button {
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 9px 15px;
+  border: 1.5px solid var(--slate);
+  background: transparent;
+  color: var(--ink);
 }
-.jv-wrap .jv-intro strong { color: var(--maroon); }
+.jv-wrap button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #FBF7F2; }
+.jv-wrap button.jv-go { border-color: var(--teal); background: var(--teal); color: var(--head); font-weight: 600; margin-top: 14px; }
+.jv-wrap button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+.jv-wrap .jv-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.jv-wrap .jv-stage { margin-top: 22px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
 
-.jv-wrap .jv-note {
-  margin-top: 12px;
-  font-size: 14px;
-  color: var(--muted) !important;
-}
-
-.jv-wrap .jv-mono { font-family: 'JetBrains Mono', Consolas, monospace; }
-.jv-wrap .jv-accent-amber      { color: var(--amber); }
-.jv-wrap .jv-accent-cyan       { color: var(--cyan); }
-.jv-wrap .jv-accent-teal       { color: var(--teal); }
-.jv-wrap .jv-accent-terracotta { color: #B4502F; }
-
-
-/* ---------- Hero: LLM side vs Jev side ---------- */
+/* Added: basic idea hero */
 .jv-wrap .jv-hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 12px 30px rgba(67, 12, 5, 0.18);
+  margin-top: 16px;
 }
-.jv-wrap .jv-hero-side { padding: 24px 22px 20px; display: flex; flex-direction: column; gap: 12px; }
-.jv-wrap .jv-hero-tag {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1;
-}
-.jv-wrap .jv-hero-in { font-size: 13px; opacity: 0.85; }
-.jv-wrap .jv-hero-out {
-  border-radius: 12px;
-  padding: 12px 14px;
-  font-size: 14px;
-  line-height: 1.45;
-  flex: 1;
-}
-.jv-wrap .jv-hero-foot {
-  font-family: 'JetBrains Mono', Consolas, monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+.jv-wrap .jv-hero-side { padding: 22px 20px 18px; display: flex; flex-direction: column; gap: 12px; color: var(--head); }
+.jv-wrap .jv-hero-side--llm { background: var(--amber); }
+.jv-wrap .jv-hero-side--jev { background: var(--teal); }
+.jv-wrap .jv-hero-tag { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; font-size: 1.6rem; line-height: 1; }
+.jv-wrap .jv-hero-in { font-size: .9rem; }
+.jv-wrap .jv-hero-out { background: var(--panel); border-radius: 12px; padding: 12px 14px; font-size: .95rem; flex: 1; color: var(--ink); }
+.jv-wrap .jv-hero-side--jev .jv-hero-out { display: flex; align-items: center; font-size: 1.05rem; }
+.jv-wrap .jv-hero-side--jev .jv-hero-out b { color: var(--teal-text); }
+.jv-wrap .jv-hero-foot { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; }
 
-.jv-wrap .jv-hero-side--llm { background: var(--amber); color: var(--maroon); }
-.jv-wrap .jv-hero-side--llm .jv-hero-out { background: #FFFFFF; color: var(--ink); }
-.jv-wrap .jv-hero-side--jev { background: var(--teal); color: #FBF7F2; }
-.jv-wrap .jv-hero-side--jev .jv-hero-tag,
-.jv-wrap .jv-hero-side--jev .jv-hero-foot { color: var(--cyan); }
-.jv-wrap .jv-hero-side--jev .jv-hero-out {
-  background: var(--cyan);
-  color: var(--maroon);
-  font-size: 17px;
-  display: flex;
-  align-items: center;
-}
-
-
-/* ---------- Interactive stage ---------- */
-.jv-wrap .jv-stage {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 1px 2px rgba(67, 12, 5, 0.05);
-}
-.jv-wrap .jv-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-.jv-wrap .jv-chip,
-.jv-wrap .jv-go {
-  font: inherit;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  border-radius: 999px;
-  padding: 8px 15px;
-  border: 1.5px solid var(--muted);
-  background: transparent;
-  color: var(--ink);
-}
-.jv-wrap .jv-chip[aria-pressed="true"] { border-color: var(--maroon); background: var(--maroon); color: #FBF7F2; }
-.jv-wrap .jv-go { margin-top: 12px; border-color: var(--teal); background: var(--teal); color: var(--cyan); }
-.jv-wrap .jv-chip:focus-visible,
-.jv-wrap .jv-go:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
-
-.jv-wrap .jv-arch { display: block; width: 100%; height: auto; margin-top: 16px; }
+/* Architecture */
+.jv-wrap .jv-arch { margin-top: 16px; width: 100%; }
+.jv-wrap .jv-cap { min-height: 3em; margin-top: 10px; }
 .jv-wrap .jv-tok { transition: opacity .3s; }
-.jv-wrap .jv-cap { min-height: 3em; margin: 10px 0 0; font-size: 15px; color: var(--ink) !important; }
+.jv-wrap .jv-fam { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+.jv-wrap .jv-fam > div { border-radius: 16px; padding: 16px; border: 1.5px solid var(--line); background: var(--panel); }
+.jv-wrap .jv-fam .l { border-color: var(--amber); }
+.jv-wrap .jv-fam .r { border-color: var(--teal); }
+.jv-wrap .jv-fam .l h3 { color: var(--amber-text); }
+.jv-wrap .jv-fam .r h3 { color: var(--teal-text); }
+.jv-wrap .jv-fam p { font-size: .95rem; }
 
-.jv-wrap .jv-q {
-  margin: 16px 0 4px;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 18px;
-  color: var(--maroon) !important;
-}
+/* System 1 */
+.jv-wrap .jv-sys { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+.jv-wrap .jv-sys > div { padding: 16px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); }
+.jv-wrap .jv-sys svg { width: 72px; height: 72px; }
+.jv-wrap .jv-sys .jv-eg { font-size: .92rem; color: var(--slate); }
 
-
-/* ---------- Two-column pairs (families, System 1/2) ---------- */
-.jv-wrap .jv-pair {
-  margin-top: 16px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 16px;
-}
-
-.jv-wrap .jv-fam { border-radius: 16px; padding: 22px 24px; box-shadow: 0 8px 22px rgba(67, 12, 5, 0.14); }
-.jv-wrap .jv-fam-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.jv-wrap .jv-fam-desc { font-size: 14.5px; line-height: 1.5; }
-.jv-wrap .jv-fam--amber { background: var(--amber); color: var(--maroon); }
-.jv-wrap .jv-fam--teal  { background: var(--teal); color: #FBF7F2; }
-.jv-wrap .jv-fam--teal .jv-fam-title { color: var(--cyan); }
-
-.jv-wrap .jv-sys { border-radius: 16px; padding: 24px; color: var(--maroon); box-shadow: 0 8px 22px rgba(67, 12, 5, 0.14); }
-.jv-wrap .jv-sys svg { display: block; margin-bottom: 12px; }
-.jv-wrap .jv-sys-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 19px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.jv-wrap .jv-sys-desc { font-size: 15px; font-weight: 600; }
-.jv-wrap .jv-sys-eg { margin-top: 6px; font-size: 14px; line-height: 1.5; opacity: 0.85; }
-.jv-wrap .jv-sys--cyan  { background: var(--cyan); }
-.jv-wrap .jv-sys--amber { background: var(--amber); }
-
-
-/* ---------- Callout ---------- */
-.jv-wrap .jv-callout {
-  margin-top: 16px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-left: 6px solid var(--terracotta);
-  border-radius: 4px 14px 14px 4px;
-  padding: 18px 22px;
-}
-.jv-wrap .jv-callout p { margin: 0; font-size: 15px; color: var(--ink) !important; }
-.jv-wrap .jv-callout strong { color: var(--maroon); }
-
-
-/* ---------- Race lanes ---------- */
-.jv-wrap .jv-lanes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 14px;
-}
-.jv-wrap .jv-lane {
-  border-radius: 14px;
-  padding: 14px;
-  min-height: 210px;
-  display: flex;
-  flex-direction: column;
-}
-.jv-wrap .jv-lane--llm { background: #FFF3E0; border: 2px solid var(--amber); }
-.jv-wrap .jv-lane--jev { background: var(--teal); color: #FBF7F2; }
-.jv-wrap .jv-who {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
-  font-size: 18px;
-}
-.jv-wrap .jv-lane--llm .jv-who { color: var(--maroon); }
-.jv-wrap .jv-lane--jev .jv-who { color: var(--cyan); }
-.jv-wrap .jv-clock {
-  font-family: 'JetBrains Mono', Consolas, monospace;
-  font-variant-numeric: tabular-nums;
-  font-size: 12px;
-  opacity: 0.75;
-  margin-bottom: 8px;
-}
-.jv-wrap .jv-out { font-size: 14.5px; line-height: 1.5; flex: 1; }
-.jv-wrap .jv-lane--llm .jv-out { white-space: pre-wrap; color: var(--ink); }
-
-.jv-wrap .jv-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 7px 0;
-  border-bottom: 1px solid rgba(8, 197, 209, 0.25);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity .25s, transform .25s;
-}
+/* Race */
+.jv-wrap .jv-q { margin: 16px 0 4px; font-size: 1.05rem; }
+.jv-wrap .jv-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.jv-wrap .jv-lane { border-radius: 14px; padding: 14px; border: 1.5px solid var(--line); min-height: 210px; display: flex; flex-direction: column; }
+.jv-wrap .jv-lane.llm { border-color: var(--amber); }
+.jv-wrap .jv-lane.jev { border-color: var(--teal); }
+.jv-wrap .jv-who { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; font-size: 1.1rem; }
+.jv-wrap .jv-lane.llm .jv-who { color: var(--amber-text); }
+.jv-wrap .jv-lane.jev .jv-who { color: var(--teal-text); }
+.jv-wrap .jv-clock { font-variant-numeric: tabular-nums; font-size: .9rem; color: var(--slate); margin-bottom: 8px; }
+.jv-wrap .jv-out { font-size: .95rem; flex: 1; }
+.jv-wrap .llm .jv-out { white-space: pre-wrap; }
+.jv-wrap .jv-row { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(4px); transition: opacity .25s, transform .25s; }
 .jv-wrap .jv-row.on { opacity: 1; transform: none; }
-.jv-wrap .jv-row b { color: var(--amber); }
-.jv-wrap .jv-bar {
-  display: block;
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(251, 247, 242, 0.18);
-  margin-top: 4px;
-  overflow: hidden;
-}
-.jv-wrap .jv-bar i { display: block; height: 100%; background: var(--cyan); }
+.jv-wrap .jv-row b { color: var(--teal-text); }
+.jv-wrap .jv-bar { display: block; height: 6px; border-radius: 3px; background: var(--line); margin-top: 4px; overflow: hidden; }
+.jv-wrap .jv-bar i { display: block; height: 100%; background: var(--teal); }
 
-
-/* ---------- Under the hood: numbered steps ---------- */
-.jv-wrap .jv-steps {
-  list-style: none;
-  padding: 0 0 0 22px;
-  margin: 0;
-  border-left: 6px solid var(--cyan);
-  counter-reset: jvs;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-.jv-wrap .jv-steps li {
-  counter-increment: jvs;
-  display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 2px 16px;
-  margin: 0;
-}
-.jv-wrap .jv-steps li::before {
-  content: counter(jvs);
-  grid-row: span 2;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--cyan);
-  color: var(--maroon);
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 20px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.jv-wrap .jv-step-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--maroon);
-  padding-top: 9px;
-}
-.jv-wrap .jv-step-desc { font-size: 15px; color: var(--ink); line-height: 1.5; }
-.jv-wrap .jv-step-desc strong { color: var(--maroon); }
-
-
-/* ---------- Code blocks ---------- */
-.jv-wrap .jv-codes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 16px;
-  margin-top: 24px;
-}
-.jv-wrap .jv-code-lbl {
-  font-family: 'JetBrains Mono', Consolas, monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
+/* Under the hood */
+.jv-wrap .jv-steps { list-style: none; padding: 0; margin: 18px 0 0; counter-reset: jvs; }
+.jv-wrap .jv-steps li { counter-increment: jvs; display: grid; grid-template-columns: 40px 1fr; gap: 4px 12px; margin-bottom: 18px; }
+.jv-wrap .jv-steps li::before { content: counter(jvs); grid-row: span 2; width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--teal); color: var(--teal-text); display: grid; place-items: center; font-weight: 600; }
+.jv-wrap .jv-steps > li > b { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 1.1rem; color: var(--head); }
 .jv-wrap pre.jv-pre {
-  background: var(--teal) !important;
+  background: var(--code) !important;
   color: #FBF7F2 !important;
-  border-radius: 14px !important;
-  padding: 16px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
   margin: 0 !important;
   overflow-x: auto;
-  font-family: 'JetBrains Mono', Consolas, monospace;
-  font-size: 13px;
-  line-height: 1.6;
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-size: .82rem;
+  line-height: 1.55;
 }
 .jv-wrap pre.jv-pre .k { color: #9FB7BC; }
-.jv-wrap pre.jv-pre .v { color: var(--cyan); }
+.jv-wrap pre.jv-pre .v { color: var(--teal); }
 .jv-wrap pre.jv-pre .a { color: var(--amber); }
+.jv-wrap .jv-codes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+.jv-wrap .jv-codes .jv-lbl { font-size: .9rem; color: var(--slate); margin-bottom: 6px; }
+.jv-wrap .jv-calib { margin-top: 18px; }
 
+/* Numbers */
+.jv-wrap .jv-nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+.jv-wrap .jv-n { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; font-size: clamp(1.7rem, 6vw, 2.4rem); color: var(--teal-text); line-height: 1; }
 
-/* ---------- Calibration highlight ---------- */
-.jv-wrap .jv-origin {
-  margin-top: 20px;
-  display: flex;
-  gap: 22px;
-  align-items: center;
-  background: var(--terracotta);
-  color: var(--maroon);
-  border-radius: 16px;
-  padding: 22px 26px;
-  box-shadow: 0 8px 22px rgba(67, 12, 5, 0.14);
-}
-.jv-wrap .jv-origin-big {
-  flex-shrink: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 46px;
-  font-weight: 700;
-  line-height: 1;
-}
-.jv-wrap .jv-origin p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--maroon) !important; }
+/* Uses */
+.jv-wrap ul.jv-uses { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 12px; }
+.jv-wrap ul.jv-uses li { display: flex; gap: 14px; align-items: center; margin: 0; }
+.jv-wrap ul.jv-uses svg { flex: 0 0 44px; width: 44px; height: 44px; }
 
+/* Timeline */
+.jv-wrap ol.jv-tl { list-style: none; padding: 0; margin: 20px 0 0; border-left: 2px solid var(--slate); }
+.jv-wrap ol.jv-tl li { position: relative; padding: 0 0 20px 22px; margin: 0; }
+.jv-wrap ol.jv-tl li::before { content: ""; position: absolute; left: -7px; top: .45em; width: 12px; height: 12px; border-radius: 50%; background: var(--teal); }
+.jv-wrap .jv-yr { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--head); }
 
-/* ---------- Big numbers ---------- */
-.jv-wrap .jv-nums {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-}
-.jv-wrap .jv-bignum {
-  border-radius: 16px;
-  padding: 22px 24px;
-  box-shadow: 0 8px 22px rgba(67, 12, 5, 0.14);
-}
-.jv-wrap .jv-bignum-value {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 34px;
-  font-weight: 700;
-  line-height: 1.05;
-  margin-bottom: 10px;
-}
-.jv-wrap .jv-bignum-text { font-size: 14.5px; line-height: 1.5; }
-.jv-wrap .jv-bignum--maroon { background: var(--maroon); color: #FBF7F2; }
-.jv-wrap .jv-bignum--maroon .jv-bignum-value { color: var(--amber); }
-.jv-wrap .jv-bignum--amber  { background: var(--amber); color: var(--maroon); }
-.jv-wrap .jv-bignum--teal   { background: var(--teal); color: #FBF7F2; }
-.jv-wrap .jv-bignum--teal .jv-bignum-value { color: var(--cyan); }
-.jv-wrap .jv-numsrc {
-  margin-top: 8px;
-  font-family: 'JetBrains Mono', Consolas, monospace;
-  font-size: 11px;
-  color: var(--muted);
-}
+/* Limits */
+.jv-wrap .jv-limit { margin-top: 14px; border-left: 4px solid var(--amber); padding: 4px 0 4px 16px; }
+.jv-wrap .jv-limit p { margin: .5em 0; }
 
+/* Added: key takeaway */
+.jv-wrap .jv-card--dark { background: linear-gradient(135deg, #430C05 0%, #5A1608 100%); border-radius: 16px; padding: 26px 28px; }
+.jv-wrap .jv-card--dark p { margin: 0; font-size: 1.05rem; color: #FBF7F2; }
+.jv-wrap .jv-accent-amber { color: var(--amber); }
+.jv-wrap .jv-accent-cyan  { color: var(--teal); }
 
-/* ---------- Uses: one full-color card per use ---------- */
-.jv-wrap .jv-uses {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-.jv-wrap .jv-use { border-radius: 16px; padding: 24px; box-shadow: 0 8px 22px rgba(67, 12, 5, 0.14); }
-.jv-wrap .jv-use svg { display: block; margin-bottom: 12px; }
-.jv-wrap .jv-use-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.jv-wrap .jv-use-desc { font-size: 14.5px; line-height: 1.5; }
-.jv-wrap .jv-use--terracotta { background: var(--terracotta); color: var(--maroon); }
-.jv-wrap .jv-use--terracotta .jv-use-title { color: var(--maroon); }
-.jv-wrap .jv-use--teal  { background: var(--teal); color: #FBF7F2; }
-.jv-wrap .jv-use--teal .jv-use-title { color: var(--cyan); }
-.jv-wrap .jv-use--amber { background: var(--amber); color: var(--maroon); }
-.jv-wrap .jv-use--cyan  { background: var(--cyan); color: var(--maroon); }
+/* Footer (original sources line) */
+.jv-wrap .jv-footer { margin-top: 64px; font-size: .85rem; color: var(--slate); }
+.jv-wrap .jv-footer a { color: var(--slate); text-decoration: underline; }
 
-
-/* ---------- Story: numbered steps on a terracotta rail ---------- */
-.jv-wrap .jv-story {
-  border-left: 6px solid var(--terracotta);
-  padding-left: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-.jv-wrap .jv-story-step { display: flex; gap: 16px; align-items: flex-start; }
-.jv-wrap .jv-story-num {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--terracotta);
-  color: var(--maroon);
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 20px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.jv-wrap .jv-story-text { font-size: 15.5px; color: var(--ink); padding-top: 9px; }
-.jv-wrap .jv-story-text strong { color: var(--maroon); }
-
-
-/* ---------- Limits ---------- */
-.jv-wrap .jv-limits {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-left: 6px solid var(--amber);
-  border-radius: 4px 16px 16px 4px;
-  padding: 6px 24px;
-}
-.jv-wrap .jv-limit { padding: 14px 0; border-bottom: 1px solid var(--line); }
-.jv-wrap .jv-limit:last-child { border-bottom: none; }
-.jv-wrap .jv-limit-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--maroon);
-}
-.jv-wrap .jv-limit-desc { font-size: 14.5px; color: var(--muted); line-height: 1.5; }
-
-
-/* ---------- Dark takeaway card ---------- */
-.jv-wrap .jv-card--dark {
-  background: linear-gradient(135deg, var(--maroon) 0%, #5A1608 100%);
-  border-radius: 16px;
-  padding: 28px 30px;
-  box-shadow: 0 10px 28px rgba(67, 12, 5, 0.22);
-}
-.jv-wrap .jv-card--dark p { margin: 0; font-size: 17px; color: #FBF7F2 !important; }
-
-
-/* ---------- Caution note in the footer ---------- */
+/* Added: caution note */
 .jv-footnote {
-  margin-top: 44px;
+  margin-top: 32px;
   padding-top: 18px;
   border-top: 1px solid #EADFD5;
   font-family: 'JetBrains Mono', Consolas, monospace;
   font-size: 11px;
   color: #7C6257;
 }
-.jv-footnote p { margin: 0 0 8px; }
-.jv-footnote a { color: #7C6257; text-decoration: underline; }
+.jv-footnote p { margin: 0; }
 
-
-/* ---------- Small screens ---------- */
-@media (max-width: 600px) {
-  .jv-wrap .jv-hero { grid-template-columns: 1fr; }
-  .jv-wrap .jv-lanes { grid-template-columns: 1fr; }
-  .jv-wrap .jv-uses { grid-template-columns: 1fr; }
+/* Small screens */
+@media (max-width: 540px) {
+  .jv-wrap .jv-fam, .jv-wrap .jv-sys, .jv-wrap .jv-lanes, .jv-wrap .jv-nums, .jv-wrap .jv-hero { grid-template-columns: 1fr; }
   .jv-wrap .jv-lane { min-height: 0; }
-  .jv-wrap .jv-stage { padding: 16px 14px; }
-  .jv-wrap .jv-origin { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
-
+@media (max-width: 600px) {
+  .jv-wrap .jv-codes { grid-template-columns: 1fr; }
+}
 @media (prefers-reduced-motion: reduce) {
   .jv-wrap * { transition: none !important; animation: none !important; }
 }
