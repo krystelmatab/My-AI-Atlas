@@ -13,4 +13,5 @@ A living library of articles, discoveries, reflections, and learnings gathered t
 - [LangChain, Mapped in Three Modules](_posts/2026-08-26-langchain-foundations-course-recap.html)
 - [What Is Vibe Coding?](_posts/2026-07-17-what-is-vibe-coding.html)
 - [What Is Shadow AI?](_posts/2026-09-25-what-is-shadow-ai.html)
+- [What Is Jev? The AI That Doesn't Talk, It Decides](_posts/2026-09-26-what-is-jev-system-one-model.html)
 
