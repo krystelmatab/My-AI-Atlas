@@ -53,7 +53,7 @@ excerpt: "An AI that doesn't talk. It decides. Jev is not a chatbot and not an L
 
   <div class="jv-stage">
     <div class="jv-chips" role="group" aria-label="Choose a model type">
-      <button type="button" id="jvArchLLM" aria-pressed="true">How an LLM answers</button>
+      <button type="button" id="jvArchLLM" aria-pressed="false">How an LLM answers</button>
       <button type="button" id="jvArchJev" aria-pressed="false">How Jev answers</button>
     </div>
     <svg class="jv-arch" id="jvArchSvg" viewBox="0 0 400 170" role="img" aria-label="Diagram comparing how the two models produce an answer"></svg>
@@ -231,19 +231,36 @@ excerpt: "An AI that doesn't talk. It decides. Jev is not a chatbot and not an L
     el('rect', {x:x, y:y, width:w, height:h, rx:10, fill:fill || 'none', stroke:stroke, 'stroke-width':2.5});
     return el('text', {x:x + w/2, y:y + h/2 + 5, 'text-anchor':'middle', 'font-size':13, fill:fill ? MAROON : INK, 'font-family':'IBM Plex Sans, sans-serif'}, label);
   }
+  /* Arrowhead drawn at (x, y), pointing in the direction of angle a (radians) */
+  function head(x, y, a, c){
+    var l = 8, s = 5, bx = x - l * Math.cos(a), by = y - l * Math.sin(a);
+    el('path', {d:'M' + (bx - s * Math.sin(a)) + ' ' + (by + s * Math.cos(a)) + 'L' + x + ' ' + y + 'L' + (bx + s * Math.sin(a)) + ' ' + (by - s * Math.cos(a)),
+      fill:'none', stroke:c, 'stroke-width':2.5, 'stroke-linecap':'round', 'stroke-linejoin':'round'});
+  }
   function arrow(x1, y1, x2, y2, c){
-    el('line', {x1:x1, y1:y1, x2:x2, y2:y2, stroke:c, 'stroke-width':2.5});
-    el('path', {d:'M' + (x2-7) + ' ' + (y2-5) + 'L' + x2 + ' ' + y2 + 'L' + (x2-7) + ' ' + (y2+5), fill:'none', stroke:c, 'stroke-width':2.5});
+    el('line', {x1:x1, y1:y1, x2:x2, y2:y2, stroke:c, 'stroke-width':2.5, 'stroke-linecap':'round'});
+    head(x2, y2, Math.atan2(y2 - y1, x2 - x1), c);
   }
   function clear(){ at.forEach(clearTimeout); at = []; while (svg.firstChild) svg.removeChild(svg.firstChild); }
 
+  /* Starting state: nothing plays until the reader clicks a button */
+  function drawIntro(){
+    clear();
+    el('rect', {x:6, y:6, width:388, height:158, rx:14, fill:'none', stroke:SLATE, 'stroke-width':1.5, 'stroke-dasharray':'6 6'});
+    el('text', {x:200, y:78, 'text-anchor':'middle', 'font-size':15, 'font-weight':600, fill:INK, 'font-family':'IBM Plex Sans, sans-serif'}, 'Click a button above');
+    el('text', {x:200, y:100, 'text-anchor':'middle', 'font-size':13, fill:SLATE, 'font-family':'IBM Plex Sans, sans-serif'}, 'to see, step by step, how each model answers');
+    cap.innerHTML = 'Start with <b>How an LLM answers</b>, then compare with <b>How Jev answers</b>. Click again to replay.';
+  }
+
   function drawLLM(){
     clear(); bL.setAttribute('aria-pressed', 'true'); bJ.setAttribute('aria-pressed', 'false');
-    box(8, 20, 90, 40, SLATE, 'prompt'); arrow(98, 40, 128, 40, AMBER);
+    box(8, 20, 90, 40, SLATE, 'prompt'); arrow(98, 40, 126, 40, AMBER);
     box(128, 14, 110, 52, AMBER, 'LLM');
-    el('path', {d:'M238 30 C 290 30, 290 -4, 183 8', fill:'none', stroke:AMBER, 'stroke-width':2, 'stroke-dasharray':'5 5'});
-    el('text', {x:292, y:22, 'font-size':12, fill:AMBER_TEXT, 'font-family':'IBM Plex Sans, sans-serif'}, 'loop ×1 per word');
-    arrow(183, 66, 183, 92, AMBER);
+    /* Loop on the right side of the box: out, around, and back in */
+    el('path', {d:'M238 28 C 282 28, 282 52, 241 52', fill:'none', stroke:AMBER, 'stroke-width':2, 'stroke-dasharray':'5 5'});
+    head(241, 52, Math.PI, AMBER);
+    el('text', {x:288, y:45, 'font-size':12, fill:AMBER_TEXT, 'font-family':'IBM Plex Sans, sans-serif'}, 'loop ×1 per word');
+    arrow(183, 68, 183, 104, AMBER);
     var words = ['The','email','seems','to','be','about','billing','and','looks','urgent…'];
     var x = 10, y = 112;
     var toks = words.map(function(w){
@@ -274,7 +291,7 @@ excerpt: "An AI that doesn't talk. It decides. Jev is not a chatbot and not an L
     arrow(250, 78, 266, 78, CYAN);
     cap.innerHTML = '<b class="jv-t-teal">Single pass:</b> all questions answered at once, each as a typed value with a probability. Software uses it directly.';
   }
-  bL.onclick = drawLLM; bJ.onclick = drawJev; drawLLM();
+  bL.onclick = drawLLM; bJ.onclick = drawJev; drawIntro();
 
   /* ---------- Race ---------- */
   var S = [
