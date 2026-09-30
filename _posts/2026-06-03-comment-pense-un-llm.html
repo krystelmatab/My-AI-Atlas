@@ -1,7 +1,7 @@
 ---
-title: "Comment pense vraiment un LLM"
+title: "How an LLM Really Thinks"
 date: 2026-06-03
-excerpt: "Un seul passage avant, décomposé étape par étape : tokenisation, vecteurs, attention et tirage du mot suivant — animé sous vos yeux."
+excerpt: "A single forward pass, broken down step by step: tokenization, vectors, attention and next-word sampling, animated before your eyes."
 ---
 
 <style>
@@ -322,121 +322,121 @@ excerpt: "Un seul passage avant, décomposé étape par étape : tokenisation, v
 
 <div class="llm-tags">
   <span class="llm-topic">LLM</span>
-  <span class="llm-topic">Fondamentaux</span>
+  <span class="llm-topic">Fundamentals</span>
   <span class="llm-topic">Transformer</span>
 </div>
 
-<p class="llm-lede">Pas de magie, pas de raisonnement caché : une suite d'opérations mathématiques répétée un mot à la fois. Cette page fait tourner <strong>un vrai passage</strong> sous vos yeux, étape par étape.</p>
+<p class="llm-lede">No magic, no hidden reasoning: a series of mathematical operations repeated one word at a time. This page runs <strong>a real pass</strong> before your eyes, step by step.</p>
 
 <!-- ============================================================ -->
-<!-- Section : Étape 1 — tokenisation                              -->
+<!-- Section : Step 1, tokenization                                -->
 <!-- ============================================================ -->
 <div class="llm-step">
-  <span class="llm-tag">Étape 1 / 4</span>
-  <h2>La phrase devient des jetons</h2>
-  <p class="llm-text">Le modèle ne lit pas des mots. Il découpe le texte en <strong>tokens</strong> — des fragments (mots entiers, bouts de mots, ponctuation) tirés d'un vocabulaire fixe d'environ 100 000 entrées. Chaque token reçoit un identifiant numérique.</p>
+  <span class="llm-tag">Step 1 / 4</span>
+  <h2>The sentence becomes tokens</h2>
+  <p class="llm-text">The model does not read words. It splits the text into <strong>tokens</strong>: fragments (whole words, pieces of words, punctuation) drawn from a fixed vocabulary of about 100,000 entries. Each token gets a numeric identifier.</p>
 
-  <div class="llm-sentence">« Le chat dort sur le »</div>
+  <div class="llm-sentence">"The cat sleeps on the"</div>
   <div class="llm-tokens" id="llmTokens"></div>
 
-  <div class="llm-callout">Ce que le modèle reçoit réellement : <span class="hl">[496, 1723, 5089, 402, 496]</span> — une liste d'entiers, rien d'autre.</div>
-</div><!-- fin étape 1 -->
+  <div class="llm-callout">What the model actually receives: <span class="hl">[976, 1723, 5089, 402, 496]</span>, a list of integers, nothing else.</div>
+</div><!-- end step 1 -->
 
 <!-- ============================================================ -->
-<!-- Section : Étape 2 — vecteurs                                  -->
+<!-- Section : Step 2, vectors                                      -->
 <!-- ============================================================ -->
 <div class="llm-step">
-  <span class="llm-tag">Étape 2 / 4</span>
-  <h2>Chaque jeton devient un vecteur</h2>
-  <p class="llm-text">Chaque identifiant est converti en un <strong>vecteur</strong> — une liste de plusieurs centaines de nombres qui positionne le mot dans un espace géométrique. Les mots au sens proche finissent avec des vecteurs proches. C'est ici, et seulement ici, que le modèle « comprend » quelque chose au sens du calcul.</p>
+  <span class="llm-tag">Step 2 / 4</span>
+  <h2>Each token becomes a vector</h2>
+  <p class="llm-text">Each identifier is converted into a <strong>vector</strong>: a list of several hundred numbers that places the word in a geometric space. Words with similar meanings end up with similar vectors. This is where, and only where, the model "understands" something in the computational sense.</p>
 
   <div class="llm-vecs" id="llmVecs"></div>
 
-  <div class="llm-callout">« chat » et « chien » : vecteurs proches. « chat » et « voiture » : vecteurs éloignés. La proximité géométrique <em>est</em> la notion de sens, pour le modèle.</div>
-</div><!-- fin étape 2 -->
+  <div class="llm-callout">"cat" and "dog": close vectors. "cat" and "car": distant vectors. Geometric closeness <em>is</em> the notion of meaning, for the model.</div>
+</div><!-- end step 2 -->
 
 <!-- ============================================================ -->
-<!-- Section : Étape 3 — attention                                 -->
+<!-- Section : Step 3, attention                                   -->
 <!-- ============================================================ -->
 <div class="llm-step">
-  <span class="llm-tag">Étape 3 / 4</span>
-  <h2>L'attention pondère le contexte</h2>
-  <p class="llm-text">Avant de produire le mot suivant, le modèle fait relire à <strong>chaque token</strong> tous les autres tokens de la phrase, et calcule combien chacun compte pour lui. C'est le mécanisme d'<strong>attention</strong> — le vrai cœur du Transformer.</p>
+  <span class="llm-tag">Step 3 / 4</span>
+  <h2>Attention weighs the context</h2>
+  <p class="llm-text">Before producing the next word, the model has <strong>each token</strong> reread all the other tokens in the sentence, and calculates how much each one matters to it. This is the <strong>attention</strong> mechanism, the real heart of the Transformer.</p>
 
   <div class="llm-attn">
     <div class="llm-attn-words" id="llmAttn"></div>
-    <div class="llm-attn-legend"><b>■</b> = les tokens que « dort » regarde le plus fort pour se situer dans la phrase</div>
+    <div class="llm-attn-legend"><b>■</b> = the tokens that "sleeps" looks at most strongly to find its place in the sentence</div>
   </div>
 
-  <div class="llm-callout amber">Ce n'est pas une lecture linéaire gauche→droite. Chaque token regarde tous les autres <em>simultanément</em>, avec un poids différent pour chacun.</div>
-</div><!-- fin étape 3 -->
+  <div class="llm-callout amber">It is not a linear left-to-right reading. Each token looks at all the others <em>simultaneously</em>, with a different weight for each.</div>
+</div><!-- end step 3 -->
 
 <!-- ============================================================ -->
-<!-- Section : Étape 4 — prédiction                                -->
+<!-- Section : Step 4, prediction                                  -->
 <!-- ============================================================ -->
 <div class="llm-step" id="llmStep4">
-  <span class="llm-tag">Étape 4 / 4</span>
-  <h2>Un seul mot est choisi — au hasard pondéré</h2>
-  <p class="llm-text">Après les couches d'attention, le modèle produit <strong>une probabilité pour chaque mot possible du vocabulaire</strong>. Il n'y a pas de « bonne réponse » calculée : juste une distribution. Le mot suivant est tiré selon ces probabilités.</p>
+  <span class="llm-tag">Step 4 / 4</span>
+  <h2>A single word is chosen, by weighted chance</h2>
+  <p class="llm-text">After the attention layers, the model produces <strong>a probability for every possible word in the vocabulary</strong>. There is no calculated "right answer": just a distribution. The next word is drawn according to these probabilities.</p>
 
   <div class="llm-predict">
-    <span>« Le chat dort sur le</span>
+    <span>"The cat sleeps on the</span>
     <span class="llm-blank" id="llmBlank">?</span>
-    <span>»</span>
+    <span>"</span>
   </div>
 
   <div class="llm-probs" id="llmProbs"></div>
 
-  <div class="llm-callout">Le token choisi est <strong>ajouté à la phrase</strong>, et tout recommence à l'étape 1 pour prédire le token suivant. Un LLM ne génère jamais une phrase entière d'un coup : il la construit un token à la fois.</div>
-</div><!-- fin étape 4 -->
+  <div class="llm-callout">The chosen token is <strong>added to the sentence</strong>, and everything starts again at step 1 to predict the next token. An LLM never generates a whole sentence at once: it builds it one token at a time.</div>
+</div><!-- end step 4 -->
 
 <!-- ============================================================ -->
-<!-- Section : La boucle complète                                  -->
+<!-- Section : The full loop                                      -->
 <!-- ============================================================ -->
 <div class="llm-step">
-  <span class="llm-tag">La boucle complète</span>
-  <h2>Un « raisonnement » n'est qu'une boucle répétée</h2>
-  <p class="llm-text">Ce que l'on perçoit comme une réponse réfléchie est en réalité cette même boucle exécutée des centaines de fois, chaque nouveau token rallongeant le contexte que le modèle relit en entier.</p>
+  <span class="llm-tag">The full loop</span>
+  <h2>A "reasoning" is just a repeated loop</h2>
+  <p class="llm-text">What we perceive as a thoughtful answer is actually this same loop run hundreds of times, each new token lengthening the context that the model rereads in full.</p>
 
   <div class="llm-loop">
-    <span class="llm-loop-step">tokeniser</span><span class="llm-loop-arrow">→</span>
-    <span class="llm-loop-step">vectoriser</span><span class="llm-loop-arrow">→</span>
+    <span class="llm-loop-step">tokenize</span><span class="llm-loop-arrow">→</span>
+    <span class="llm-loop-step">vectorize</span><span class="llm-loop-arrow">→</span>
     <span class="llm-loop-step">attention</span><span class="llm-loop-arrow">→</span>
-    <span class="llm-loop-step">probabilités</span><span class="llm-loop-arrow">→</span>
-    <span class="llm-loop-step last">tirer 1 token</span><span class="llm-loop-arrow">↺</span>
+    <span class="llm-loop-step">probabilities</span><span class="llm-loop-arrow">→</span>
+    <span class="llm-loop-step last">draw 1 token</span><span class="llm-loop-arrow">↺</span>
   </div>
-</div><!-- fin boucle -->
+</div><!-- end loop -->
 
 <!-- ============================================================ -->
-<!-- Section : Ce que ça implique                                  -->
+<!-- Section : What it implies                                      -->
 <!-- ============================================================ -->
 <div class="llm-step">
-  <span class="llm-tag">Ce que ça implique</span>
-  <h2>Pourquoi c'est important de le savoir</h2>
+  <span class="llm-tag">What it implies</span>
+  <h2>Why it matters to know this</h2>
 
   <div class="llm-grid">
     <div class="llm-cell">
-      <div class="head no">Ce que ce n'est pas</div>
-      <p>Un LLM ne consulte pas une base de faits, ne vérifie rien pendant qu'il écrit, et n'a pas de plan fixé pour la phrase avant de la commencer.</p>
+      <div class="head no">What it is not</div>
+      <p>An LLM does not consult a database of facts, does not check anything while it writes, and has no fixed plan for the sentence before starting it.</p>
     </div>
     <div class="llm-cell">
-      <div class="head yes">Ce que c'est</div>
-      <p>Un calcul de probabilités sur le mot suivant, ré-exécuté à chaque token, où le seul « souvenir » est le texte déjà généré, relu en entier à chaque tour.</p>
+      <div class="head yes">What it is</div>
+      <p>A probability calculation on the next word, re-run at every token, where the only "memory" is the text already generated, reread in full each time.</p>
     </div>
     <div class="llm-cell">
-      <div class="head no">D'où viennent les erreurs</div>
-      <p>Une hallucination n'est pas un bug isolé : c'est une suite de tokens plausibles, statistiquement cohérents, mais qui ne correspond à aucun fait vérifié.</p>
+      <div class="head no">Where errors come from</div>
+      <p>A hallucination is not an isolated bug: it is a sequence of plausible, statistically coherent tokens that corresponds to no verified fact.</p>
     </div>
     <div class="llm-cell">
-      <div class="head yes">D'où vient la cohérence</div>
-      <p>Chaque token tient compte de tous les précédents via l'attention — c'est ce qui donne l'illusion d'un fil conducteur, sans qu'il y ait de plan explicite.</p>
+      <div class="head yes">Where coherence comes from</div>
+      <p>Each token takes all the previous ones into account through attention. That is what gives the illusion of a common thread, without any explicit plan.</p>
     </div>
   </div>
 
-  <p class="llm-outro">Un seul forward pass, quatre étapes, répété jusqu'au dernier token.</p>
-</div><!-- fin implications -->
+  <p class="llm-outro">One forward pass, four steps, repeated until the last token.</p>
+</div><!-- end implications -->
 
-<p class="llm-disclaimer">Schéma pédagogique du mécanisme général d'un Transformer — les identifiants de tokens, les vecteurs et les probabilités affichés ici sont illustratifs, et ne sont pas les sorties réelles d'un modèle en particulier.</p>
+<p class="llm-disclaimer">Educational diagram of the general mechanism of a Transformer. The token IDs, vectors and probabilities shown here are illustrative, and are not the actual outputs of any particular model.</p>
 
 </div><!-- fin .llm-think -->
 
@@ -444,8 +444,8 @@ excerpt: "Un seul passage avant, décomposé étape par étape : tokenisation, v
 (function(){
   // ---------- Étape 1 : tokens ----------
   var tokens = [
-    {t:'Le', id:496}, {t:' chat', id:1723}, {t:' dort', id:5089},
-    {t:' sur', id:402}, {t:' le', id:496}
+    {t:'The', id:976}, {t:' cat', id:1723}, {t:' sleeps', id:5089},
+    {t:' on', id:402}, {t:' the', id:496}
   ];
   var tokenRow = document.getElementById('llmTokens');
   tokens.forEach(function(tok,i){
@@ -457,7 +457,7 @@ excerpt: "Un seul passage avant, décomposé étape par étape : tokenisation, v
   });
 
   // ---------- Étape 2 : vecteurs ----------
-  var vecWords = ['Le','chat','dort','sur','le'];
+  var vecWords = ['The','cat','sleeps','on','the'];
   var vecGrid = document.getElementById('llmVecs');
   vecWords.forEach(function(w){
     var card = document.createElement('div');
@@ -471,7 +471,7 @@ excerpt: "Un seul passage avant, décomposé étape par étape : tokenisation, v
   });
 
   // ---------- Étape 3 : attention ----------
-  var attnWords = ['Le','chat','dort','sur','le'];
+  var attnWords = ['The','cat','sleeps','on','the'];
   var weights   = [0.08, 0.62, 1, 0.15, 0.3];
   var attnBox = document.getElementById('llmAttn');
   attnWords.forEach(function(w,i){
@@ -483,11 +483,11 @@ excerpt: "Un seul passage avant, décomposé étape par étape : tokenisation, v
 
   // ---------- Étape 4 : prédiction ----------
   var preds = [
-    {w:'canapé', p:38},
-    {w:'lit',    p:24},
-    {w:'tapis',  p:17},
-    {w:'toit',   p:12},
-    {w:'clavier',p:6}
+    {w:'sofa', p:38},
+    {w:'bed',    p:24},
+    {w:'rug',    p:17},
+    {w:'roof',   p:12},
+    {w:'keyboard',p:6}
   ];
   var probList = document.getElementById('llmProbs');
   preds.forEach(function(p,i){
@@ -513,7 +513,7 @@ excerpt: "Un seul passage avant, décomposé étape par étape : tokenisation, v
           });
         }, 300);
         setTimeout(function(){
-          document.getElementById('llmBlank').textContent = 'canapé';
+          document.getElementById('llmBlank').textContent = 'sofa';
         }, 1500);
       });
     }, {threshold:0.35});
