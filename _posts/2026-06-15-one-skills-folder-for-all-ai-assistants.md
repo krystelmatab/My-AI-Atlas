@@ -1,66 +1,66 @@
 ---
-title: "Un Seul Classeur pour Tous mes Assistants IA : la fin du copier-coller de skills"
+title: "One Binder for All My AI Assistants: the End of Copy-Pasting Skills"
 date: 2026-06-15
-excerpt: "Comment le format ouvert Agent Skills permet de centraliser ses compétences IA dans un seul dossier, partagé entre Claude Code, Codex et GitHub Copilot."
+excerpt: "How the open Agent Skills format lets you keep all your AI skills in a single folder, shared between Claude Code, Codex and GitHub Copilot."
 ---
 
-<div class="post-tags"><span class="post-tag">Skills</span><span class="post-tag">Productivité</span><span class="post-tag">Automatisation</span></div>
+<div class="post-tags"><span class="post-tag">Skills</span><span class="post-tag">Productivity</span><span class="post-tag">Automation</span></div>
 
-![Un classeur central de skills, synchronisé vers Claude, Codex et Copilot]({{ '/assets/images/one-binder-every-ai.png' | relative_url }})
+![A central binder of skills, synced to Claude, Codex and Copilot]({{ '/assets/images/one-binder-every-ai.png' | relative_url }})
 
-## 1. Introduction : le Jour où j'ai Écrit la Même Chose pour la Troisième Fois
+## 1. Introduction: The Day I Wrote the Same Thing for the Third Time
 
-Voici une situation que tout utilisateur de plusieurs assistants IA finit par connaître : j'avais appris à Claude Code à créer des présentations PowerPoint à la charte de mon entreprise. Quelques semaines plus tard, je voulais la même compétence dans Codex. Puis dans GitHub Copilot. À chaque fois, la même question : vais-je vraiment recopier ces instructions une troisième fois ?
+Anyone who uses several AI assistants ends up here sooner or later. I had taught Claude Code to create PowerPoint presentations that follow my company's brand guidelines. A few weeks later, I wanted the same skill in Codex. Then in GitHub Copilot. Each time, the same question: am I really going to copy these instructions a third time?
 
-Le vrai problème du copier-coller n'est pas la perte de temps initiale. C'est la **dérive** : trois copies d'une même compétence finissent inévitablement par diverger. On corrige l'une, on oublie les autres, et un jour on ne sait plus laquelle est la bonne. Trois assistants, trois versions de la vérité — c'est-à-dire aucune.
+The real problem with copy-pasting is not the time it takes at first. It is **drift**: three copies of the same skill inevitably end up diverging. You fix one, forget the others, and one day you no longer know which one is right. Three assistants, three versions of the truth, which means none at all.
 
-## 2. La Découverte : les Assistants IA Parlent Désormais la Même Langue
+## 2. The Discovery: AI Assistants Now Speak the Same Language
 
-Ce qui rend la solution possible aujourd'hui, c'est une convergence discrète mais majeure : le format **Agent Skills**, ouvert par Anthropic fin 2025, a été adopté par les principaux assistants de code. Claude Code, Codex et GitHub Copilot lisent désormais exactement le même format :
+What makes the solution possible today is a quiet but major convergence: the **Agent Skills** format, opened by Anthropic in late 2025, has been adopted by the main coding assistants. Claude Code, Codex and GitHub Copilot now read exactly the same format:
 
-> Une skill = un dossier + un fichier `SKILL.md` : quelques lignes d'en-tête (nom, description) suivies d'instructions en langage naturel.
+> A skill = a folder + a `SKILL.md` file: a few header lines (name, description) followed by instructions in plain language.
 
-La description joue un rôle clé : c'est elle que l'assistant lit pour décider *quand* mobiliser la skill. Le corps du fichier n'est chargé qu'à ce moment-là. Une skill bien décrite fonctionne donc partout, sans adaptation.
+The description plays a key role: it is what the assistant reads to decide *when* to use the skill. The body of the file is only loaded at that moment. A well-described skill therefore works everywhere, with no adaptation.
 
-Conséquence stratégique : mes compétences ne sont plus « des réglages de Claude » ou « des réglages de Copilot ». Ce sont **mes** compétences, dans un format standard, et les assistants sont interchangeables en dessous.
+The strategic consequence: my skills are no longer "Claude settings" or "Copilot settings". They are **my** skills, in a standard format, and the assistants are interchangeable underneath.
 
-## 3. L'Architecture : une Source de Vérité, des Panneaux Indicateurs
+## 3. The Architecture: One Source of Truth, Signposts Everywhere Else
 
-L'idée directrice tient en une image : au lieu de photocopier mes recettes pour chaque cuisine, je garde **un seul classeur**, et chaque cuisine reçoit un panneau « les recettes sont là ».
+The guiding idea fits in one image: instead of photocopying my recipes for every kitchen, I keep **a single binder**, and each kitchen gets a sign saying "the recipes are over there".
 
-Concrètement, sur mon PC :
+In practice, on my PC:
 
-| Élément | Rôle |
+| Element | Role |
 |---|---|
-| `C:\...\mes-skills\` | Le classeur : la seule version « vivante » de chaque skill |
-| Jonctions Windows (raccourcis) | Les panneaux : chaque assistant croit avoir les skills chez lui, il ne fait que lire le classeur |
-| Dépôt GitHub **privé** | La photocopie de secours : sauvegarde et réinstallation sur un autre PC en une commande |
+| `C:\...\my-skills\` | The binder: the only "living" version of each skill |
+| Windows junctions (shortcuts) | The signposts: each assistant believes it has the skills at home, but it only reads the binder |
+| **Private** GitHub repository | The backup photocopy: backup and reinstall on another PC with a single command |
 
-Chaque assistant cherche ses skills dans son propre dossier (`~\.claude\skills\`, `~\.codex\skills\`, `~\.config\github-copilot\skills\`). Les jonctions font pointer ces trois dossiers vers le classeur central. Je corrige une skill **une fois** → les trois assistants voient la correction **instantanément**, dans tous mes projets.
+Each assistant looks for its skills in its own folder (`~\.claude\skills\`, `~\.codex\skills\`, `~\.config\github-copilot\skills\`). The junctions make these three folders point to the central binder. I fix a skill **once** and all three assistants see the fix **instantly**, in all my projects.
 
-Le moment le plus parlant de la mise en place : une skill créée à l'origine pour Codex est apparue dans Claude Code à la seconde où la jonction a été posée. Aucune copie, aucune synchronisation — le même fichier, vu de deux endroits.
+The most telling moment of the setup: a skill originally created for Codex appeared in Claude Code the second the junction was put in place. No copy, no synchronization, just the same file seen from two places.
 
-## 4. Le Processus au Quotidien : Deux Règles, Rien de Plus
+## 4. The Daily Process: Two Rules, Nothing More
 
-**Règle 1 — Toujours travailler dans le classeur.** Une nouvelle skill se crée dans `mes-skills\`, jamais directement dans le dossier d'un assistant. Un petit script (`sync-skills.ps1`) crée ensuite les raccourcis manquants vers les trois assistants — relançable à volonté, sans risque.
+**Rule 1: always work in the binder.** A new skill is created in `my-skills\`, never directly in an assistant's folder. A small script (`sync-skills.ps1`) then creates the missing shortcuts to the three assistants. It can be re-run at will, with no risk.
 
-**Règle 2 — Sauvegarder n'est pas automatique.** Comme un document Word : modifier le fichier ne met pas à jour la copie de secours. Après un changement, un commit + push vers GitHub (trois clics dans le panneau Source Control de VS Code, ou une simple demande à un assistant).
+**Rule 2: saving is not automatic.** Like a Word document: editing the file does not update the backup copy. After a change, a commit + push to GitHub (three clicks in the VS Code Source Control panel, or a simple request to an assistant).
 
-Et deux garde-fous :
+And two safeguards:
 
-- **Privé ne veut pas dire risqué, mais prudent quand même** : jamais de secret (mot de passe, clé, donnée client) dans une skill, même dans un dépôt privé.
-- **Les comptes ne se croisent pas** : le compte GitHub qui héberge la sauvegarde et le compte qui fournit Copilot peuvent être différents — les skills sont lues sur le disque local, aucun assistant ne sait où elles sont sauvegardées.
+- **Private does not mean risk-free, so stay careful anyway**: never put a secret (password, key, customer data) in a skill, even in a private repository.
+- **Accounts do not cross paths**: the GitHub account that hosts the backup and the account that provides Copilot can be different. Skills are read from the local disk, and no assistant knows where they are backed up.
 
-## 5. Pourquoi c'est Plus qu'une Astuce d'Organisation
+## 5. Why This Is More Than an Organization Trick
 
-Ce montage change le statut de mes instructions : elles deviennent un **actif personnel, portable et versionné**.
+This setup changes the status of my instructions: they become a **personal, portable and versioned asset**.
 
-- **Portable** : changer d'assistant, ou en adopter un quatrième, ne coûte plus rien — un raccourci suffit.
-- **Versionné** : Git garde l'historique de chaque amélioration ; je peux voir comment une skill a évolué, et revenir en arrière.
-- **Capitalisé** : chaque leçon apprise avec un assistant profite immédiatement aux autres. Le savoir s'accumule au lieu de se disperser.
+- **Portable**: switching assistants, or adopting a fourth one, costs nothing anymore. One shortcut is enough.
+- **Versioned**: Git keeps the history of every improvement. I can see how a skill evolved, and roll back.
+- **Capitalized**: every lesson learned with one assistant immediately benefits the others. Knowledge accumulates instead of scattering.
 
-> **« Mes skills n'appartiennent plus à un outil. Les outils passent ; le classeur reste. »**
+> **"My skills no longer belong to a tool. Tools come and go; the binder stays."**
 
-## 6. Conclusion : Écrire pour l'Écosystème, pas pour l'Outil
+## 6. Conclusion: Write for the Ecosystem, Not for the Tool
 
-La leçon dépasse le cas des skills : dès qu'un format ouvert émerge dans l'écosystème IA, il vaut la peine de réorganiser son travail autour de lui plutôt qu'autour d'un produit. Le jour où un nouvel assistant apparaîtra, la question ne sera plus « faut-il tout recopier ? » mais simplement « où est le panneau indicateur ? ».
+The lesson goes beyond skills: whenever an open format emerges in the AI ecosystem, it is worth organizing your work around it rather than around a product. The day a new assistant appears, the question will no longer be "do I have to copy everything again?" but simply "where is the signpost?".

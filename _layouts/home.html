@@ -16,7 +16,7 @@ layout: default
     {%- for post in site.posts -%}
     <li>
       <a class="post-card" href="{{ post.url | relative_url }}">
-        <span class="post-date">{% include date-fr.html date=post.date %}</span>
+        <span class="post-date">{% include date-en.html date=post.date %}</span>
         <h3 class="post-card-title">{{ post.title | escape }}</h3>
         {%- if post.excerpt -%}
         <p class="post-card-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
