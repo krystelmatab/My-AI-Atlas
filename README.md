@@ -9,9 +9,9 @@ A living library of articles, discoveries, reflections, and learnings gathered t
 
 - [Fully Autonomous AI Is a Mirage: Why Somebody Still Has to Decide](_posts/2026-05-30-human-in-the-loop-ai-agents.html)
 - [One Skills Folder for All AI Assistants: la fin du copier-coller de skills](_posts/2026-06-15-one-skills-folder-for-all-ai-assistants.md)
-- [How Does a Model Actually 'Read' a Photo or a Voice Clip?](_posts/2026-06-29-how-does-a-model-read-a-photo-or-a-voice-clip.html)
+- [How Do LLMs Actually 'Read' a Photo or a Voice Clip?](_posts/2026-06-29-how-does-a-model-read-a-photo-or-a-voice-clip.html)
 - [LangChain, Mapped in Three Modules](_posts/2026-08-26-langchain-foundations-course-recap.html)
 - [What Is Vibe Coding?](_posts/2026-07-17-what-is-vibe-coding.html)
-- [What Is Shadow AI?](_posts/2026-09-25-what-is-shadow-ai.html)
-- [Jev, explained simply](_posts/2026-09-26-what-is-jev-system-one-model.html)
+- [What Is Shadow AI?](_posts/2026-09-17-what-is-shadow-ai.html)
+- [Jev, explained simply](_posts/2026-09-22-what-is-jev-system-one-model.html)
 
