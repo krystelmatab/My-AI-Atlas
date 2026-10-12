@@ -14,4 +14,5 @@ A living library of articles, discoveries, reflections, and learnings gathered t
 - [What Is Vibe Coding?](_posts/2026-07-17-what-is-vibe-coding.html)
 - [What Is Shadow AI?](_posts/2026-09-17-what-is-shadow-ai.html)
 - [Jev, explained simply](_posts/2026-09-22-what-is-jev-system-one-model.html)
+- [How AI Grew Up: The Whole Story in 20 Moments](_posts/2026-10-12-how-ai-grew-up.html)
 
