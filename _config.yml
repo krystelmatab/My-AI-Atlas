@@ -31,3 +31,13 @@ sections:
     description: >-
       Narrative articles that start from real events to explore power,
       ethics, culture and the human consequences of AI.
+
+minima:
+  date_format: "%d %B %Y"
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
