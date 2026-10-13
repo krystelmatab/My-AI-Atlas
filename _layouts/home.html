@@ -2,9 +2,10 @@
 layout: default
 ---
 <!-- ============================================================ -->
-<!-- Page d'accueil : intro, sommaire des rubriques, puis une     -->
-<!-- liste d'articles par rubrique (voir « sections » dans        -->
-<!-- _config.yml). Un article sans « section » va dans explained. -->
+<!-- Page d'accueil : intro, présentation des deux rubriques,     -->
+<!-- puis une seule liste d'articles (du plus récent au plus      -->
+<!-- ancien) filtrable par rubrique. Rubriques : « sections »     -->
+<!-- dans _config.yml. Un article sans « section » : explained.   -->
 <!-- ============================================================ -->
 <div class="home">
 
@@ -14,52 +15,82 @@ layout: default
   {%- endif -%}
 
 
-  <!-- Section : sommaire des rubriques (deux cartes cliquables) -->
-  <nav class="section-switch" aria-label="Sections">
+  <!-- Section : présentation des deux types de contenu -->
+  <p class="sections-lead">Here I mainly share two kinds of content:</p>
+
+  <div class="section-overview">
     {%- for sec in site.sections -%}
-    <a class="section-switch-card section-switch-card--{{ sec.id }}" href="#{{ sec.id }}">
-      <span class="section-switch-kicker">{{ sec.kicker }}</span>
-      <span class="section-switch-title">{{ sec.title }}</span>
-    </a>
+    <div class="section-overview-card section-overview-card--{{ sec.id }}">
+      <span class="section-overview-kicker">{{ sec.kicker }}</span>
+      <h2 class="section-overview-title">{{ sec.title }}</h2>
+      <p class="section-overview-text">{{ sec.description }}</p>
+    </div>
     {%- endfor -%}
-  </nav><!-- /section-switch -->
+  </div><!-- /section-overview -->
 
 
-  <!-- Section : une liste d'articles par rubrique -->
-  {%- for sec in site.sections -%}
+  <!-- Section : liste unique des articles, avec filtres -->
+  {%- if site.posts.size > 0 -%}
+  <div class="articles-head">
+    <h2 class="section-label" id="articles">Articles</h2>
 
-  {%- if sec.id == "explained" -%}
-    {%- assign sec_posts = site.posts | where_exp: "p", "p.section != 'values'" -%}
-  {%- else -%}
-    {%- assign sec_posts = site.posts | where: "section", sec.id -%}
+    <div class="post-filter" role="group" aria-label="Filter articles">
+      <button type="button" class="post-filter-btn" data-filter="all" aria-pressed="true">All</button>
+      {%- for sec in site.sections -%}
+      <button type="button" class="post-filter-btn post-filter-btn--{{ sec.id }}" data-filter="{{ sec.id }}" aria-pressed="false">{{ sec.title }}</button>
+      {%- endfor -%}
+    </div><!-- /post-filter -->
+  </div><!-- /articles-head -->
+
+  <ul class="post-list">
+    {%- for post in site.posts -%}
+    {%- assign sec_id = post.section | default: "explained" -%}
+    {%- assign sec = site.sections | where: "id", sec_id | first -%}
+    <li data-section="{{ sec_id }}">
+      <a class="post-card" href="{{ post.url | relative_url }}">
+        <span class="post-date">{% include date-en.html date=post.date %}</span>
+        {%- if sec %} <span class="post-section post-section--{{ sec_id }}">{{ sec.title }}</span>{% endif %}
+        <h3 class="post-card-title">{{ post.title | escape }}</h3>
+        {%- if post.excerpt -%}
+        <p class="post-card-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
+        {%- endif -%}
+        <span class="readmore">Read the article <span class="arrow">→</span></span>
+      </a>
+    </li>
+    {%- endfor -%}
+  </ul><!-- /post-list -->
   {%- endif -%}
 
-  <section class="home-section home-section--{{ sec.id }}" id="{{ sec.id }}">
-
-    <h2 class="section-label">{{ sec.title }}</h2>
-    <p class="section-description">{{ sec.description }}</p>
-
-    {%- if sec_posts.size > 0 -%}
-    <ul class="post-list">
-      {%- for post in sec_posts -%}
-      <li>
-        <a class="post-card" href="{{ post.url | relative_url }}">
-          <span class="post-date">{% include date-en.html date=post.date %}</span>
-          <h3 class="post-card-title">{{ post.title | escape }}</h3>
-          {%- if post.excerpt -%}
-          <p class="post-card-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
-          {%- endif -%}
-          <span class="readmore">Read the article <span class="arrow">→</span></span>
-        </a>
-      </li>
-      {%- endfor -%}
-    </ul><!-- /post-list -->
-    {%- else -%}
-    <p class="section-empty">First articles coming soon.</p>
-    {%- endif -%}
-
-  </section><!-- /home-section -->
-
-  {%- endfor -%}
-
 </div><!-- /home -->
+
+
+<!-- Section : filtre des articles (boutons + adresse #explained / #society) -->
+<script>
+  (function () {
+    var buttons = document.querySelectorAll(".post-filter-btn");
+    var items = document.querySelectorAll(".post-list > li");
+
+    function applyFilter(filter) {
+      buttons.forEach(function (btn) {
+        btn.setAttribute("aria-pressed", btn.dataset.filter === filter ? "true" : "false");
+      });
+      items.forEach(function (li) {
+        li.hidden = filter !== "all" && li.dataset.section !== filter;
+      });
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        applyFilter(btn.dataset.filter);
+        history.replaceState(null, "", btn.dataset.filter === "all" ? location.pathname : "#" + btn.dataset.filter);
+      });
+    });
+
+    // Arrivée depuis l'étiquette d'un article (ex : /#society)
+    var fromHash = location.hash.replace("#", "");
+    if (document.querySelector('.post-filter-btn[data-filter="' + fromHash + '"]')) {
+      applyFilter(fromHash);
+      document.getElementById("articles").scrollIntoView();
+    }
+  })();
+</script>

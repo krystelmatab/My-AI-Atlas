@@ -1,15 +1,15 @@
 ---
-name: ai-human-values-article
-description: Écrire un article de la rubrique « AI & Human Values » du blog My AI Atlas, en posture de journaliste et penseur critique de la tech. Récits ancrés dans des faits réels (pouvoir, éthique, culture, conséquences humaines de l'IA) ou essais plus personnels et philosophiques (ce que l'IA révèle de l'intelligence, de la créativité, du travail, de l'humain). À utiliser dès que l'utilisatrice fournit un sujet, une actualité, une étude, une controverse, une vidéo ou une idée à transformer en article de réflexion, ou mentionne « AI & Human Values ». Ne pas utiliser pour un article pédagogique « AI Explained » (qu'est-ce que c'est, comment ça marche).
+name: ai-society-article
+description: "Écrire un article de la rubrique « AI & Society » du blog My AI Atlas, en posture de journaliste et penseur critique de la tech : articles narratifs qui partent de faits réels pour explorer le pouvoir, l'éthique, la culture et les conséquences humaines de l'IA, ou essais plus personnels sur ce que l'IA révèle de l'humain. À utiliser dès que l'utilisatrice fournit un sujet, une actualité, une étude, une controverse, une vidéo ou une idée à transformer en article de réflexion, ou mentionne « AI & Society ». Ne pas utiliser pour un article « AI Explained » (ce que c'est, comment ça marche, usages, limites, nouveautés techniques)."
 ---
 
 <!--
-  Skill de rédaction pour la rubrique « AI & Human Values ».
+  Skill de rédaction pour la rubrique « AI & Society ».
   Partie 1 : intégration au blog (format, en-tête, règles maison).
   Partie 2 : la posture éditoriale, fournie par l'utilisatrice, à suivre telle quelle.
 -->
 
-# Article « AI & Human Values »
+# Article « AI & Society »
 
 ## Partie 1 : intégration au blog My AI Atlas
 
@@ -21,7 +21,7 @@ Points propres à cette rubrique :
 
 | Point | Règle |
 |---|---|
-| Rubrique | Ajouter `section: values` dans l'en-tête de l'article (sinon il atterrit dans « AI Explained »). |
+| Rubrique | Ajouter `section: society` dans l'en-tête de l'article (sinon il atterrit dans « AI Explained »). |
 | Langue | Anglais, sauf demande contraire. |
 | Format | Markdown simple par défaut : c'est un essai, la prose prime sur l'interactif. |
 | Longueur | Environ 1 200 à 1 800 mots, sans remplissage. |

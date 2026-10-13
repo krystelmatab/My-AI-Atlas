@@ -30,12 +30,13 @@ rubriques définies dans `_config.yml` (clé `sections`), via une ligne
 
 | Valeur | Rubrique | Contenu |
 |---|---|---|
-| `explained` (ou rien) | AI Explained | Comprendre la technologie : ce que c'est, comment ça marche, usages, limites, preuves. |
-| `values` | AI & Human Values | Récits à partir de faits réels (pouvoir, éthique, culture) ou essais personnels sur ce que l'IA révèle de l'humain. Rédiger avec le skill `ai-human-values-article`. |
+| `explained` (ou rien) | AI Explained | Comprendre la technologie : ce que c'est, comment ça marche, usages, limites, preuves, nouveautés. |
+| `society` | AI & Society | Articles narratifs à partir de faits réels (pouvoir, éthique, culture, conséquences humaines). Rédiger avec le skill `ai-society-article`. |
 
 Ne jamais utiliser `category:` à la place : cela changerait l'adresse des
-articles. Penser aussi à ranger le lien sous la bonne rubrique dans le
-`README.md`. En cas de doute sur la rubrique, demander.
+articles. L'accueil affiche une seule liste chronologique, filtrable par
+rubrique : rien d'autre à faire. Penser aussi à ranger le lien sous la
+bonne rubrique dans le `README.md`. En cas de doute sur la rubrique, demander.
 
 **Ne jamais mettre `layout: bare`** sauf si l'utilisateur demande
 explicitement une page 100 % autonome, très visuelle et interactive (comme
