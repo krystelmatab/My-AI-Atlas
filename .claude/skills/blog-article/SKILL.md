@@ -24,6 +24,19 @@ excerpt: "Résumé en une phrase, affiché sur la page d'accueil."
 ---
 ```
 
+**Rubrique obligatoire** : chaque article appartient à l'une des deux
+rubriques définies dans `_config.yml` (clé `sections`), via une ligne
+`section:` dans l'en-tête :
+
+| Valeur | Rubrique | Contenu |
+|---|---|---|
+| `explained` (ou rien) | AI Explained | Comprendre la technologie : ce que c'est, comment ça marche, usages, limites, preuves. |
+| `values` | AI & Human Values | Récits à partir de faits réels (pouvoir, éthique, culture) ou essais personnels sur ce que l'IA révèle de l'humain. Rédiger avec le skill `ai-human-values-article`. |
+
+Ne jamais utiliser `category:` à la place : cela changerait l'adresse des
+articles. Penser aussi à ranger le lien sous la bonne rubrique dans le
+`README.md`. En cas de doute sur la rubrique, demander.
+
 **Ne jamais mettre `layout: bare`** sauf si l'utilisateur demande
 explicitement une page 100 % autonome, très visuelle et interactive (comme
 `2026-06-29-how-does-a-model-read-a-photo-or-a-voice-clip.html`). Un `bare`
