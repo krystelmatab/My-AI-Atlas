@@ -12,6 +12,26 @@ future: true
 
 author: Krystel Mata
 
+# Rubriques éditoriales du blog.
+# Chaque article choisit la sienne avec « section: explained » ou
+# « section: values » dans son en-tête (sans mention : « explained »).
+# Clé « section » et non « category » : « category » changerait l'adresse
+# des articles déjà publiés.
+sections:
+  - id: explained
+    title: "AI Explained"
+    kicker: "Understand the technology"
+    description: >-
+      What it is, how it works, what it is used for, where it falls short,
+      and what the evidence actually says.
+  - id: values
+    title: "AI & Human Values"
+    kicker: "Understand what it means for us"
+    description: >-
+      Stories that start from real events to explore power, ethics, culture
+      and the human consequences of AI, and more personal essays on what AI
+      reveals about intelligence, creativity, work and being human.
+
 minima:
   date_format: "%d %B %Y"
 

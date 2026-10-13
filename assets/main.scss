@@ -173,6 +173,97 @@ a:hover      { color: $terracotta; text-decoration: none; }
   }
 }
 
+/* ============================================================ */
+/* Rubriques : sommaire en deux cartes + description            */
+/* ============================================================ */
+
+/* Deux cartes en aplat plein, une couleur par rubrique */
+.section-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 40px 0 0;
+}
+
+a.section-switch-card,
+a.section-switch-card:visited {
+  display: block;
+  border-radius: 14px;
+  padding: 22px 26px 24px;
+  text-decoration: none;
+  transition: transform .18s ease, box-shadow .18s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(67, 12, 5, 0.18);
+  }
+}
+
+/* AI Explained : bleu profond, texte clair */
+a.section-switch-card--explained { background: $teal; color: #FFFFFF; }
+a.section-switch-card--explained .section-switch-kicker { color: $amber; }
+
+/* AI & Human Values : ambre, texte bordeaux */
+a.section-switch-card--values { background: $amber; color: $maroon; }
+a.section-switch-card--values .section-switch-kicker { color: $maroon; }
+
+.section-switch-kicker {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.section-switch-title {
+  display: block;
+  font-family: 'Fraunces', Georgia, serif;
+  @include lettres-non-soudees;
+  font-size: 1.55rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Bloc d'une rubrique sur l'accueil */
+.home-section { scroll-margin-top: 24px; }
+.home-section .section-label { margin-bottom: 10px; }
+.home-section--values .section-label { color: $maroon; }
+
+.section-description {
+  color: $muted;
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0 0 26px;
+}
+
+.section-empty {
+  color: $muted;
+  font-style: italic;
+  border: 1px dashed $line;
+  border-radius: 14px;
+  padding: 22px 26px;
+}
+
+/* Pastille de rubrique en tête d'article, à côté de la date */
+a.post-section,
+a.post-section:visited {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 5px 12px;
+  margin-right: 8px;
+  text-decoration: none;
+}
+a.post-section--explained { background: $teal;  color: #FFFFFF; }
+a.post-section--values    { background: $amber; color: $maroon; }
+a.post-section:hover { opacity: 0.85; }
+
 .post-list-heading { display: none; }
 .rss-subscribe { display: none; }
 
@@ -553,6 +644,9 @@ a.post-card:hover {
     .site-title { font-size: 2.2rem; }
   }
   .site-tagline { font-size: 1.08rem; }
+
+  .section-switch { grid-template-columns: 1fr; gap: 12px; }
+  .section-switch-title { font-size: 1.3rem; }
 
   a.post-card { padding: 22px 22px 20px; }
   .post-card-title { font-size: 1.25rem; }

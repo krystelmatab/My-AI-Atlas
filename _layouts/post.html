@@ -8,6 +8,14 @@ layout: default
   <!-- En-tête de l'article -->
   <header class="post-header">
     <a class="back-link" href="{{ '/' | relative_url }}"><span class="arrow">←</span> All articles</a>
+
+    <!-- Rubrique de l'article (sans « section » : explained) -->
+    {%- assign sec_id = page.section | default: "explained" -%}
+    {%- assign sec = site.sections | where: "id", sec_id | first -%}
+    {%- if sec -%}
+    <a class="post-section post-section--{{ sec.id }}" href="{{ '/' | relative_url }}#{{ sec.id }}">{{ sec.title }}</a>
+    {%- endif %}
+
     <span class="post-date">{% include date-en.html date=page.date %}</span>
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
   </header><!-- /post-header -->

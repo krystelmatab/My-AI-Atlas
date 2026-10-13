@@ -7,7 +7,9 @@ A living library of articles, discoveries, reflections, and learnings gathered t
 
 ## Articles
 
-- [Fully Autonomous AI Is a Mirage: Why Somebody Still Has to Decide](_posts/2026-05-30-human-in-the-loop-ai-agents.html)
+### AI Explained
+*Understand the technology: what it is, how it works, what it is used for, where it falls short, and what the evidence says.*
+
 - [One Skills Folder for All AI Assistants: la fin du copier-coller de skills](_posts/2026-06-15-one-skills-folder-for-all-ai-assistants.md)
 - [How Do LLMs Actually 'Read' a Photo or a Voice Clip?](_posts/2026-06-29-how-does-a-model-read-a-photo-or-a-voice-clip.html)
 - [LangChain Foundation: My Recap of the 3 Modules](_posts/2026-08-26-langchain-foundations-course-recap.html)
@@ -15,3 +17,7 @@ A living library of articles, discoveries, reflections, and learnings gathered t
 - [What Is Shadow AI?](_posts/2026-09-17-what-is-shadow-ai.html)
 - [Jev, explained simply](_posts/2026-09-22-what-is-jev-system-one-model.html)
 
+### AI & Human Values
+*Understand what it means for us: stories from real events about power, ethics and culture, and personal essays on what AI reveals about being human.*
+
+- [Fully Autonomous AI Is a Mirage: Why Somebody Still Has to Decide](_posts/2026-05-30-human-in-the-loop-ai-agents.html)

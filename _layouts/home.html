@@ -1,31 +1,65 @@
 ---
 layout: default
 ---
+<!-- ============================================================ -->
+<!-- Page d'accueil : intro, sommaire des rubriques, puis une     -->
+<!-- liste d'articles par rubrique (voir « sections » dans        -->
+<!-- _config.yml). Un article sans « section » va dans explained. -->
+<!-- ============================================================ -->
 <div class="home">
 
-  <!-- Texte d'introduction (contenu de index.md) -->
+  <!-- Section : texte d'introduction (contenu de index.md) -->
   {%- if content != "" -%}
   <div class="home-intro">{{ content }}</div>
   {%- endif -%}
 
-  {%- if site.posts.size > 0 -%}
-  <!-- Liste des articles, en cartes -->
-  <h2 class="section-label">Articles</h2>
 
-  <ul class="post-list">
-    {%- for post in site.posts -%}
-    <li>
-      <a class="post-card" href="{{ post.url | relative_url }}">
-        <span class="post-date">{% include date-en.html date=post.date %}</span>
-        <h3 class="post-card-title">{{ post.title | escape }}</h3>
-        {%- if post.excerpt -%}
-        <p class="post-card-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
-        {%- endif -%}
-        <span class="readmore">Lire l'article <span class="arrow">→</span></span>
-      </a>
-    </li>
+  <!-- Section : sommaire des rubriques (deux cartes cliquables) -->
+  <nav class="section-switch" aria-label="Sections">
+    {%- for sec in site.sections -%}
+    <a class="section-switch-card section-switch-card--{{ sec.id }}" href="#{{ sec.id }}">
+      <span class="section-switch-kicker">{{ sec.kicker }}</span>
+      <span class="section-switch-title">{{ sec.title }}</span>
+    </a>
     {%- endfor -%}
-  </ul><!-- /post-list -->
+  </nav><!-- /section-switch -->
+
+
+  <!-- Section : une liste d'articles par rubrique -->
+  {%- for sec in site.sections -%}
+
+  {%- if sec.id == "explained" -%}
+    {%- assign sec_posts = site.posts | where_exp: "p", "p.section != 'values'" -%}
+  {%- else -%}
+    {%- assign sec_posts = site.posts | where: "section", sec.id -%}
   {%- endif -%}
+
+  <section class="home-section home-section--{{ sec.id }}" id="{{ sec.id }}">
+
+    <h2 class="section-label">{{ sec.title }}</h2>
+    <p class="section-description">{{ sec.description }}</p>
+
+    {%- if sec_posts.size > 0 -%}
+    <ul class="post-list">
+      {%- for post in sec_posts -%}
+      <li>
+        <a class="post-card" href="{{ post.url | relative_url }}">
+          <span class="post-date">{% include date-en.html date=post.date %}</span>
+          <h3 class="post-card-title">{{ post.title | escape }}</h3>
+          {%- if post.excerpt -%}
+          <p class="post-card-excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
+          {%- endif -%}
+          <span class="readmore">Read the article <span class="arrow">→</span></span>
+        </a>
+      </li>
+      {%- endfor -%}
+    </ul><!-- /post-list -->
+    {%- else -%}
+    <p class="section-empty">First articles coming soon.</p>
+    {%- endif -%}
+
+  </section><!-- /home-section -->
+
+  {%- endfor -%}
 
 </div><!-- /home -->
