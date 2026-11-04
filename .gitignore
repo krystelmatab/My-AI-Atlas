@@ -10,3 +10,6 @@ _site/
 tools/preview.py
 tools/.cache/
 tools/__pycache__/
+
+# Configuration et skills Claude Code (usage perso, jamais publiés)
+.claude/
