@@ -21,3 +21,4 @@ A living library of articles, discoveries, reflections, and learnings gathered t
 *Understand the implications: narrative articles that start from real events to explore power, ethics, culture and the human consequences of AI.*
 
 - [Fully Autonomous AI Is a Mirage: Why Somebody Still Has to Decide](_posts/2026-05-30-human-in-the-loop-ai-agents.html)
+- [The Text Survives, the Book Doesn't](_posts/2026-11-04-the-text-survives-the-book-doesnt.html)

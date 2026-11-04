@@ -1,0 +1,1341 @@
+---
+title: "The Text Survives, the Book Doesn't"
+date: 2026-11-04
+section: society
+excerpt: "What gets lost when we decide that the data is all that matters?"
+---
+
+<!--
+  Article : "The Text Survives, the Book Doesn't" (AI & Society, reflection essay)
+  Custom HTML page that keeps the default "post" layout (not "bare").
+  Every CSS rule is scoped under .tsb so nothing leaks into the site theme.
+  Colors come from the blog palette (assets/main.scss).
+  Visual moments, in reading order:
+    1. hero: a book whose spine is cut off (plays once)
+    2. shelf: a row of spines that collapse into a single line of data
+    3. two internal documents, the second one "unsealed" on scroll
+    4. two scanning lanes (keep the book / cut the book)
+    6. an old annotated page that can be "scanned" (traces disappear)
+    7. four ways of seeing the same book
+    8. two "not the same thing" lines, then the closing coda
+-->
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap');
+
+/* ============================================================ */
+/* Section : scope, palette and base typography                 */
+/* ============================================================ */
+
+/* Fraunces welds some letter pairs ("fi", "ff") at large sizes: keep them apart */
+.tsb, .tsb * {
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+}
+
+.tsb {
+  --maroon: #430C05;
+  --terracotta: #D46F4D;
+  --terracotta-ink: #A9472A;   /* darker terracotta, readable as small text */
+  --amber: #FFBF66;
+  --cyan: #08C5D1;
+  --cyan-ink: #05707A;         /* darker cyan, readable as text on cream */
+  --teal: #00353F;
+  --paper: #FBF7F2;
+  --oldpaper: #F4EADA;
+  --card: #FFFFFF;
+  --ink: #3A241C;
+  --muted: #7C6257;
+  --line: #EADFD5;
+  --pencil: #5E5A57;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --hand: 'Caveat', 'Segoe Print', cursive;
+}
+
+/* Essay prose: a reading serif, a little larger than the site default */
+.tsb p {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--ink);
+  margin: 0 0 1.15em;
+}
+
+.tsb em { font-style: italic; }
+.tsb strong { color: var(--maroon); font-weight: 700; }
+
+/* Inside styled blocks, bold keeps the block's own color */
+.tsb .tsb-doc-quote strong,
+.tsb .tsb-coda-last strong { color: inherit; }
+
+/* Drop cap on the very first paragraph */
+.tsb .tsb-opening::first-letter {
+  float: left;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 4.1em;
+  line-height: 0.82;
+  color: var(--terracotta);
+  padding: 0.08em 0.12em 0 0;
+}
+
+/* Short standalone line that lets the story breathe */
+.tsb .tsb-beat {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.32rem;
+  color: var(--maroon);
+  margin: 1.4em 0;
+}
+
+/* ============================================================ */
+/* Section : chapter openers (numbered eyebrow + h2)            */
+/* ============================================================ */
+
+/* The theme puts a top border + large margin on every h2: neutralize it,
+   the chapter opener below carries its own spacing and rule. */
+.tsb h2 {
+  border-top: none !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  font-size: 1.7rem !important;
+  line-height: 1.22 !important;
+  margin-bottom: 0.7em !important;
+}
+
+.tsb .tsb-chapter { margin: 4.2em 0 0; }
+
+.tsb .tsb-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--terracotta-ink);
+  margin-bottom: 12px;
+}
+
+.tsb .tsb-eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--terracotta), transparent);
+  opacity: 0.6;
+}
+
+.tsb .tsb-eyebrow b {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--maroon);
+  color: var(--amber);
+  font-family: var(--serif);
+  font-size: 0.86rem;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+/* ============================================================ */
+/* Section : topic tags                                          */
+/* ============================================================ */
+.tsb .tsb-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+
+.tsb .tsb-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  background: rgba(0, 53, 63, 0.08);
+  border: 1px solid rgba(0, 53, 63, 0.20);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+/* ============================================================ */
+/* Section : hero (the cut spine)                                */
+/* ============================================================ */
+.tsb .tsb-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 34px;
+  align-items: center;
+  background: var(--maroon);
+  border-radius: 20px;
+  padding: 38px 40px;
+  margin: 0 0 2.8em;
+  overflow: hidden;
+}
+
+/* Faint ruled lines in the background, like the edge of a page */
+.tsb .tsb-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255, 191, 102, 0.05) 0 1px, transparent 1px 28px);
+  pointer-events: none;
+}
+
+.tsb .tsb-hero svg { width: 100%; height: auto; position: relative; }
+
+.tsb .tsb-hero-kicker {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 0 0 14px !important;
+  position: relative;
+}
+
+.tsb .tsb-hero-dek {
+  font-family: var(--serif) !important;
+  font-style: italic;
+  font-size: 1.75rem !important;
+  line-height: 1.3 !important;
+  color: #FFF4E4 !important;
+  margin: 0 0 18px !important;
+  position: relative;
+}
+
+.tsb .tsb-hero-dek span { color: var(--amber); }
+
+.tsb .tsb-hero-meta {
+  font-family: var(--mono) !important;
+  font-size: 0.72rem !important;
+  color: rgba(255, 244, 228, 0.6) !important;
+  letter-spacing: 0.08em;
+  margin: 0 !important;
+  position: relative;
+}
+
+/* Hero animation: the blade runs down, then the spine falls away */
+.tsb .hero-cutline { stroke-dasharray: 280; stroke-dashoffset: 280; animation: tsb-draw 1.3s 0.5s ease-in-out forwards; }
+.tsb .hero-blade   { animation: tsb-blade 1.3s 0.5s ease-in-out forwards; }
+.tsb .hero-spine   { transform-box: fill-box; transform-origin: 50% 100%; animation: tsb-fall 1s 1.9s cubic-bezier(.5,0,.3,1) forwards; }
+.tsb .hero-sheet   { transform-box: fill-box; transform-origin: 0% 100%; animation: tsb-fan 1.1s 2.1s cubic-bezier(.3,.7,.3,1) forwards; }
+/* The top sheet (last one drawn) stays put, the ones underneath fan out */
+.tsb .hero-sheet:nth-of-type(1) { --r: 10deg;  --x: 22px; }
+.tsb .hero-sheet:nth-of-type(2) { --r: 7deg;   --x: 15px; }
+.tsb .hero-sheet:nth-of-type(3) { --r: 4.5deg; --x: 9px; }
+.tsb .hero-sheet:nth-of-type(4) { --r: 2deg;   --x: 4px; }
+
+@keyframes tsb-draw  { to { stroke-dashoffset: 0; } }
+@keyframes tsb-blade { from { transform: translateY(0); opacity: 1; } 90% { opacity: 1; } to { transform: translateY(262px); opacity: 0; } }
+@keyframes tsb-fall  { to { transform: translate(-16px, 6px) rotate(-11deg); opacity: 0.55; } }
+@keyframes tsb-fan   { to { transform: translateX(var(--x, 0)) rotate(var(--r, 0)); } }
+
+/* ============================================================ */
+/* Section : the shelf (spines collapse into one line of data)   */
+/* ============================================================ */
+.tsb .tsb-shelf {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 30px 30px 22px;
+  margin: 1.6em 0 2.4em;
+  box-shadow: 0 14px 40px rgba(67, 12, 5, 0.07);
+}
+
+.tsb .tsb-shelf-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 118px;
+  overflow: hidden;
+  border-bottom: 7px solid var(--maroon);
+  border-radius: 0 0 3px 3px;
+}
+
+.tsb .tsb-spine {
+  flex: 0 0 auto;
+  border-radius: 2px 2px 0 0;
+  transition: height 0.7s cubic-bezier(.6,0,.3,1), background-color 0.7s ease, border-radius 0.7s ease;
+  box-shadow: inset -2px 0 0 rgba(0, 0, 0, 0.12), inset 0 7px 0 rgba(255, 255, 255, 0.10);
+}
+
+.tsb .tsb-shelf.is-flat .tsb-spine {
+  height: 4px !important;
+  background-color: var(--cyan) !important;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.tsb .tsb-shelf-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.tsb .tsb-shelf-caption {
+  font-family: var(--serif) !important;
+  font-style: italic;
+  font-size: 1.02rem !important;
+  color: var(--maroon) !important;
+  margin: 0 !important;
+  transition: opacity 0.4s ease;
+}
+
+.tsb .tsb-btn {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: transparent;
+  border: 1px solid rgba(0, 53, 63, 0.3);
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tsb .tsb-btn:hover,
+.tsb .tsb-btn:focus-visible { background: var(--teal); color: #fff; outline: none; }
+
+/* ============================================================ */
+/* Section : internal documents                                  */
+/* ============================================================ */
+.tsb .tsb-doc {
+  position: relative;
+  background: #FFFDF8;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 26px 32px 30px;
+  margin: 1.8em 0 2em;
+  box-shadow: 0 2px 0 var(--line), 0 18px 44px rgba(67, 12, 5, 0.10);
+  transform: rotate(-0.4deg);
+}
+
+.tsb .tsb-doc--b { transform: rotate(0.35deg); }
+
+.tsb .tsb-doc-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px dashed var(--line);
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.tsb .tsb-doc-quote {
+  font-family: var(--serif) !important;
+  font-size: 1.62rem !important;
+  line-height: 1.38 !important;
+  font-weight: 500;
+  color: var(--maroon) !important;
+  margin: 0 !important;
+}
+
+.tsb .tsb-doc-quote mark {
+  background: linear-gradient(transparent 58%, rgba(255, 191, 102, 0.85) 58%);
+  color: inherit;
+  padding: 0 2px;
+}
+
+/* Rubber stamp in the corner */
+.tsb .tsb-stamp {
+  position: absolute;
+  right: 22px;
+  bottom: -14px;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  color: var(--terracotta-ink);
+  border: 2.5px solid var(--terracotta);
+  border-radius: 4px;
+  padding: 5px 10px 4px;
+  background: #FFFDF8;
+  transform: rotate(-7deg);
+  opacity: 0.92;
+}
+
+/* Redaction bars: only drawn when JS is running, lifted when "unsealed" */
+.tsb.tsb-js .tsb-redact { position: relative; }
+
+.tsb.tsb-js .tsb-redact::after {
+  content: "";
+  position: absolute;
+  left: -2px; right: -2px; top: 12%; bottom: 6%;
+  background: #1D1210;
+  transform-origin: right center;
+  transition: transform 0.55s cubic-bezier(.7,0,.3,1);
+  transition-delay: calc(var(--i, 0) * 0.16s + 0.2s);
+}
+
+.tsb.tsb-js .tsb-doc.is-unsealed .tsb-redact::after { transform: scaleX(0); }
+
+/* ============================================================ */
+/* Section : two scanning lanes                                  */
+/* ============================================================ */
+.tsb .tsb-lanes { display: grid; gap: 14px; margin: 1.8em 0 2.2em; }
+
+.tsb .tsb-lane {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+  border-radius: 16px;
+  padding: 20px 22px;
+}
+
+.tsb .tsb-lane--keep { background: var(--teal); color: #EAF7F8; }
+.tsb .tsb-lane--cut  { background: var(--terracotta); color: var(--maroon); }
+
+.tsb .tsb-lane-name {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 10px;
+}
+
+.tsb .tsb-steps-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+
+.tsb .tsb-chip {
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: 6px 13px;
+}
+
+.tsb .tsb-lane--keep .tsb-chip { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(8, 197, 209, 0.55); }
+.tsb .tsb-lane--cut  .tsb-chip { background: rgba(255, 255, 255, 0.28); border: 1px solid rgba(67, 12, 5, 0.25); }
+
+.tsb .tsb-arrow { font-family: var(--mono); opacity: 0.7; }
+
+.tsb .tsb-outcome {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.08rem;
+  line-height: 1.3;
+  text-align: right;
+  max-width: 190px;
+}
+
+.tsb .tsb-lane--keep .tsb-outcome b { color: var(--cyan); font-style: normal; }
+.tsb .tsb-lane--cut  .tsb-outcome b { color: #FFF4E4; font-style: normal; }
+
+/* ============================================================ */
+/* Section : timeline                                            */
+/* ============================================================ */
+.tsb .tsb-timeline {
+  list-style: none;
+  margin: 1.8em 0 2.2em !important;
+  padding: 0 0 0 30px !important;
+  position: relative;
+}
+
+.tsb .tsb-timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px; top: 8px; bottom: 8px;
+  width: 2px;
+  background: linear-gradient(var(--maroon), var(--terracotta), var(--cyan));
+  border-radius: 2px;
+}
+
+.tsb .tsb-timeline li {
+  position: relative;
+  margin: 0 0 18px !important;
+  padding: 0;
+}
+
+.tsb .tsb-timeline li::before {
+  content: "";
+  position: absolute;
+  left: -28px; top: 6px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 3px solid var(--dot, var(--maroon));
+}
+
+.tsb .tsb-timeline li.is-key::before { background: var(--dot, var(--maroon)); }
+
+.tsb .tsb-when {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tsb .tsb-what {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.97rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.tsb .tsb-timeline li.is-key .tsb-what { font-weight: 600; color: var(--maroon); }
+
+/* ============================================================ */
+/* Section : the annotated page (scan it / bring it back)        */
+/* ============================================================ */
+.tsb .tsb-figure { margin: 2em 0 2.4em; }
+
+.tsb .tsb-page {
+  position: relative;
+  background:
+    radial-gradient(120% 90% at 30% 20%, rgba(255, 255, 255, 0.55), transparent 60%),
+    radial-gradient(80% 60% at 90% 100%, rgba(170, 120, 60, 0.10), transparent 70%),
+    var(--oldpaper);
+  border-radius: 4px;
+  padding: 44px 24% 150px 44px;   /* empty lower margin holds the stamp and the stain */
+  box-shadow: 0 1px 0 #E2D3BC, 0 22px 50px rgba(67, 12, 5, 0.16);
+  overflow: hidden;
+  transition: background 0.8s ease, padding 0.8s ease;
+}
+
+/* Folded corner, top right */
+.tsb .tsb-page::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0;
+  width: 54px; height: 54px;
+  background: linear-gradient(225deg, var(--paper) 50%, #E5D6BF 50%, #D9C7AB 100%);
+  box-shadow: -3px 3px 6px rgba(67, 12, 5, 0.12);
+  transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+}
+
+.tsb .tsb-dedication {
+  font-family: var(--hand) !important;
+  font-size: 1.5rem !important;
+  line-height: 1.15 !important;
+  color: #2F4A7A !important;
+  transform: rotate(-2.5deg);
+  margin: 0 0 26px !important;
+}
+
+.tsb .tsb-chap {
+  font-family: var(--serif) !important;
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  text-align: center;
+  font-size: 0.95rem !important;
+  color: var(--muted) !important;
+  margin: 0 0 14px !important;
+}
+
+.tsb .tsb-booktext {
+  font-family: var(--serif) !important;
+  font-size: 1.04rem !important;
+  line-height: 1.85 !important;
+  text-align: justify;
+  hyphens: auto;
+  color: #2E211B !important;
+  transition: font-family 0s 0.4s, color 0.6s ease;
+}
+
+.tsb .tsb-underline {
+  background-image: linear-gradient(transparent 88%, rgba(94, 90, 87, 0.55) 88%);
+  transition: background-image 0.6s ease;
+}
+
+.tsb .tsb-margin-note {
+  position: absolute;
+  right: 4%;
+  top: 168px;
+  width: 17%;
+  font-family: var(--hand);
+  font-size: 1.45rem;
+  line-height: 1.05;
+  color: var(--pencil);
+  transform: rotate(-6deg);
+}
+
+.tsb .tsb-library-stamp {
+  position: absolute;
+  left: 34px;
+  bottom: 18px;
+  width: 104px; height: 104px;
+  border-radius: 50%;
+  border: 3px double rgba(0, 53, 63, 0.55);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  color: rgba(0, 53, 63, 0.62);
+  transform: rotate(-14deg);
+}
+
+.tsb .tsb-library-stamp b { display: block; font-size: 0.7rem; letter-spacing: 0.18em; margin-top: 3px; }
+
+.tsb .tsb-coffee {
+  position: absolute;
+  right: 7%;
+  bottom: 12px;
+  width: 124px; height: 118px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, transparent 80%, rgba(132, 84, 40, 0.28) 88%, rgba(132, 84, 40, 0.10) 96%, transparent 100%);
+  transform: rotate(18deg);
+}
+
+/* Little numbered markers that match the legend */
+.tsb .tsb-pin {
+  position: absolute;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--maroon);
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 3px rgba(255, 191, 102, 0.45);
+  transition: opacity 0.4s ease;
+}
+
+/* The traces, and what happens to them once the page is "scanned" */
+.tsb .tsb-trace { transition: opacity 0.7s ease, filter 0.7s ease, transform 0.7s ease; }
+
+.tsb .tsb-figure.is-scanned .tsb-page {
+  background: #FFFFFF;
+  padding-left: 44px;
+  padding-right: 44px;
+}
+
+.tsb .tsb-figure.is-scanned .tsb-page::after { width: 0; height: 0; opacity: 0; }
+.tsb .tsb-figure.is-scanned .tsb-trace { opacity: 0; filter: blur(4px); }
+.tsb .tsb-figure.is-scanned .tsb-pin { opacity: 0; }
+.tsb .tsb-figure.is-scanned .tsb-underline { background-image: none; }
+.tsb .tsb-figure.is-scanned .tsb-booktext,
+.tsb .tsb-figure.is-scanned .tsb-chap { font-family: var(--mono) !important; color: #222 !important; font-size: 0.9rem !important; text-align: left; }
+
+/* Scanner light sweeping over the page */
+.tsb .tsb-sweep {
+  position: absolute;
+  left: 0; right: 0; top: -30%;
+  height: 30%;
+  background: linear-gradient(transparent, rgba(8, 197, 209, 0.28), rgba(8, 197, 209, 0.65) 52%, transparent 54%);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.tsb .tsb-figure.is-sweeping .tsb-sweep { animation: tsb-sweep 0.9s ease-in-out; }
+@keyframes tsb-sweep { 0% { top: -30%; opacity: 1; } 100% { top: 100%; opacity: 1; } }
+
+.tsb .tsb-figure-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.tsb .tsb-status {
+  font-family: var(--mono) !important;
+  font-size: 0.74rem !important;
+  color: var(--muted) !important;
+  margin: 0 !important;
+}
+
+.tsb .tsb-status b { color: var(--cyan-ink); }
+
+.tsb .tsb-btn--solid { background: var(--maroon); color: var(--amber); border-color: var(--maroon); }
+.tsb .tsb-btn--solid:hover,
+.tsb .tsb-btn--solid:focus-visible { background: var(--terracotta); color: var(--maroon); border-color: var(--terracotta); }
+
+/* Legend: what each trace tells you */
+.tsb .tsb-legend {
+  list-style: none;
+  margin: 18px 0 0 !important;
+  padding: 0 !important;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 22px;
+}
+
+.tsb .tsb-legend li {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  margin: 0 !important;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--ink);
+  transition: opacity 0.5s ease, color 0.5s ease;
+}
+
+.tsb .tsb-legend li span:first-child {
+  flex: 0 0 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--maroon);
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  transform: translateY(3px);
+}
+
+.tsb .tsb-legend li b { color: var(--maroon); font-weight: 600; }
+.tsb .tsb-figure.is-scanned .tsb-legend li { opacity: 0.45; text-decoration: line-through; text-decoration-color: var(--terracotta); }
+
+.tsb .tsb-figcaption {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 14px;
+}
+
+/* ============================================================ */
+/* Section : big statements (question, inheritance)              */
+/* ============================================================ */
+.tsb .tsb-question {
+  font-family: var(--serif) !important;
+  font-style: italic;
+  font-size: 1.45rem !important;
+  line-height: 1.42 !important;
+  color: var(--maroon) !important;
+  border-left: 5px solid var(--amber);
+  padding: 4px 0 4px 24px;
+  margin: 1.8em 0 !important;
+}
+
+.tsb .tsb-inheritance {
+  position: relative;
+  background: var(--teal);
+  border-radius: 20px;
+  padding: 40px 40px 36px;
+  margin: 2em 0;
+  overflow: hidden;
+}
+
+/* Thin strata lines: layers of earlier work underneath */
+.tsb .tsb-strata { display: grid; gap: 6px; margin-bottom: 26px; }
+
+.tsb .tsb-strata span {
+  display: block;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--cyan);
+}
+
+.tsb .tsb-strata span:nth-child(1) { width: 22%; }
+.tsb .tsb-strata span:nth-child(2) { width: 38%; background: #6FD9E0; }
+.tsb .tsb-strata span:nth-child(3) { width: 57%; background: var(--amber); }
+.tsb .tsb-strata span:nth-child(4) { width: 76%; background: #E89A6F; }
+.tsb .tsb-strata span:nth-child(5) { width: 100%; background: var(--terracotta); }
+
+.tsb .tsb-inheritance p.tsb-inh-line {
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  line-height: 1.25;
+  color: #FFF4E4;
+  margin: 0 0 12px;
+}
+
+.tsb .tsb-inheritance p.tsb-inh-line span { color: var(--amber); font-style: italic; }
+
+.tsb .tsb-inheritance p.tsb-inh-sub {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(234, 247, 248, 0.65);
+  margin: 0;
+}
+
+/* Three lines that step down and fade: each choice a little smaller */
+.tsb .tsb-stairs { margin: 1.6em 0 1.8em; }
+
+.tsb .tsb-stairs p {
+  font-family: var(--serif);
+  font-size: 1.32rem;
+  line-height: 1.4;
+  color: var(--maroon);
+  margin: 0 0 4px;
+}
+
+.tsb .tsb-stairs p:nth-child(2) { padding-left: 8%;  opacity: 0.78; }
+.tsb .tsb-stairs p:nth-child(3) { padding-left: 16%; opacity: 0.58; }
+
+/* ============================================================ */
+/* Section : four ways of seeing the same book                    */
+/* ============================================================ */
+.tsb .tsb-views {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 1.8em 0 2.2em;
+}
+
+.tsb .tsb-view {
+  border-radius: 16px;
+  padding: 20px 24px 22px;
+  min-height: 118px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.25s ease;
+}
+
+.tsb .tsb-view:hover { transform: translateY(-3px); }
+
+.tsb .tsb-view-who {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.tsb .tsb-view-sees {
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  line-height: 1.22;
+  margin-top: 14px;
+}
+
+.tsb .tsb-view--a { background: var(--terracotta); color: var(--maroon); }
+.tsb .tsb-view--b { background: var(--amber);      color: var(--maroon); }
+.tsb .tsb-view--c { background: var(--cyan);       color: var(--teal); }
+.tsb .tsb-view--d { background: var(--teal);       color: #FFF4E4; }
+.tsb .tsb-view--d .tsb-view-sees { color: var(--amber); font-style: italic; }
+
+/* ============================================================ */
+/* Section : "not the same thing"                                 */
+/* ============================================================ */
+.tsb .tsb-neq {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 6px 22px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 26px 30px;
+  margin: 1.8em 0 2em;
+}
+
+.tsb .tsb-neq span {
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  color: var(--maroon);
+}
+
+.tsb .tsb-neq span:nth-child(3n+1) { text-align: right; }
+.tsb .tsb-neq span:nth-child(3n+2) { color: var(--terracotta); font-size: 2rem; text-align: center; }
+.tsb .tsb-neq span:nth-child(3n)   { font-style: italic; color: var(--teal); }
+
+/* ============================================================ */
+/* Section : coda (closing lines)                                 */
+/* ============================================================ */
+.tsb .tsb-coda {
+  margin: 2.6em 0 0;
+  padding: 38px 0 0;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.tsb .tsb-coda p {
+  font-size: 1.36rem;
+  line-height: 1.55;
+  color: var(--maroon);
+}
+
+.tsb .tsb-coda p.tsb-coda-last {
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--terracotta-ink);
+}
+
+.tsb .tsb-coda svg { width: 46px; height: auto; margin: 18px auto 0; display: block; }
+
+/* ============================================================ */
+/* Section : end note and sources                                 */
+/* ============================================================ */
+.tsb .tsb-note {
+  margin-top: 3em;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.tsb .tsb-note p { font-family: var(--mono); font-size: 11px; line-height: 1.7; color: var(--muted); margin: 0 0 10px; }
+.tsb .tsb-note ul { margin: 0 !important; padding-left: 18px !important; }
+.tsb .tsb-note li { margin: 0 0 3px !important; }
+.tsb .tsb-note a { color: var(--teal); }
+
+/* ============================================================ */
+/* Section : small screens                                        */
+/* ============================================================ */
+@media (max-width: 640px) {
+  .tsb .tsb-hero { grid-template-columns: 1fr; padding: 28px 22px; gap: 18px; }
+  .tsb .tsb-hero svg { max-width: 150px; margin: 0 auto; }
+  .tsb .tsb-hero-dek { font-size: 1.4rem !important; }
+  .tsb .tsb-shelf { padding: 22px 18px 18px; }
+  .tsb .tsb-shelf-foot,
+  .tsb .tsb-figure-bar { flex-direction: column; align-items: flex-start; }
+  .tsb .tsb-doc { padding: 22px 20px 28px; }
+  .tsb .tsb-doc-quote { font-size: 1.3rem !important; }
+  .tsb .tsb-lane { grid-template-columns: 1fr; }
+  .tsb .tsb-outcome { text-align: left; max-width: none; }
+  .tsb .tsb-page { padding: 32px 22px 150px 22px; }
+  .tsb .tsb-margin-note { top: auto; bottom: 34px; right: 22px; width: 40%; text-align: right; }
+  .tsb .tsb-pin--note { top: auto !important; bottom: 70px; right: 46% !important; }
+  .tsb .tsb-legend { grid-template-columns: 1fr; }
+  .tsb .tsb-views { grid-template-columns: 1fr; }
+  .tsb .tsb-neq span { font-size: 1.25rem; }
+  .tsb .tsb-inheritance { padding: 30px 22px; }
+  .tsb .tsb-inheritance p.tsb-inh-line { font-size: 1.45rem; }
+  .tsb .tsb-stairs p:nth-child(2) { padding-left: 5%; }
+  .tsb .tsb-stairs p:nth-child(3) { padding-left: 10%; }
+}
+
+/* ============================================================ */
+/* Section : reduced motion (show final states, no movement)      */
+/* ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .tsb *, .tsb *::before, .tsb *::after { animation-duration: 0.001s !important; animation-delay: 0s !important; transition-duration: 0.001s !important; transition-delay: 0s !important; }
+}
+</style>
+
+
+<div class="tsb">
+
+  <!-- Section : topic tags -->
+  <div class="tsb-tags">
+    <span class="tsb-tag">Training data</span>
+    <span class="tsb-tag">Cultural memory</span>
+    <span class="tsb-tag">Copyright</span>
+  </div><!-- fin .tsb-tags -->
+
+
+  <!-- Section : hero (a book whose spine is cut away) -->
+  <div class="tsb-hero">
+
+    <svg viewBox="0 0 220 300" role="img" aria-label="A book whose spine is cut off, its loose pages fanning out">
+      <!-- Loose sheets (the pages that will be scanned) -->
+      <g>
+        <rect class="hero-sheet" x="74" y="26" width="112" height="250" rx="2" fill="#E9DCC6"/>
+        <rect class="hero-sheet" x="74" y="26" width="112" height="250" rx="2" fill="#EFE3CF"/>
+        <rect class="hero-sheet" x="74" y="26" width="112" height="250" rx="2" fill="#F3E9D8"/>
+        <rect class="hero-sheet" x="74" y="26" width="112" height="250" rx="2" fill="#F7EFE2"/>
+        <rect class="hero-sheet" x="74" y="26" width="112" height="250" rx="2" fill="#FBF6EC"/>
+      </g>
+      <!-- Lines of text on the top sheet -->
+      <g stroke="#C9B79C" stroke-width="3" stroke-linecap="round" opacity="0.8">
+        <line x1="90" y1="60" x2="168" y2="60"/><line x1="90" y1="74" x2="172" y2="74"/>
+        <line x1="90" y1="88" x2="160" y2="88"/><line x1="90" y1="102" x2="170" y2="102"/>
+        <line x1="90" y1="116" x2="150" y2="116"/><line x1="90" y1="144" x2="170" y2="144"/>
+        <line x1="90" y1="158" x2="164" y2="158"/><line x1="90" y1="172" x2="172" y2="172"/>
+        <line x1="90" y1="186" x2="140" y2="186"/>
+      </g>
+      <!-- The spine, which falls away after the cut -->
+      <g class="hero-spine">
+        <rect x="38" y="18" width="36" height="266" rx="5" fill="#D46F4D"/>
+        <rect x="38" y="36" width="36" height="5" fill="#FFBF66"/>
+        <rect x="38" y="46" width="36" height="2" fill="#FFBF66"/>
+        <rect x="38" y="254" width="36" height="2" fill="#FFBF66"/>
+        <rect x="38" y="260" width="36" height="5" fill="#FFBF66"/>
+        <text x="56" y="150" fill="#430C05" font-family="Fraunces, Georgia, serif" font-size="11" letter-spacing="2" text-anchor="middle" transform="rotate(90 56 150)">A BOOK, 1962</text>
+      </g>
+      <!-- Cut line and blade -->
+      <line class="hero-cutline" x1="74" y1="12" x2="74" y2="290" stroke="#08C5D1" stroke-width="2" />
+      <path class="hero-blade" d="M66 14 L82 14 L74 28 Z" fill="#08C5D1"/>
+    </svg>
+
+    <div>
+      <p class="tsb-hero-kicker">A reflection</p>
+      <p class="tsb-hero-dek">What gets lost when we decide that <span>the data is all that matters?</span></p>
+      <p class="tsb-hero-meta">7 min read</p>
+    </div>
+
+  </div><!-- fin .tsb-hero -->
+
+
+  <!-- Section : opening scene -->
+  <p class="tsb-opening">Imagine buying a book, opening it for the last time, and cutting off its spine.</p>
+
+  <p>The pages are fed into an industrial scanner, turned into a digital file, and the paper is discarded. <strong>The words survive. The book doesn't.</strong> <strong>In a matter of seconds, an object that survived decades on a library shelf ceases to exist.</strong></p>
+
+  <p class="tsb-beat">Now imagine doing this millions of times.</p>
+
+  <!-- Section : the shelf that collapses into one line of data -->
+  <div class="tsb-shelf" id="tsb-shelf">
+    <div class="tsb-shelf-row" id="tsb-shelf-row" aria-hidden="true"></div>
+    <div class="tsb-shelf-foot">
+      <p class="tsb-shelf-caption" id="tsb-shelf-caption" aria-live="polite">Each spine is one copy, with its own history.</p>
+      <button type="button" class="tsb-btn" id="tsb-shelf-btn">Scan the shelf</button>
+    </div>
+  </div><!-- fin .tsb-shelf -->
+
+
+  <!-- Section : I. Project Panama -->
+  <div class="tsb-chapter">
+    <div class="tsb-eyebrow"><b>I</b>The project</div>
+    <h2 id="project-panama">"Project Panama"</h2>
+  </div>
+
+  <p>This is essentially what Anthropic did through an internal project known as <strong>Project Panama</strong>. In January 2026, court documents revealed that the company had spent tens of millions of dollars buying physical books, cutting off their bindings and scanning their pages to build a digital library for AI training.</p>
+
+  <p>An internal document described the ambition as an effort to:</p>
+
+  <div class="tsb-doc">
+    <div class="tsb-doc-head"><span>Internal document</span><span>Anthropic</span></div>
+    <p class="tsb-doc-quote">"<mark>destructively scan all the books in the world.</mark>"</p>
+    <span class="tsb-stamp">UNSEALED</span>
+  </div><!-- fin .tsb-doc -->
+
+  <p class="tsb-beat">The phrase is striking.</p>
+
+  <p>I work in AI, so I understand why data matters. Large language models need enormous amounts of text to learn how language works, how ideas connect and how arguments develop. Books are particularly valuable because they offer depth and context that shorter online content often lacks.</p>
+
+  <p>But my concern is not why an AI company needs so many books. It is <strong>what we might lose when we focus only on the raw data they contain.</strong></p>
+
+
+  <!-- Section : II. When efficiency becomes the priority -->
+  <div class="tsb-chapter">
+    <div class="tsb-eyebrow"><b>II</b>The method</div>
+    <h2 id="when-efficiency-becomes-the-priority">When efficiency becomes the priority</h2>
+  </div>
+
+  <p><strong>Why dismantle a book when nowadays industrial scanners can digitise it intact?</strong></p>
+
+  <p>The answer is practical: removing the binding allows pages to pass through high-speed scanners in batches. It saves time and money.</p>
+
+  <div class="tsb-lanes">
+
+    <div class="tsb-lane tsb-lane--keep">
+      <div>
+        <div class="tsb-lane-name">Scan it whole</div>
+        <div class="tsb-steps-row">
+          <span class="tsb-chip">Book opened on a cradle</span><span class="tsb-arrow">→</span>
+          <span class="tsb-chip">Pages turned one by one</span><span class="tsb-arrow">→</span>
+          <span class="tsb-chip">Book goes back on the shelf</span>
+        </div>
+      </div>
+      <div class="tsb-outcome"><b>Slower.</b><br>The object survives.</div>
+    </div><!-- fin .tsb-lane--keep -->
+
+    <div class="tsb-lane tsb-lane--cut">
+      <div>
+        <div class="tsb-lane-name">Scan it destructively</div>
+        <div class="tsb-steps-row">
+          <span class="tsb-chip">Spine cut off</span><span class="tsb-arrow">→</span>
+          <span class="tsb-chip">Loose pages fed in batches</span><span class="tsb-arrow">→</span>
+          <span class="tsb-chip">Paper discarded</span>
+        </div>
+      </div>
+      <div class="tsb-outcome"><b>Faster, cheaper.</b><br>The object is gone.</div>
+    </div><!-- fin .tsb-lane--cut -->
+
+  </div><!-- fin .tsb-lanes -->
+
+  <p>From a purely operational perspective, destructive scanning is a logical engineering choice. <strong>But is efficiency enough reason to destroy something when another option exists?</strong></p>
+
+
+  <!-- Section : III. The shift from illegal piracy to legal destruction -->
+  <div class="tsb-chapter">
+    <div class="tsb-eyebrow"><b>III</b>The shift</div>
+    <h2 id="the-shift-from-illegal-piracy-to-legal-destruction">The Shift from Illegal Piracy to Legal Destruction (And Why It Remained Secret)</h2>
+  </div>
+
+  <p>Unsealed Project Panama records reveal a deliberate shift in how AI training data was acquired.</p>
+
+  <p>Early in its development, Anthropic downloaded millions of digital books from “pirate online libraries.” Other AI companies, including OpenAI and Meta, faced similar accusations and a growing number of lawsuits from authors.</p>
+
+  <p>Anthropic then began buying second-hand books, removing their bindings, scanning their pages to train AI models, and discarding the paper. In June 2025, a US federal judge ruled that this process constituted fair use under US copyright law, but not the piracy, which led to a $1.5 billion legal settlement.</p>
+
+  <p>Yet, internal unsealed communications showed a mandate for secrecy:</p>
+
+  <div class="tsb-doc tsb-doc--b" id="tsb-doc-secret">
+    <div class="tsb-doc-head"><span>Internal communication</span><span>Anthropic</span></div>
+    <p class="tsb-doc-quote"><strong>"<span class="tsb-redact" style="--i:0">We don't want it</span> <span class="tsb-redact" style="--i:1">to be known</span> <span class="tsb-redact" style="--i:2">that we are working on this."</span></strong></p>
+    <span class="tsb-stamp">UNSEALED</span>
+  </div><!-- fin .tsb-doc--b -->
+
+  <p>This raises a question: the practice was legal, but was it ethical? Perhaps they recognised that gap and chose to keep it secret?</p>
+
+  <p>The thing is GenAI is evolving faster than legal frameworks can adapt, leaving them unable to address every aspect of these new technological capabilities.</p>
+
+
+  <!-- Section : IV. A book is more than its words -->
+  <div class="tsb-chapter">
+    <div class="tsb-eyebrow"><b>IV</b>The object</div>
+    <h2 id="a-book-is-more-than-its-words">A book is more than its words</h2>
+  </div>
+
+  <p>Think about an old book you might find in a secondhand shop.</p>
+
+  <p>Inside, you may find a long-closed library’s stamp, a dedication to a loved one or the date the book was given as a gift. Turn a few pages and you may discover pencilled disagreements with the author in the margins, a folded corner or even a faint coffee stain.</p>
+
+  <!-- Interactive figure : the annotated page, which can be "scanned" -->
+  <figure class="tsb-figure" id="tsb-figure">
+
+    <div class="tsb-page">
+      <div class="tsb-sweep" aria-hidden="true"></div>
+
+      <p class="tsb-dedication tsb-trace">For Anna, Christmas 1962.<br>Read it slowly. M.</p>
+      <span class="tsb-pin" style="left: 18px; top: 40px" aria-hidden="true">2</span>
+
+      <p class="tsb-chap">Chapter I</p>
+      <p class="tsb-booktext">It is a truth <span class="tsb-underline">universally acknowledged</span>, that a single man in possession of a good fortune, must be in want of a wife. However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered as the rightful property of some one or other of their daughters.</p>
+
+      <span class="tsb-margin-note tsb-trace">says who?</span>
+      <span class="tsb-pin tsb-pin--note" style="right: 3%; top: 140px" aria-hidden="true">3</span>
+
+      <div class="tsb-library-stamp tsb-trace" aria-hidden="true"><div>CITY FREE<br>LIBRARY<b>WITHDRAWN</b></div></div>
+      <span class="tsb-pin" style="left: 22px; bottom: 112px" aria-hidden="true">1</span>
+
+      <div class="tsb-coffee tsb-trace" aria-hidden="true"></div>
+      <span class="tsb-pin" style="right: 6%; bottom: 120px" aria-hidden="true">5</span>
+
+      <span class="tsb-pin" style="right: 10px; top: 60px" aria-hidden="true">4</span>
+    </div><!-- fin .tsb-page -->
+
+    <div class="tsb-figure-bar">
+      <p class="tsb-status" id="tsb-status" aria-live="polite">Physical copy · <b>5 traces</b> · one of a kind</p>
+      <button type="button" class="tsb-btn tsb-btn--solid" id="tsb-scan-btn">Scan this page</button>
+    </div>
+
+    <ul class="tsb-legend">
+      <li><span>1</span><span><b>Library stamp</b></span></li>
+      <li><span>2</span><span><b>Dedication</b></span></li>
+      <li><span>3</span><span><b>Pencilled disagreement</b></span></li>
+      <li><span>4</span><span><b>Folded corner</b></span></li>
+      <li><span>5</span><span><b>Coffee stain</b></span></li>
+    </ul>
+
+    <figcaption class="tsb-figcaption">Illustration. The text is the public-domain opening of <em>Pride and Prejudice</em> (1813); the dedication, stamp and notes are invented.</figcaption>
+
+  </figure><!-- fin .tsb-figure -->
+
+  <p>These details might seem insignificant, but they tell stories that the printed words cannot. Individual physical books accumulate unique historical "fingerprints" that distinguish one physical copy from every other.</p>
+
+  <p>Anthropic has stated that none of their data acquisition programs buy and destroy 'rare' or 'antiquarian' books, so we should not assume that irreplaceable books were systematically destroyed.</p>
+
+  <p>Still, physical documents can contain information that a digital transcription cannot preserve. This is not just a question of sentiment. Historians, archivists and researchers examine physical documents for precisely these kinds of traces. <strong>The object can tell a story that its text does not.</strong></p>
+
+  <p>Of course, not every book can or should be preserved forever. Digitization has enormous benefits, from protecting fragile texts to making knowledge accessible to people around the world.</p>
+
+  <p class="tsb-question">But when millions of physical objects are processed, <strong>who decides which ones are worth keeping, and according to what criteria?</strong></p>
+
+
+  <!-- Section : V. The knowledge AI depends on -->
+  <div class="tsb-chapter">
+    <div class="tsb-eyebrow"><b>V</b>The inheritance</div>
+    <h2 id="the-knowledge-ai-depends-on">The knowledge AI depends on</h2>
+  </div>
+
+  <p>There is another irony in this story.</p>
+
+  <p>AI can summarise books, explain historical events, compare philosophical arguments and help people discover ideas they might never have encountered otherwise.</p>
+
+  <p>These are genuinely useful capabilities. But the development of these systems also depends on the work of people who wrote, researched and thought long before modern AI existed.</p>
+
+  <div class="tsb-inheritance">
+    <div class="tsb-strata" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <p class="tsb-inh-line">AI is built on a cultural inheritance <span>it did not create.</span></p>
+  </div><!-- fin .tsb-inheritance -->
+
+  <p>There is nothing inherently wrong with building on existing knowledge. Human progress has always depended on the ideas and discoveries of previous generations.</p>
+
+  <p>But this relationship also creates responsibilities.</p>
+
+  <p>The question is not whether AI should use human knowledge. It is <strong>how to move forward while recognising the value of the resources that make progress possible.</strong></p>
+
+
+  <!-- Section : VI. What do we choose to preserve? -->
+  <div class="tsb-chapter">
+    <div class="tsb-eyebrow"><b>VI</b>The choice</div>
+    <h2 id="what-do-we-choose-to-preserve">What do we choose to preserve?</h2>
+  </div>
+
+  <p>I keep coming back to the cutting machine.</p>
+
+  <p>It is an ordinary industrial tool performing an ordinary task. There is no need to imagine an intention to erase history. The decision can be explained through economics, logistics and engineering.</p>
+
+  <p>And perhaps that is precisely what makes it interesting.</p>
+
+  <p>Some consequential decisions are not the result of a grand plan. They emerge from a series of practical choices, each one seemingly reasonable on its own.</p>
+
+  <div class="tsb-stairs">
+    <p>A little less time.</p>
+    <p>A little less expense.</p>
+    <p>A process that works at a larger scale.</p>
+  </div><!-- fin .tsb-stairs -->
+
+  <p>Eventually, those choices determine what remains and what disappears.</p>
+
+  <p>Perhaps most of the books in this project were replaceable copies. Perhaps their words existed elsewhere. But even if that is true, the broader question remains.</p>
+
+  <div class="tsb-views">
+    <div class="tsb-view tsb-view--a"><span class="tsb-view-who">An AI company</span><span class="tsb-view-sees">may see a book as training data.</span></div>
+    <div class="tsb-view tsb-view--b"><span class="tsb-view-who">A reader</span><span class="tsb-view-sees">may see a source of ideas.</span></div>
+    <div class="tsb-view tsb-view--c"><span class="tsb-view-who">A historian</span><span class="tsb-view-sees">may see evidence of another time.</span></div>
+    <div class="tsb-view tsb-view--d"><span class="tsb-view-who">A future researcher</span><span class="tsb-view-sees">may discover something in it that none of us currently recognizes as important.</span></div>
+  </div><!-- fin .tsb-views -->
+
+  <p>We cannot preserve everything, and digitization is not inherently a loss. But preservation and access are not the same thing. Neither are information and history.</p>
+
+  <div class="tsb-neq" aria-hidden="true">
+    <span>Preservation</span><span>≠</span><span>access</span>
+    <span>Information</span><span>≠</span><span>history</span>
+  </div><!-- fin .tsb-neq -->
+
+  <p>When we decide that the information contained in something is all we need, <strong>how do we know what else we are choosing to lose?</strong></p>
+
+  <p class="tsb-beat">And <strong>who should have a say in that decision?</strong></p>
+
+
+  <!-- Section : coda (return to the cut book) -->
+  <div class="tsb-coda">
+    <p>Because once a book has been reduced to a digital file, we may still have its words.</p>
+    <p class="tsb-coda-last"><strong>What we no longer have is the opportunity to discover everything else that book might have told us.</strong></p>
+    <svg viewBox="0 0 40 120" aria-hidden="true">
+      <rect x="6" y="4" width="28" height="112" rx="4" fill="#D46F4D"/>
+      <rect x="6" y="14" width="28" height="4" fill="#FFBF66"/>
+      <rect x="6" y="102" width="28" height="4" fill="#FFBF66"/>
+    </svg>
+  </div><!-- fin .tsb-coda -->
+
+
+  <!-- Section : end note and sources -->
+  <div class="tsb-note">
+    <p>Facts about Project Panama come from unsealed court records as reported by the press and from public rulings; the reflections, the illustrated page and the hypothetical scenes are the author's own interpretation.</p>
+    <ul>
+      <li><a href="https://www.infodocket.com/2026/01/27/washington-post-books-ai-train/">The Washington Post report on Project Panama (via InfoDocket, January 2026)</a></li>
+      <li><a href="https://www.euronews.com/2026/08/05/project-panama-how-anthropic-secretly-destroyed-millions-of-books-to-train-its-ai">Euronews: Project Panama, how Anthropic destroyed millions of books</a></li>
+      <li><a href="https://lithub.com/anthropic-didnt-want-us-to-know-that-they-were-destroying-millions-of-books-to-feed-their-software">Literary Hub: the secrecy documents</a></li>
+      <li><a href="https://www.bgr.com/2235886/why-ai-companies-buying-rare-books-destroy-them-controversy/">BGR: how the books were cut, and Anthropic's statement on rare books</a></li>
+      <li><a href="https://blogs.city.ac.uk/citylawforum/?p=885">City Law Forum: the June 2025 fair use ruling</a></li>
+      <li><a href="https://ktslaw.com/insights/alert/2025/9/parties-reach-a-landmark-settlement-in-the-bartz-v-anthropic-litigation">Kilpatrick Townsend: the $1.5 billion settlement</a></li>
+    </ul>
+  </div><!-- fin .tsb-note -->
+
+</div><!-- fin .tsb -->
+
+
+<script>
+/* ============================================================ */
+/* Interactions : shelf, unsealed document, scannable page        */
+/* ============================================================ */
+(function () {
+  var root = document.querySelector('.tsb');
+  if (!root) return;
+  root.classList.add('tsb-js');
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canObserve = 'IntersectionObserver' in window;
+
+  /* ---------- 1. The shelf: build spines, then collapse them ---------- */
+  var row     = document.getElementById('tsb-shelf-row');
+  var shelf   = document.getElementById('tsb-shelf');
+  var caption = document.getElementById('tsb-shelf-caption');
+  var shelfBtn = document.getElementById('tsb-shelf-btn');
+  var COLORS = ['#430C05', '#D46F4D', '#FFBF66', '#00353F', '#08C5D1', '#8A5A44', '#C9B79C', '#6E2A1C', '#E3A27F'];
+
+  /* Fixed pseudo-random sequence so the shelf looks the same on every visit */
+  var seed = 7;
+  function rand() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+
+  var used = 0, i = 0, maxWidth = 1200;
+  while (used < maxWidth) {
+    var s = document.createElement('span');
+    var w = 6 + Math.round(rand() * 10);
+    s.className = 'tsb-spine';
+    s.style.width = w + 'px';
+    s.style.height = (58 + Math.round(rand() * 52)) + 'px';
+    s.style.backgroundColor = COLORS[Math.floor(rand() * COLORS.length)];
+    s.style.transitionDelay = (i * 12) + 'ms';
+    row.appendChild(s);
+    used += w + 2; i++;
+  }
+
+  var TEXT_BEFORE = 'Each spine is one copy, with its own history.';
+  var TEXT_AFTER  = 'One line of data. The words survive. The book doesn\'t.';
+
+  function setShelf(flat) {
+    shelf.classList.toggle('is-flat', flat);
+    caption.style.opacity = 0;
+    setTimeout(function () {
+      caption.textContent = flat ? TEXT_AFTER : TEXT_BEFORE;
+      caption.style.opacity = 1;
+    }, reduce ? 0 : 450);
+    shelfBtn.textContent = flat ? 'Put the books back' : 'Scan the shelf';
+  }
+
+  shelfBtn.addEventListener('click', function () { setShelf(!shelf.classList.contains('is-flat')); });
+
+  /* First time the shelf is well in view, it collapses on its own */
+  if (canObserve && !reduce) {
+    var shelfObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { setTimeout(function () { setShelf(true); }, 900); shelfObs.disconnect(); }
+      });
+    }, { threshold: 0.8 });
+    shelfObs.observe(shelf);
+  }
+
+  /* ---------- 2. The secret document lifts its redaction bars ---------- */
+  var secret = document.getElementById('tsb-doc-secret');
+  if (canObserve && !reduce) {
+    var docObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { secret.classList.add('is-unsealed'); docObs.disconnect(); }
+      });
+    }, { threshold: 0.7 });
+    docObs.observe(secret);
+  } else {
+    secret.classList.add('is-unsealed');
+  }
+
+  /* ---------- 3. The page that can be scanned ---------- */
+  var fig    = document.getElementById('tsb-figure');
+  var scanBtn = document.getElementById('tsb-scan-btn');
+  var status = document.getElementById('tsb-status');
+
+  scanBtn.addEventListener('click', function () {
+    var scanned = fig.classList.contains('is-scanned');
+    if (!scanned) {
+      fig.classList.add('is-sweeping');
+      setTimeout(function () {
+        fig.classList.add('is-scanned');
+        fig.classList.remove('is-sweeping');
+        status.innerHTML = 'Digital file · <b>0 traces</b> · identical to every other copy';
+        scanBtn.textContent = 'Bring the book back';
+      }, reduce ? 0 : 520);
+    } else {
+      fig.classList.remove('is-scanned');
+      status.innerHTML = 'Physical copy · <b>5 traces</b> · one of a kind';
+      scanBtn.textContent = 'Scan this page';
+    }
+  });
+})();
+</script>
