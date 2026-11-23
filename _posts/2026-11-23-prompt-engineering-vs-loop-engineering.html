@@ -1,0 +1,842 @@
+---
+title: "Prompt Engineering vs Loop Engineering"
+date: 2026-11-23
+excerpt: "A prompt is one well-aimed shot. A loop is a system that shoots, looks, corrects and shoots again. Why the best AI work is shifting from wording to design, with animated diagrams you can click."
+---
+
+<!--
+  Article: "Prompt Engineering vs Loop Engineering" (AI Explained)
+  Motion-heavy visual explainer. Custom HTML page that keeps the default "post" layout.
+  Every CSS rule is scoped under .pl so nothing leaks into the site theme.
+  Colors come from the blog palette (assets/main.scss).
+  Visual moments, in reading order:
+    1. hero: one dart vs four darts that converge (plays on view, can be replayed)
+    2. two mini pipelines: a straight line vs a circuit
+    3. the loop, step by step: a clickable cycle with a travelling packet
+    4. illustrative quality curves (drawn on scroll)
+    5. "run both" simulator on a scripted task
+    6. the five parts of a loop (staggered cards)
+    7. side-by-side table
+    8. when loops go wrong: a runaway cost meter + guardrails
+    9. nested rings: the prompt lives inside the loop
+   10. "which one for this task?" picker
+  Motion respects prefers-reduced-motion. Without JavaScript every visual shows its final state.
+-->
+
+<div class="post-tags"><span class="post-tag">Prompt engineering</span><span class="post-tag">Agents</span><span class="post-tag">Feedback loops</span></div>
+
+<style>
+/* ============================================================ */
+/* Section : scope, palette and base typography                 */
+/* ============================================================ */
+.pl, .pl * {
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+}
+.pl {
+  --maroon: #430C05;
+  --terracotta: #D46F4D;
+  --terracotta-ink: #A9472A;
+  --amber: #FFBF66;
+  --cyan: #08C5D1;
+  --cyan-ink: #05707A;
+  --teal: #00353F;
+  --paper: #FBF7F2;
+  --card: #FFFFFF;
+  --ink: #3A241C;
+  --muted: #7C6257;
+  --line: #EADFD5;
+  --serif: 'Fraunces', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  color: var(--ink);
+  margin-top: 1.5rem;
+}
+.pl p { margin: 0 0 1rem; }
+.pl-section { margin: 4.5rem 0; }
+.pl-label {
+  font: 600 .72rem/1 'Inter', sans-serif; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--terracotta-ink); margin-bottom: .6rem;
+}
+.pl h2 { font-size: clamp(1.6rem, 4.4vw, 2.2rem); line-height: 1.15; margin: 0 0 .9rem; }
+.pl-lead { font-size: 1.12rem; max-width: 40rem; }
+.pl-note { font-size: .85rem; color: var(--muted); margin-top: .8rem; }
+.pl strong { color: var(--maroon); }
+.pl code {
+  font-family: var(--mono); font-size: .85em; background: #F4EADA; color: var(--maroon);
+  padding: .1em .4em; border-radius: 5px;
+}
+.pl svg { display: block; width: 100%; height: auto; }
+.pl button { font-family: inherit; cursor: pointer; }
+.pl :focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+
+/* Shared reveal: hidden only when JS is running, final state otherwise */
+.pl-js .pl-reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.3,1); transition-delay: var(--rd, 0s); }
+.pl-js .pl-reveal.pl-in { opacity: 1; transform: none; }
+
+/* ============================================================ */
+/* Section 1 : hero (dart vs darts)                              */
+/* ============================================================ */
+.pl-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.6rem 0 0; }
+.pl-panel { border-radius: 20px; padding: 1.2rem 1rem 1.1rem; position: relative; overflow: hidden; }
+.pl-panel--a { background: var(--maroon); color: #F6E8DE; }
+.pl-panel--b { background: var(--teal); color: #E2F6F7; }
+.pl-panel h3 { color: inherit; font-size: 1.15rem; margin: 0 0 .1rem; }
+.pl-panel .pl-tag { font: 600 .68rem/1 'Inter', sans-serif; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
+.pl-panel p { font-size: .95rem; margin: .4rem 0 0; opacity: .92; }
+.pl-target-ring { fill: none; stroke-width: 22; }
+.pl-dart { transform: translate(var(--x), var(--y)); }
+.pl-js .pl-dart { opacity: 0; }
+.pl-play .pl-dart { opacity: 1; animation: pl-fly .75s cubic-bezier(.2,.8,.3,1) var(--d, 0s) both, pl-dim .4s ease calc(var(--d, 0s) + var(--dim, 99s)) forwards; }
+@keyframes pl-fly {
+  0%   { transform: translate(calc(var(--x) - 260px), calc(var(--y) - 70px)); opacity: 0; }
+  15%  { opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)); opacity: 1; }
+}
+@keyframes pl-dim { to { opacity: .3; } }
+.pl-orbit { transform-origin: 150px 130px; animation: pl-spin 14s linear infinite; }
+@keyframes pl-spin { to { transform: rotate(360deg); } }
+.pl-count { font: 600 .8rem/1 var(--mono); fill: #9FE9EE; }
+.pl-js .pl-count { opacity: 0; }
+.pl-play .pl-count { animation: pl-pop .4s ease var(--d) both; }
+.pl-play .pl-count--tmp { animation: pl-pop .4s ease var(--d) both, pl-gone .3s ease calc(var(--d) + 1.1s) forwards; }
+@keyframes pl-gone { to { opacity: 0; } }
+@keyframes pl-pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.pl-replay {
+  margin: 1rem auto 0; display: block; background: transparent; color: var(--maroon);
+  border: 2px solid var(--maroon); border-radius: 999px; padding: .45rem 1.1rem; font-weight: 600; font-size: .9rem;
+  transition: background .2s, color .2s;
+}
+.pl-replay:hover { background: var(--maroon); color: #fff; }
+
+/* ============================================================ */
+/* Section 2 : two pipelines                                     */
+/* ============================================================ */
+.pl-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1.6rem; }
+.pl-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.2rem; }
+.pl-card h3 { margin: 0 0 .2rem; font-size: 1.2rem; }
+.pl-card p { font-size: .95rem; margin: .6rem 0 0; }
+.pl-flow-line { stroke: var(--line); stroke-width: 4; fill: none; stroke-linecap: round; }
+.pl-box { fill: #fff; stroke: var(--maroon); stroke-width: 2.5; }
+.pl-box-t { font: 600 13px 'Inter', sans-serif; fill: var(--maroon); text-anchor: middle; }
+.pl-pulse { animation: pl-pulse 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes pl-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+/* ============================================================ */
+/* Section 3 : the cycle                                         */
+/* ============================================================ */
+.pl-cycle { display: grid; grid-template-columns: 1.25fr 1fr; gap: 1.5rem; align-items: center; margin-top: 1.6rem; }
+.pl-cycle-box { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: .8rem; }
+.pl-node { cursor: pointer; }
+.pl-node rect { fill: #fff; stroke: var(--maroon); stroke-width: 2.5; transition: fill .25s, stroke .25s; }
+.pl-node text { font: 700 14px 'Inter', sans-serif; letter-spacing: .08em; text-anchor: middle; fill: var(--maroon); transition: fill .25s; pointer-events: none; }
+.pl-node.is-on rect { fill: var(--maroon); }
+.pl-node.is-on text { fill: #FFBF66; }
+.pl-ring { fill: none; stroke: var(--line); stroke-width: 5; }
+.pl-ring-dash { fill: none; stroke: var(--terracotta); stroke-width: 3; stroke-dasharray: 3 12; stroke-linecap: round; animation: pl-march 1.4s linear infinite; }
+@keyframes pl-march { to { stroke-dashoffset: -30; } }
+.pl-exit { opacity: .55; transition: opacity .3s; }
+.pl-exit.is-on { opacity: 1; }
+.pl-steps { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: .9rem; }
+.pl-step {
+  border: 2px solid var(--line); background: #fff; color: var(--maroon); border-radius: 999px;
+  padding: .35rem .9rem; font-weight: 700; font-size: .78rem; letter-spacing: .08em; transition: all .2s;
+}
+.pl-step:hover { border-color: var(--terracotta); }
+.pl-step[aria-pressed="true"] { background: var(--maroon); border-color: var(--maroon); color: var(--amber); }
+.pl-step-text { min-height: 7.5rem; }
+.pl-step-text h3 { margin: 0 0 .3rem; font-size: 1.25rem; }
+.pl-step-text p { margin: 0; }
+.pl-step-text .pl-swap { animation: pl-swap .45s ease both; }
+@keyframes pl-swap { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ============================================================ */
+/* Section 4 : curves                                            */
+/* ============================================================ */
+.pl-chart { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 1rem 1rem .6rem; margin-top: 1.6rem; }
+.pl-axis { stroke: #CDBDB1; stroke-width: 2; }
+.pl-grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 6; }
+.pl-axis-t { font: 500 12px 'Inter', sans-serif; fill: var(--muted); }
+.pl-curve { fill: none; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.pl-js .pl-curve { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.pl-in .pl-curve, .pl-curve-in { stroke-dashoffset: 0; transition: stroke-dashoffset 2.2s cubic-bezier(.3,.6,.2,1) var(--cd, 0s); }
+.pl-js .pl-chart-dot { opacity: 0; transition: opacity .4s ease var(--cd, 0s); }
+.pl-in .pl-chart-dot { opacity: 1; }
+.pl-legend { display: flex; flex-wrap: wrap; gap: 1.2rem; font-size: .88rem; padding: .3rem .4rem .5rem; }
+.pl-legend i { display: inline-block; width: 22px; height: 5px; border-radius: 4px; margin-right: .45rem; vertical-align: middle; }
+
+/* ============================================================ */
+/* Section 5 : simulator                                         */
+/* ============================================================ */
+.pl-sim { margin-top: 1.6rem; background: var(--maroon); color: #F6E8DE; border-radius: 24px; padding: 1.4rem; }
+.pl-sim-task { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.2rem; justify-content: space-between; margin-bottom: 1.1rem; }
+.pl-sim-task code { background: rgba(255,255,255,.12); color: var(--amber); font-size: .9rem; }
+.pl-run {
+  background: var(--amber); color: var(--maroon); border: 0; border-radius: 999px; padding: .6rem 1.4rem;
+  font-weight: 700; font-size: .95rem; transition: transform .15s, box-shadow .15s;
+}
+.pl-run:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0,0,0,.25); }
+.pl-run:disabled { opacity: .5; cursor: progress; transform: none; box-shadow: none; }
+.pl-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.pl-lane { background: rgba(255,255,255,.07); border-radius: 16px; padding: 1rem; min-height: 15rem; }
+.pl-lane h3 { color: #fff; font-size: 1.05rem; margin: 0 0 .7rem; }
+.pl-tests { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: .9rem; }
+.pl-test {
+  height: 30px; border-radius: 8px; background: rgba(255,255,255,.14); display: grid; place-items: center;
+  font: 700 .75rem/1 var(--mono); color: rgba(255,255,255,.5); transition: background .4s, color .4s, transform .4s;
+}
+.pl-test.is-fail { background: #C2412D; color: #fff; }
+.pl-test.is-pass { background: #2FA37A; color: #fff; transform: scale(1.06); }
+.pl-log { list-style: none; margin: 0; padding: 0; font: .78rem/1.5 var(--mono); min-height: 7.5rem; }
+.pl-log li { padding: .15rem 0; animation: pl-swap .4s ease both; color: #E7D6CB; }
+.pl-log li b { color: var(--amber); font-weight: 400; }
+.pl-log li.ok { color: #7BE0B6; }
+.pl-log li.bad { color: #FF9C8A; }
+.pl-verdict { margin-top: .7rem; font-weight: 700; font-size: .95rem; min-height: 1.4rem; }
+
+/* ============================================================ */
+/* Section 6 : the five parts                                    */
+/* ============================================================ */
+.pl-parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin-top: 1.6rem; }
+.pl-part {
+  background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.1rem 1rem;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.pl-part:hover { transform: translateY(-5px); box-shadow: 0 10px 0 rgba(67,12,5,.08); border-color: var(--terracotta); }
+.pl-part svg { width: 56px; height: 56px; margin-bottom: .5rem; }
+.pl-part h3 { margin: 0 0 .3rem; font-size: 1.08rem; }
+.pl-part p { font-size: .9rem; margin: 0; }
+.pl-part .pl-n { font: 700 .7rem/1 var(--mono); color: var(--terracotta-ink); letter-spacing: .1em; }
+.pl-ico-spin { transform-box: fill-box; transform-origin: center; animation: pl-spin2 6s linear infinite; }
+@keyframes pl-spin2 { to { transform: rotate(360deg); } }
+.pl-ico-bob { animation: pl-bob 2.2s ease-in-out infinite; }
+@keyframes pl-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.pl-ico-blink { animation: pl-blink 1.8s ease-in-out infinite; }
+@keyframes pl-blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+
+/* ============================================================ */
+/* Section 7 : table                                             */
+/* ============================================================ */
+.pl-table { margin-top: 1.6rem; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--card); }
+.pl-row { display: grid; grid-template-columns: .8fr 1fr 1fr; }
+.pl-row > div { padding: .85rem 1rem; border-top: 1px solid var(--line); font-size: .94rem; }
+.pl-row--head > div { border-top: 0; font-weight: 700; color: #fff; }
+.pl-row--head > div:nth-child(2) { background: var(--maroon); }
+.pl-row--head > div:nth-child(3) { background: var(--teal); }
+.pl-row--head > div:first-child { background: var(--paper); }
+.pl-row > div:first-child { font-weight: 700; color: var(--maroon); background: var(--paper); }
+
+/* ============================================================ */
+/* Section 8 : when loops go wrong                               */
+/* ============================================================ */
+.pl-risks { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1.6rem; }
+.pl-meter { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.2rem; }
+.pl-meter-bar { height: 22px; border-radius: 999px; background: var(--line); overflow: hidden; margin: .8rem 0 .4rem; position: relative; }
+.pl-meter-fill { height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, var(--cyan), var(--amber), #C2412D); }
+.pl-meter-cap { position: absolute; top: -4px; bottom: -4px; width: 3px; background: var(--maroon); left: 70%; }
+.pl-meter-cap::after { content: "budget cap"; position: absolute; top: -1.4rem; left: -1.8rem; font: 600 .68rem/1 'Inter', sans-serif; color: var(--maroon); white-space: nowrap; }
+.pl-meter-row { display: flex; justify-content: space-between; font: .8rem var(--mono); color: var(--muted); }
+.pl-meter-btns { display: flex; gap: .6rem; margin-top: .9rem; flex-wrap: wrap; }
+.pl-chip {
+  border: 2px solid var(--maroon); background: #fff; color: var(--maroon); border-radius: 999px;
+  padding: .4rem 1rem; font-weight: 700; font-size: .85rem; transition: all .2s;
+}
+.pl-chip:hover { background: var(--maroon); color: #fff; }
+.pl-chip[aria-pressed="true"] { background: var(--maroon); color: var(--amber); }
+.pl .pl-meter-msg { margin-top: .9rem; font-size: .9rem; min-height: 2.6rem; }
+.pl-fails { display: grid; gap: .8rem; }
+.pl-fail { display: grid; grid-template-columns: 54px 1fr; gap: .9rem; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: .8rem 1rem; }
+.pl-fail svg { width: 54px; height: 54px; }
+.pl-fail h3 { margin: 0; font-size: 1.02rem; }
+.pl-fail p { margin: .1rem 0 0; font-size: .88rem; }
+.pl-guards { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.4rem; }
+.pl-guard { background: var(--teal); color: #E2F6F7; border-radius: 999px; padding: .45rem 1rem; font-size: .88rem; font-weight: 600; }
+.pl-guard::before { content: "✓ "; color: var(--cyan); }
+
+/* ============================================================ */
+/* Section 9 : nested rings                                      */
+/* ============================================================ */
+.pl-nest { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; align-items: center; margin-top: 1.6rem; }
+.pl-nest-art { box-sizing: border-box; background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: .6rem; max-width: 420px; margin: 0 auto; width: 100%; }
+.pl-ring-a { transform-box: fill-box; transform-origin: center; animation: pl-spin2 18s linear infinite; }
+.pl-ring-b { transform-box: fill-box; transform-origin: center; animation: pl-spin2 9s linear infinite reverse; }
+.pl-nest-list { list-style: none; margin: 0; padding: 0; }
+.pl-nest-list li { display: grid; grid-template-columns: 14px 1fr; gap: .8rem; margin-bottom: 1rem; }
+.pl-nest-list i { width: 14px; height: 14px; border-radius: 50%; margin-top: .45rem; }
+
+/* ============================================================ */
+/* Section 10 : picker                                           */
+/* ============================================================ */
+.pl-pick { margin-top: 1.6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; align-items: start; }
+.pl-pick-chips { display: flex; flex-direction: column; gap: .55rem; }
+.pl-pick-chips .pl-chip { text-align: left; border-radius: 14px; border-width: 2px; font-weight: 600; }
+.pl-result { border-radius: 20px; padding: 1.3rem; background: var(--card); border: 1px solid var(--line); min-height: 14rem; }
+.pl-result .pl-verdict-big { font: 600 1.7rem/1.1 var(--serif); margin: 0 0 .5rem; padding-bottom: .06em; }
+.pl-result .pl-meterline { display: flex; height: 14px; border-radius: 999px; overflow: hidden; margin: .8rem 0; background: var(--line); }
+.pl-result .pl-meterline span { display: block; height: 100%; transition: width .6s cubic-bezier(.2,.8,.3,1); }
+
+/* ============================================================ */
+/* Coda                                                          */
+/* ============================================================ */
+.pl-coda { background: var(--maroon); color: #F6E8DE; border-radius: 26px; padding: 2.2rem 1.6rem; text-align: center; margin: 4.5rem 0 1rem; }
+.pl-coda .pl-big { font: 600 clamp(1.4rem, 4vw, 2rem)/1.25 var(--serif); color: var(--amber); max-width: 34rem; margin: 0 auto 1rem; }
+.pl-coda p { max-width: 36rem; margin: 0 auto; }
+.pl-coda a { color: var(--amber); }
+
+/* ============================================================ */
+/* Section : responsive                                          */
+/* ============================================================ */
+@media (max-width: 760px) {
+  .pl-hero, .pl-duo, .pl-cycle, .pl-lanes, .pl-risks, .pl-nest, .pl-pick { grid-template-columns: 1fr; }
+  .pl-row { grid-template-columns: 1fr; }
+  .pl-row--head > div:first-child { display: none; }
+  .pl-row > div:first-child { padding-bottom: .2rem; border-top: 3px solid var(--line); }
+  .pl-row > div:not(:first-child) { border-top: 0; padding-top: .3rem; }
+  .pl-row--head > div:not(:first-child) { padding: .6rem 1rem; }
+  .pl-section { margin: 3.5rem 0; }
+}
+
+/* ============================================================ */
+/* Section : reduced motion (show final states, no movement)     */
+/* ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .pl *, .pl *::before, .pl *::after { animation-duration: 0.001s !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; transition-delay: 0s !important; }
+}
+</style>
+
+<div class="pl">
+
+<!-- ============================================================ -->
+<!-- Section 1 : the basic idea (hero)                             -->
+<!-- ============================================================ -->
+<section class="pl-section" style="margin-top:1rem">
+  <div class="pl-label">The short version</div>
+  <h2>Aim once, or aim, look, and correct?</h2>
+  <p class="pl-lead"><strong>Prompt engineering</strong> is the craft of writing the best possible instruction for <em>one</em> model call. <strong>Loop engineering</strong> is the craft of designing the <em>cycle</em> around the model: act, observe, judge, adjust, repeat until a check says it's done.</p>
+  <p class="pl-lead">A caveat on words: "loop engineering" is an informal, emerging label, not an official discipline. I'm using it for the design work that agent builders already do: feedback, checks, memory and stop rules.</p>
+
+  <div class="pl-hero" id="pl-hero">
+    <div class="pl-panel pl-panel--a">
+      <span class="pl-tag">Prompt engineering</span>
+      <h3>One shot</h3>
+      <svg viewBox="0 0 300 260" role="img" aria-label="A target with one dart that lands close to the bullseye but not on it.">
+        <g transform="translate(150 130)">
+          <circle r="100" fill="#F6E8DE"/><circle r="72" fill="#D46F4D"/><circle r="44" fill="#F6E8DE"/><circle r="18" fill="#FFBF66"/>
+        </g>
+        <g class="pl-dart" style="--x:196px;--y:92px;--d:.5s">
+          <line x1="0" y1="0" x2="-30" y2="-9" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          <circle r="7" fill="#430C05" stroke="#fff" stroke-width="3"/>
+        </g>
+      </svg>
+      <p>Aim carefully, shoot once. Sometimes it hits. You can't always tell which.</p>
+    </div>
+    <div class="pl-panel pl-panel--b">
+      <span class="pl-tag">Loop engineering</span>
+      <h3>Shoot, look, correct</h3>
+      <svg viewBox="0 0 300 260" role="img" aria-label="The same target with four darts; each lands closer to the bullseye than the last.">
+        <g transform="translate(150 130)">
+          <circle r="100" fill="#E2F6F7"/><circle r="72" fill="#08C5D1"/><circle r="44" fill="#E2F6F7"/><circle r="18" fill="#FFBF66"/>
+        </g>
+        <g class="pl-orbit"><circle cx="150" cy="130" r="116" fill="none" stroke="#9FE9EE" stroke-width="2.5" stroke-dasharray="4 12" stroke-linecap="round"/></g>
+        <g class="pl-dart" style="--x:212px;--y:174px;--d:.5s;--dim:1.1s"><line x1="0" y1="0" x2="-30" y2="-9" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle r="7" fill="#00353F" stroke="#fff" stroke-width="3"/></g>
+        <g class="pl-dart" style="--x:184px;--y:104px;--d:1.7s;--dim:1.1s"><line x1="0" y1="0" x2="-30" y2="-9" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle r="7" fill="#00353F" stroke="#fff" stroke-width="3"/></g>
+        <g class="pl-dart" style="--x:136px;--y:144px;--d:2.9s;--dim:1.1s"><line x1="0" y1="0" x2="-30" y2="-9" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle r="7" fill="#00353F" stroke="#fff" stroke-width="3"/></g>
+        <g class="pl-dart" style="--x:150px;--y:130px;--d:4.1s"><line x1="0" y1="0" x2="-30" y2="-9" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle r="7" fill="#430C05" stroke="#FFBF66" stroke-width="3"/></g>
+        <text class="pl-count pl-count--tmp" style="--d:.9s" x="10" y="18">try 1: miss</text>
+        <text class="pl-count pl-count--tmp" style="--d:2.1s" x="10" y="18">try 2: closer</text>
+        <text class="pl-count pl-count--tmp" style="--d:3.3s" x="10" y="18">try 3: closer</text>
+        <text class="pl-count" style="--d:4.5s" x="10" y="18">try 4: bullseye</text>
+      </svg>
+      <p>Each miss is information. The next try starts from what the last one taught.</p>
+    </div>
+  </div>
+  <button class="pl-replay" id="pl-replay" type="button">↻ Replay</button>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 2 : two shapes                                        -->
+<!-- ============================================================ -->
+<section class="pl-section">
+  <div class="pl-label">Two shapes</div>
+  <h2>A straight line vs a circuit</h2>
+  <p class="pl-lead">The difference is not how clever the words are. It's the <strong>shape</strong> of the system.</p>
+
+  <div class="pl-duo">
+    <div class="pl-card pl-reveal">
+      <h3>Prompt: a line</h3>
+      <svg viewBox="0 0 420 150" role="img" aria-label="A straight pipeline: instruction goes into the model, an answer comes out, and the work ends.">
+        <path id="pl-line-path" class="pl-flow-line" d="M66 75 H354"/>
+        <circle r="8" fill="#D46F4D"><animateMotion dur="3.2s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.8;1" calcMode="linear"><mpath href="#pl-line-path"/></animateMotion></circle>
+        <rect class="pl-box" x="18" y="48" width="96" height="54" rx="14"/><text class="pl-box-t" x="66" y="80">Prompt</text>
+        <rect class="pl-box pl-pulse" x="162" y="48" width="96" height="54" rx="14" style="fill:#FFBF66"/><text class="pl-box-t" x="210" y="80">Model</text>
+        <rect class="pl-box" x="306" y="48" width="96" height="54" rx="14"/><text class="pl-box-t" x="354" y="80">Answer</text>
+        <text class="pl-axis-t" x="210" y="136" text-anchor="middle">…and that's the end of the road</text>
+      </svg>
+      <p>All the quality has to be packed into the wording, the examples and the context you give up front. You inspect the result by reading it yourself.</p>
+    </div>
+    <div class="pl-card pl-reveal" style="--rd:.15s">
+      <h3>Loop: a circuit</h3>
+      <svg viewBox="0 0 420 150" role="img" aria-label="A circular pipeline: the model's answer is checked, and a failed check sends feedback back to the model.">
+        <path id="pl-loop-path" class="pl-flow-line" d="M70 40 H350 a30 30 0 0 1 0 60 H70 a30 30 0 0 1 0 -60 z"/>
+        <circle r="8" fill="#D46F4D"><animateMotion dur="4.2s" repeatCount="indefinite"><mpath href="#pl-loop-path"/></animateMotion></circle>
+        <rect class="pl-box pl-pulse" x="30" y="14" width="96" height="46" rx="14" style="fill:#FFBF66"/><text class="pl-box-t" x="78" y="42">Model</text>
+        <rect class="pl-box" x="162" y="14" width="96" height="46" rx="14"/><text class="pl-box-t" x="210" y="42">Result</text>
+        <rect class="pl-box" x="294" y="14" width="96" height="46" rx="14" style="fill:#08C5D1"/><text class="pl-box-t" x="342" y="42">Check</text>
+        <rect class="pl-box" x="162" y="86" width="96" height="46" rx="14"/><text class="pl-box-t" x="210" y="114">Feedback</text>
+        <text class="pl-axis-t" x="210" y="76" text-anchor="middle">fail → go around again</text>
+      </svg>
+      <p>Quality comes from the <strong>cycle</strong>: a real signal comes back, and the next attempt uses it. Reading the result is partly delegated to a check.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 3 : the cycle                                         -->
+<!-- ============================================================ -->
+<section class="pl-section">
+  <div class="pl-label">Anatomy of a loop</div>
+  <h2>Four beats and an exit</h2>
+  <p class="pl-lead">Click a step. The dot shows one full lap.</p>
+
+  <div class="pl-cycle">
+    <div class="pl-cycle-box">
+      <svg viewBox="0 0 520 380" role="img" aria-label="A cycle with four steps: Act, Observe, Judge, Adjust. From Judge, a green exit leads to Done.">
+        <path id="pl-cyc" class="pl-ring" d="M260 70 A190 105 0 0 1 450 175 A190 105 0 0 1 260 280 A190 105 0 0 1 70 175 A190 105 0 0 1 260 70"/>
+        <path class="pl-ring-dash" d="M260 70 A190 105 0 0 1 450 175 A190 105 0 0 1 260 280 A190 105 0 0 1 70 175 A190 105 0 0 1 260 70"/>
+        <g class="pl-exit" id="pl-exit">
+          <path d="M260 304 V330" stroke="#2FA37A" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M252 324 L260 334 L268 324" stroke="#2FA37A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="196" y="338" width="128" height="34" rx="17" fill="#2FA37A"/>
+          <text x="260" y="360" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="14" fill="#fff">Done ✓</text>
+        </g>
+        <g class="pl-node" data-step="0" tabindex="-1"><rect x="200" y="48" width="120" height="44" rx="22"/><text x="260" y="76">ACT</text></g>
+        <g class="pl-node" data-step="1" tabindex="-1"><rect x="390" y="153" width="120" height="44" rx="22"/><text x="450" y="181">OBSERVE</text></g>
+        <g class="pl-node" data-step="2" tabindex="-1"><rect x="200" y="258" width="120" height="44" rx="22"/><text x="260" y="286">JUDGE</text></g>
+        <g class="pl-node" data-step="3" tabindex="-1"><rect x="10" y="153" width="120" height="44" rx="22"/><text x="70" y="181">ADJUST</text></g>
+        <circle r="9" fill="#D46F4D" stroke="#fff" stroke-width="3" id="pl-packet"><animateMotion dur="7s" repeatCount="indefinite"><mpath href="#pl-cyc"/></animateMotion></circle>
+        <text class="pl-axis-t" x="260" y="180" text-anchor="middle" font-size="13">one lap = one attempt</text>
+      </svg>
+    </div>
+    <div>
+      <div class="pl-steps" role="group" aria-label="Choose a step">
+        <button class="pl-step" type="button" data-step="0" aria-pressed="true">1 · ACT</button>
+        <button class="pl-step" type="button" data-step="1" aria-pressed="false">2 · OBSERVE</button>
+        <button class="pl-step" type="button" data-step="2" aria-pressed="false">3 · JUDGE</button>
+        <button class="pl-step" type="button" data-step="3" aria-pressed="false">4 · ADJUST</button>
+      </div>
+      <div class="pl-step-text" id="pl-step-text" aria-live="polite">
+        <div class="pl-swap">
+          <h3>Act</h3>
+          <p>The model does a piece of real work: writes code, calls a tool, drafts a section. This is where your prompt lives.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 4 : curves                                            -->
+<!-- ============================================================ -->
+<section class="pl-section">
+  <div class="pl-label">Where quality comes from</div>
+  <h2>Polishing words hits a ceiling. Feedback keeps climbing.</h2>
+  <p class="pl-lead">A better prompt raises the odds of a good first try. It can't see what actually happened. A loop can.</p>
+
+  <div class="pl-chart pl-reveal" id="pl-chart">
+    <svg viewBox="0 0 640 300" role="img" aria-label="Illustrative chart. The prompt curve rises with better wording and then flattens. The loop curve climbs in steps with each iteration and crosses the quality target.">
+      <line class="pl-grid" x1="60" y1="60" x2="620" y2="60"/><line class="pl-grid" x1="60" y1="130" x2="620" y2="130"/><line class="pl-grid" x1="60" y1="200" x2="620" y2="200"/>
+      <line class="pl-axis" x1="60" y1="20" x2="60" y2="260"/><line class="pl-axis" x1="60" y1="260" x2="620" y2="260"/>
+      <text class="pl-axis-t" x="50" y="30" text-anchor="end">high</text>
+      <text class="pl-axis-t" x="50" y="262" text-anchor="end">low</text>
+      <text class="pl-axis-t" x="340" y="290" text-anchor="middle">effort: prompt rewrites, or loop iterations</text>
+      <text class="pl-axis-t" transform="translate(16 140) rotate(-90)" text-anchor="middle">result quality</text>
+      <!-- target -->
+      <line x1="60" y1="70" x2="620" y2="70" stroke="#2FA37A" stroke-width="2.5" stroke-dasharray="8 6"/>
+      <text class="pl-axis-t" x="72" y="62" style="fill:#1E7A5A;font-weight:600">"good enough" line</text>
+      <!-- prompt curve -->
+      <path class="pl-curve" pathLength="1" style="stroke:#D46F4D;--cd:.2s" d="M60 235 C130 150, 200 118, 270 112 S440 104, 620 102"/>
+      <!-- loop curve (stepped) -->
+      <path class="pl-curve" pathLength="1" style="stroke:#08C5D1;--cd:1s" d="M60 235 L150 235 L150 190 L260 190 L260 140 L370 140 L370 100 L480 100 L480 66 L620 66"/>
+      <g class="pl-chart-dot" style="--cd:3s"><circle cx="480" cy="66" r="9" fill="#08C5D1" stroke="#fff" stroke-width="3"/><text class="pl-axis-t" x="478" y="46" text-anchor="middle" style="fill:#05707A;font-weight:600">check passes, stop</text></g>
+      <g class="pl-chart-dot" style="--cd:1.6s"><text class="pl-axis-t" x="300" y="98" text-anchor="middle" style="fill:#A9472A;font-weight:600">wording alone plateaus</text></g>
+    </svg>
+    <div class="pl-legend">
+      <span><i style="background:#D46F4D"></i>Prompt engineering: better wording</span>
+      <span><i style="background:#08C5D1"></i>Loop engineering: better cycle</span>
+    </div>
+  </div>
+  <p class="pl-note">Illustrative sketch of the idea, not measured data. Real results depend on the task, the model, and how good your check is. And a loop is only as good as its check.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 5 : simulator                                         -->
+<!-- ============================================================ -->
+<section class="pl-section">
+  <div class="pl-label">Try it</div>
+  <h2>Same task, two approaches</h2>
+  <p class="pl-lead">A scripted toy, not a benchmark. It shows the difference in <em>behavior</em>: the loop can see the tests, so it can chase them.</p>
+
+  <div class="pl-sim pl-reveal">
+    <div class="pl-sim-task">
+      <span>Task: <code>make the 7 failing tests pass</code></span>
+      <button class="pl-run" id="pl-run" type="button">▶ Run both</button>
+    </div>
+    <div class="pl-lanes">
+      <div class="pl-lane">
+        <h3>Prompt (one shot)</h3>
+        <div class="pl-tests" id="pl-tests-a" aria-hidden="true"></div>
+        <ul class="pl-log" id="pl-log-a" aria-live="polite"><li>Waiting…</li></ul>
+        <div class="pl-verdict" id="pl-verdict-a"></div>
+      </div>
+      <div class="pl-lane">
+        <h3>Loop (up to 5 tries)</h3>
+        <div class="pl-tests" id="pl-tests-b" aria-hidden="true"></div>
+        <ul class="pl-log" id="pl-log-b" aria-live="polite"><li>Waiting…</li></ul>
+        <div class="pl-verdict" id="pl-verdict-b"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 6 : five parts                                        -->
+<!-- ============================================================ -->
+<section class="pl-section">
+  <div class="pl-label">What you actually design</div>
+  <h2>Five parts of a good loop</h2>
+  <p class="pl-lead">You still write prompts. But most of the effort moves to these.</p>
+
+  <div class="pl-parts">
+    <div class="pl-part pl-reveal">
+      <svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="22" fill="#FFBF66"/><circle cx="28" cy="28" r="14" fill="#fff"/><circle class="pl-ico-blink" cx="28" cy="28" r="6" fill="#430C05"/></svg>
+      <span class="pl-n">01</span><h3>A clear goal</h3>
+      <p>"Done" must be defined in a way something can test: all tests green, schema valid, every claim sourced.</p>
+    </div>
+    <div class="pl-part pl-reveal" style="--rd:.1s">
+      <svg viewBox="0 0 56 56" aria-hidden="true"><g class="pl-ico-spin"><circle cx="28" cy="28" r="12" fill="#08C5D1"/><g stroke="#00353F" stroke-width="6" stroke-linecap="round"><path d="M28 6v8M28 42v8M6 28h8M42 28h8M12.5 12.5l5.6 5.6M37.9 37.9l5.6 5.6M12.5 43.5l5.6-5.6M37.9 18.1l5.6-5.6"/></g></g><circle cx="28" cy="28" r="5" fill="#fff"/></svg>
+      <span class="pl-n">02</span><h3>Tools to act</h3>
+      <p>Run code, search, read files, call an API. Without tools, the loop can only talk about the world.</p>
+    </div>
+    <div class="pl-part pl-reveal" style="--rd:.2s">
+      <svg viewBox="0 0 56 56" aria-hidden="true"><rect x="8" y="8" width="40" height="40" rx="10" fill="#fff" stroke="#430C05" stroke-width="3"/><path class="pl-ico-bob" d="M17 29l8 8 15-17" stroke="#2FA37A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <span class="pl-n">03</span><h3>A verifier</h3>
+      <p>The most important part. A test, a rubric, a validator, a second model, or a human. Weak check, weak loop.</p>
+    </div>
+    <div class="pl-part pl-reveal" style="--rd:.3s">
+      <svg viewBox="0 0 56 56" aria-hidden="true"><rect x="10" y="8" width="36" height="12" rx="4" fill="#D46F4D"/><rect class="pl-ico-bob" x="10" y="22" width="36" height="12" rx="4" fill="#FFBF66"/><rect x="10" y="36" width="36" height="12" rx="4" fill="#08C5D1"/></svg>
+      <span class="pl-n">04</span><h3>Memory of tries</h3>
+      <p>What was attempted, what failed and why. Otherwise the model repeats the same mistake politely.</p>
+    </div>
+    <div class="pl-part pl-reveal" style="--rd:.4s">
+      <svg viewBox="0 0 56 56" aria-hidden="true"><polygon points="19,6 37,6 50,19 50,37 37,50 19,50 6,37 6,19" fill="#C2412D"/><rect class="pl-ico-blink" x="17" y="23" width="22" height="10" rx="3" fill="#fff"/></svg>
+      <span class="pl-n">05</span><h3>A stop rule</h3>
+      <p>Success, a maximum number of tries, or a budget. Every loop needs a way out that doesn't depend on the model's mood.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 7 : table                                             -->
+<!-- ============================================================ -->
+<section class="pl-section">
+  <div class="pl-label">Side by side</div>
+  <h2>Two crafts, two mindsets</h2>
+
+  <div class="pl-table">
+    <div class="pl-row pl-row--head pl-reveal"><div></div><div>Prompt engineering</div><div>Loop engineering</div></div>
+    <div class="pl-row pl-reveal"><div>You design</div><div>The words: instructions, examples, format, context</div><div>The system: steps, tools, checks, memory, stop rules</div></div>
+    <div class="pl-row pl-reveal"><div>Quality comes from</div><div>A good first answer</div><div>Fast, reliable correction of bad ones</div></div>
+    <div class="pl-row pl-reveal"><div>When it fails</div><div>A confident wrong answer, noticed (or not) by you</div><div>Runs too long, chases the wrong goal, or fools its own check</div></div>
+    <div class="pl-row pl-reveal"><div>Cost</div><div>One call, predictable</div><div>Many calls, variable: needs a cap</div></div>
+    <div class="pl-row pl-reveal"><div>Best for</div><div>Writing, summarizing, classifying, brainstorming</div><div>Coding, research, data cleaning, multi-step tasks</div></div>
+    <div class="pl-row pl-reveal"><div>Core skill</div><div>Clear communication</div><div>Defining "correct" so a machine can check it</div></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 8 : risks                                             -->
+<!-- ============================================================ -->
+<section class="pl-section">
+  <div class="pl-label">The catch</div>
+  <h2>Loops can go wrong, too</h2>
+  <p class="pl-lead">More autonomy means more ways to burn time and money while looking busy.</p>
+
+  <div class="pl-risks">
+    <div class="pl-meter pl-reveal">
+      <strong>Cost of an uncapped loop</strong>
+      <div class="pl-meter-bar"><div class="pl-meter-fill" id="pl-meter-fill"></div><div class="pl-meter-cap"></div></div>
+      <div class="pl-meter-row"><span id="pl-meter-iter">0 tries</span><span id="pl-meter-cost">spend: 0%</span></div>
+      <div class="pl-meter-btns">
+        <button class="pl-chip" id="pl-meter-a" type="button" aria-pressed="true">No cap</button>
+        <button class="pl-chip" id="pl-meter-b" type="button" aria-pressed="false">With a cap</button>
+        <button class="pl-chip" id="pl-meter-go" type="button">▶ Start</button>
+      </div>
+      <p class="pl-meter-msg" id="pl-meter-msg">Pick a setting and press start. The check never passes in this scenario.</p>
+    </div>
+    <div class="pl-fails">
+      <div class="pl-fail pl-reveal" style="--rd:.05s">
+        <svg viewBox="0 0 54 54" aria-hidden="true"><g class="pl-ico-spin"><path d="M27 8a19 19 0 1 1-17 11" fill="none" stroke="#C2412D" stroke-width="6" stroke-linecap="round"/><path d="M6 8l5 13 13-5z" fill="#C2412D"/></g></svg>
+        <div><h3>Endless loop</h3><p>The check can never pass, so the loop never stops.</p></div>
+      </div>
+      <div class="pl-fail pl-reveal" style="--rd:.15s">
+        <svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="20" fill="#FFBF66"/><path class="pl-ico-blink" d="M16 28l8 8 14-16" fill="none" stroke="#430C05" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 12l30 30" stroke="#C2412D" stroke-width="5" stroke-linecap="round"/></svg>
+        <div><h3>Fooling the check</h3><p>Tests turned green by deleting the tests. The metric improved, the work didn't.</p></div>
+      </div>
+      <div class="pl-fail pl-reveal" style="--rd:.25s">
+        <svg viewBox="0 0 54 54" aria-hidden="true"><rect x="8" y="30" width="38" height="8" rx="4" fill="#D46F4D"/><rect class="pl-ico-bob" x="8" y="19" width="38" height="8" rx="4" fill="#FFBF66"/><rect x="8" y="8" width="38" height="8" rx="4" fill="#08C5D1"/><rect x="8" y="41" width="38" height="8" rx="4" fill="#430C05"/></svg>
+        <div><h3>Drifting context</h3><p>After many laps the history gets long and noisy, and the original goal gets blurry.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pl-guards">
+    <span class="pl-guard">Max iterations</span>
+    <span class="pl-guard">Spend limit</span>
+    <span class="pl-guard">Checks the model can't edit</span>
+    <span class="pl-guard">Summarize history between laps</span>
+    <span class="pl-guard">Human checkpoint on risky steps</span>
+  </div>
+  <p class="pl-note">Where a loop touches irreversible actions, a person should approve them. More on that in <a href="{% post_url 2026-05-30-human-in-the-loop-ai-agents %}">Fully Autonomous AI Is a Mirage</a>.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 9 : nested                                            -->
+<!-- ============================================================ -->
+<section class="pl-section">
+  <div class="pl-label">Not a rivalry</div>
+  <h2>The prompt lives inside the loop</h2>
+  <p class="pl-lead">Loop engineering doesn't replace prompt engineering. It <em>wraps</em> it.</p>
+
+  <div class="pl-nest">
+    <div class="pl-nest-art pl-reveal">
+      <svg viewBox="0 0 400 400" role="img" aria-label="Nested rings: a small prompt at the center, surrounded by a spinning loop of checks and feedback, surrounded by the larger goal and its constraints.">
+        <circle cx="200" cy="200" r="180" fill="#FFBF66" opacity=".35"/>
+        <g class="pl-ring-a"><circle cx="200" cy="200" r="150" fill="none" stroke="#D46F4D" stroke-width="4" stroke-dasharray="2 14" stroke-linecap="round"/><circle cx="200" cy="50" r="10" fill="#D46F4D"/></g>
+        <circle cx="200" cy="200" r="108" fill="#08C5D1" opacity=".3"/>
+        <g class="pl-ring-b"><circle cx="200" cy="200" r="90" fill="none" stroke="#00353F" stroke-width="4" stroke-dasharray="2 12" stroke-linecap="round"/><circle cx="200" cy="110" r="9" fill="#00353F"/></g>
+        <circle cx="200" cy="200" r="52" fill="#430C05"/>
+        <text x="200" y="196" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="20" fill="#FFBF66">Prompt</text>
+        <text x="200" y="218" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#F6E8DE">one model call</text>
+        <text x="200" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="11" letter-spacing="1.5" fill="#00353F">LOOP</text>
+        <text x="200" y="38" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="11" letter-spacing="1.5" fill="#A9472A">GOAL AND LIMITS</text>
+      </svg>
+    </div>
+    <ul class="pl-nest-list">
+      <li class="pl-reveal"><i style="background:#430C05"></i><div><strong>Center: the prompt.</strong> Each "Act" step still needs clear instructions and the right context.</div></li>
+      <li class="pl-reveal" style="--rd:.12s"><i style="background:#08C5D1"></i><div><strong>Middle: the loop.</strong> Tools, checks, feedback and memory turn single calls into a process that can correct itself.</div></li>
+      <li class="pl-reveal" style="--rd:.24s"><i style="background:#D46F4D"></i><div><strong>Outside: goal and limits.</strong> What "done" means, what's off-limits, how much it may spend. That's still a human decision.</div></li>
+    </ul>
+  </div>
+  <p class="pl-note">The loop idea has deep roots in agent research (ReAct, Reflexion and Self-Refine are well-known examples of acting, reflecting and revising in cycles). What's changing is that it's becoming the default way to build, not a research trick.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 10 : picker                                           -->
+<!-- ============================================================ -->
+<section class="pl-section">
+  <div class="pl-label">Rule of thumb</div>
+  <h2>Which one for this task?</h2>
+  <p class="pl-lead">Pick a task. The question that matters: <strong>can something check the result?</strong></p>
+
+  <div class="pl-pick">
+    <div class="pl-pick-chips" id="pl-pick-chips" role="group" aria-label="Choose a task">
+      <button class="pl-chip" type="button" data-i="0" aria-pressed="true">Rewrite a paragraph in a friendlier tone</button>
+      <button class="pl-chip" type="button" data-i="1" aria-pressed="false">Fix a bug across a codebase</button>
+      <button class="pl-chip" type="button" data-i="2" aria-pressed="false">Research a topic and cite sources</button>
+      <button class="pl-chip" type="button" data-i="3" aria-pressed="false">Extract fields from 10,000 invoices</button>
+      <button class="pl-chip" type="button" data-i="4" aria-pressed="false">Brainstorm product names</button>
+    </div>
+    <div class="pl-result" id="pl-result" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Coda                                                          -->
+<!-- ============================================================ -->
+<div class="pl-coda pl-reveal">
+  <p class="pl-big">Prompts decide what the model <em>tries</em>. Loops decide what happens <em>next</em>.</p>
+  <p>Learn to write clearly: it never stops paying off. Then learn to build the circuit around it, with a check you trust and a way out you control.</p>
+</div>
+
+</div><!-- /pl -->
+
+<script>
+/* ============================================================ */
+/* Interactions: reveal, hero replay, cycle, simulator, meter, picker */
+/* ============================================================ */
+(function () {
+  var root = document.querySelector('.pl');
+  if (!root) return;
+  root.classList.add('pl-js');
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canObserve = 'IntersectionObserver' in window;
+  function $(id) { return document.getElementById(id); }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, reduce ? 0 : ms); }); }
+
+  /* Reduced motion: stop the SVG (SMIL) animations */
+  if (reduce) {
+    document.querySelectorAll('.pl svg').forEach(function (s) { if (s.pauseAnimations) s.pauseAnimations(); });
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  var reveals = root.querySelectorAll('.pl-reveal');
+  if (canObserve) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('pl-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('pl-in'); });
+  }
+
+  /* ---------- 1. Hero: play when visible, replay on click ---------- */
+  var hero = $('pl-hero');
+  function playHero() {
+    hero.classList.remove('pl-play');
+    void hero.offsetWidth;            /* restart the CSS animations */
+    hero.classList.add('pl-play');
+  }
+  if (canObserve) {
+    var ho = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { playHero(); ho.disconnect(); }
+    }, { threshold: 0.4 });
+    ho.observe(hero);
+  } else { playHero(); }
+  $('pl-replay').addEventListener('click', playHero);
+
+  /* ---------- 3. The cycle ---------- */
+  var STEPS = [
+    { t: 'Act', p: 'The model does a piece of real work: writes code, calls a tool, drafts a section. This is where your prompt lives.' },
+    { t: 'Observe', p: 'Something real comes back: test output, search results, an error message, a measurement. The loop finally sees what happened.' },
+    { t: 'Judge', p: 'A check decides: good enough? It can be a test, a rubric, another model or a person. If yes, the loop exits. If not, it goes on.' },
+    { t: 'Adjust', p: 'What failed is fed back in. The next attempt starts with what was learned, not from zero.' }
+  ];
+  var stepBtns = root.querySelectorAll('.pl-step');
+  var nodes = root.querySelectorAll('.pl-node');
+  var stepText = $('pl-step-text');
+  var exitEl = $('pl-exit');
+  function selectStep(i) {
+    stepBtns.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    nodes.forEach(function (n, k) { n.classList.toggle('is-on', k === i); });
+    exitEl.classList.toggle('is-on', i === 2);
+    stepText.innerHTML = '<div class="pl-swap"><h3>' + STEPS[i].t + '</h3><p>' + STEPS[i].p + '</p></div>';
+  }
+  stepBtns.forEach(function (b) { b.addEventListener('click', function () { selectStep(+b.dataset.step); }); });
+  nodes.forEach(function (n) { n.addEventListener('click', function () { selectStep(+n.dataset.step); }); });
+  selectStep(0);
+
+  /* ---------- 5. Simulator ---------- */
+  function buildTests(id) {
+    var el = $(id); el.innerHTML = '';
+    for (var i = 1; i <= 7; i++) { var d = document.createElement('div'); d.className = 'pl-test is-fail'; d.textContent = i; el.appendChild(d); }
+    return el.children;
+  }
+  var tA = buildTests('pl-tests-a'), tB = buildTests('pl-tests-b');
+  function setTests(list, passCount, unknown) {
+    for (var i = 0; i < list.length; i++) {
+      list[i].className = 'pl-test ' + (unknown ? '' : (i < passCount ? 'is-pass' : 'is-fail'));
+      if (unknown) list[i].textContent = '?';
+      else list[i].textContent = i + 1;
+    }
+  }
+  setTests(tA, 0, true); setTests(tB, 0, false);
+  function line(ul, html, cls, replace) {
+    if (replace) ul.innerHTML = '';
+    var li = document.createElement('li'); if (cls) li.className = cls; li.innerHTML = html; ul.appendChild(li);
+  }
+  var running = false;
+  $('pl-run').addEventListener('click', async function () {
+    if (running) return;
+    running = true; this.disabled = true;
+    var logA = $('pl-log-a'), logB = $('pl-log-b'), vA = $('pl-verdict-a'), vB = $('pl-verdict-b');
+    setTests(tA, 0, true); setTests(tB, 0, false);
+    vA.textContent = ''; vB.textContent = '';
+    line(logA, '<b>write</b> a fix from the description…', '', true);
+    line(logB, '<b>try 1</b> write a fix', '', true);
+    await wait(900);
+    line(logA, 'answer delivered', 'ok');
+    line(logB, '<b>run</b> tests → 4 failing', 'bad');
+    setTests(tB, 3, false);
+    await wait(900);
+    line(logA, 'tests were never run…');
+    line(logB, '<b>try 2</b> read the error, patch', '');
+    await wait(900);
+    line(logB, '<b>run</b> tests → 1 failing', 'bad');
+    setTests(tB, 6, false);
+    await wait(900);
+    line(logB, '<b>try 3</b> handle the edge case', '');
+    await wait(900);
+    line(logB, '<b>run</b> tests → all passing', 'ok');
+    setTests(tB, 7, false);
+    vB.style.color = '#7BE0B6'; vB.textContent = '✓ Stopped at try 3: check passed';
+    await wait(900);
+    setTests(tA, 4, false);
+    line(logA, 'you run them later → 3 failing', 'bad');
+    vA.style.color = '#FF9C8A'; vA.textContent = 'Looked fine. Wasn\'t. You find out afterwards.';
+    running = false; this.disabled = false;
+    this.textContent = '↻ Run again';
+  });
+
+  /* ---------- 8. Cost meter ---------- */
+  var capped = false, meterTimer = null;
+  var mA = $('pl-meter-a'), mB = $('pl-meter-b'), mGo = $('pl-meter-go');
+  var fill = $('pl-meter-fill'), mIter = $('pl-meter-iter'), mCost = $('pl-meter-cost'), mMsg = $('pl-meter-msg');
+  function setCap(v) {
+    capped = v;
+    mA.setAttribute('aria-pressed', v ? 'false' : 'true');
+    mB.setAttribute('aria-pressed', v ? 'true' : 'false');
+  }
+  mA.addEventListener('click', function () { setCap(false); });
+  mB.addEventListener('click', function () { setCap(true); });
+  mGo.addEventListener('click', function () {
+    clearInterval(meterTimer);
+    var n = 0;
+    fill.style.transition = 'none'; fill.style.width = '0%';
+    mMsg.textContent = 'Running… the check keeps failing.';
+    function tick() {
+      n++;
+      var pct = Math.min(n * 5, 100);
+      fill.style.transition = reduce ? 'none' : 'width .25s linear';
+      fill.style.width = pct + '%';
+      mIter.textContent = n + ' tries';
+      mCost.textContent = 'spend: ' + pct + '%';
+      if (capped && pct >= 70) {
+        clearInterval(meterTimer);
+        mMsg.textContent = 'Cap reached: the loop stops and hands back its best attempt plus a report of what failed.';
+      } else if (pct >= 100) {
+        clearInterval(meterTimer);
+        mMsg.textContent = 'Nothing stopped it. In real systems this is money, time or rate limits running out.';
+      }
+    }
+    meterTimer = setInterval(tick, reduce ? 10 : 260);
+  });
+
+  /* ---------- 10. Picker ---------- */
+  var TASKS = [
+    { v: 'Prompt', c: '#D46F4D', p: 100, l: 0, why: 'One pass is cheap, and you are the check: you read it and know in seconds. A loop would add cost without adding signal.' },
+    { v: 'Loop', c: '#08C5D1', p: 20, l: 80, why: 'The tests give an automatic verdict, so the model can try, see the failure and try again. Prompting alone leaves you as the tester.' },
+    { v: 'Loop', c: '#08C5D1', p: 25, l: 75, why: 'Searching, reading, spotting gaps and checking claims against sources are repeated steps. A single prompt can only recall, not verify.' },
+    { v: 'Both', c: '#430C05', p: 50, l: 50, why: 'Write a strong extraction prompt, then wrap it in a validation loop: if the output breaks the schema or a total does not add up, retry or flag it for a person.' },
+    { v: 'Prompt', c: '#D46F4D', p: 100, l: 0, why: 'There is no right answer to verify. Good context and a few examples matter more than iteration. Run it a few times and choose.' }
+  ];
+  var res = $('pl-result');
+  function pick(i) {
+    var t = TASKS[i];
+    document.querySelectorAll('#pl-pick-chips .pl-chip').forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    res.innerHTML =
+      '<div class="pl-label">Best fit</div>' +
+      '<p class="pl-verdict-big" style="color:' + (t.v === 'Prompt' ? '#A9472A' : t.v === 'Loop' ? '#05707A' : '#430C05') + '">' + t.v + (t.v === 'Both' ? ': a prompt inside a loop' : ' engineering') + '</p>' +
+      '<div class="pl-meterline" aria-hidden="true"><span style="width:0;background:#D46F4D" data-w="' + t.p + '"></span><span style="width:0;background:#08C5D1" data-w="' + t.l + '"></span></div>' +
+      '<p>' + t.why + '</p>';
+    var spans = res.querySelectorAll('.pl-meterline span');
+    requestAnimationFrame(function () { requestAnimationFrame(function () { spans.forEach(function (s) { s.style.width = s.dataset.w + '%'; }); }); });
+  }
+  document.querySelectorAll('#pl-pick-chips .pl-chip').forEach(function (b) {
+    b.addEventListener('click', function () { pick(+b.dataset.i); });
+  });
+  pick(0);
+})();
+</script>

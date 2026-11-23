@@ -16,6 +16,7 @@ A living library of articles, discoveries, reflections, and learnings gathered t
 - [What Is Vibe Coding?](_posts/2026-07-17-what-is-vibe-coding.html)
 - [What Is Shadow AI?](_posts/2026-09-17-what-is-shadow-ai.html)
 - [Jev, explained simply](_posts/2026-09-22-what-is-jev-system-one-model.html)
+- [Prompt Engineering vs Loop Engineering](_posts/2026-11-23-prompt-engineering-vs-loop-engineering.html)
 
 ### AI & Society
 *Understand the implications: narrative articles that start from real events to explore power, ethics, culture and the human consequences of AI.*
