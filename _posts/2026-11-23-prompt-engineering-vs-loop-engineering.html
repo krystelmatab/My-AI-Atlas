@@ -269,7 +269,7 @@ excerpt: "A prompt is one well-aimed shot. A loop is a system that shoots, looks
 /* ============================================================ */
 /* Section 9b : where the name comes from                        */
 /* ============================================================ */
-.pl-tl { position: relative; margin: 1.8rem 0 0; padding-left: 0; list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: .8rem; }
+.pl-tl { position: relative; margin: 1.8rem 0 0; padding-left: 0; list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; }
 .pl-tl::before { content: ""; position: absolute; left: 0; right: 0; top: 11px; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--terracotta), var(--amber), var(--cyan)); transform-origin: left; }
 .pl-js .pl-tl::before { transform: scaleX(0); transition: transform 1.6s cubic-bezier(.3,.6,.2,1); }
 .pl-js .pl-tl.pl-in::before { transform: scaleX(1); }
@@ -281,12 +281,6 @@ excerpt: "A prompt is one well-aimed shot. A loop is a system that shoots, looks
 .pl-js .pl-tl.pl-in li { opacity: 1; transform: none; }
 .pl-tl time { display: block; font: 700 .72rem/1.2 var(--mono); letter-spacing: .06em; color: var(--terracotta-ink); margin-bottom: .2rem; }
 .pl-tl b { display: block; color: var(--maroon); margin-bottom: .2rem; }
-.pl-terms { margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
-.pl-term { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1rem; }
-.pl-term h3 { margin: 0 0 .15rem; font-size: 1.05rem; }
-.pl-term small { display: block; font: 600 .68rem/1.3 'Inter', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--terracotta-ink); margin-bottom: .4rem; }
-.pl-term p { margin: 0; font-size: .88rem; }
-.pl-term--main { border: 2px solid var(--cyan); }
 @media (max-width: 760px) {
   .pl-tl { grid-template-columns: 1fr; gap: 1.1rem; padding-left: 2rem; }
   .pl-tl::before { left: 9px; right: auto; top: 0; bottom: 0; width: 4px; height: auto; transform-origin: top; background: linear-gradient(180deg, var(--terracotta), var(--amber), var(--cyan)); }
@@ -673,19 +667,10 @@ excerpt: "A prompt is one well-aimed shot. A loop is a system that shoots, looks
   <ol class="pl-tl pl-reveal">
     <li style="--i:0"><time>2022–2023</time><b>The research</b>ReAct, Reflexion and Self-Refine show models acting, reflecting and revising in cycles.</li>
     <li style="--i:1"><time>Mid-2025</time><b>The Ralph loop</b>Geoffrey Huntley re-runs a coding agent on the same prompt in a plain shell loop, fresh context each time.</li>
-    <li style="--i:2"><time>Dec 2025</time><b>Tools catch up</b>Anthropic ships a Ralph plugin. Andrej Karpathy popularizes "context engineering".</li>
-    <li style="--i:3"><time>Feb 2026</time><b>"Harness engineering"</b>Commonly credited to Mitchell Hashimoto; OpenAI and others write about it soon after.</li>
-    <li style="--i:4"><time>Jun 2026</time><b>"Loop engineering"</b>Addy Osmani names it, after remarks by Boris Cherny (Anthropic) and a viral post by Peter Steinberger.</li>
+    <li style="--i:2"><time>Dec 2025</time><b>Tools catch up</b>Anthropic ships a Ralph plugin, making the loop a built-in feature.</li>
+    <li style="--i:3"><time>Jun 2026</time><b>"Loop engineering"</b>Addy Osmani names it, after remarks by Boris Cherny (Anthropic) and a viral post by Peter Steinberger.</li>
   </ol>
   <p class="pl-note">Dates and credits come mostly from secondary write-ups, not the original posts. Treat them as the best available account, not a verdict.</p>
-
-  <h3 style="margin-top:2.2rem">Neighboring terms</h3>
-  <div class="pl-terms">
-    <div class="pl-term pl-term--main pl-reveal"><small>Used in this article</small><h3>Loop engineering</h3><p>Designing the cycle: act, observe, judge, adjust, stop.</p></div>
-    <div class="pl-term pl-reveal" style="--rd:.1s"><small>Neutral, always safe</small><h3>Agent loop</h3><p>The mechanism itself. Saying just "loop" is accurate and less grand.</p></div>
-    <div class="pl-term pl-reveal" style="--rd:.2s"><small>Broader umbrella</small><h3>Harness engineering</h3><p>Everything around the model: tools, checks, guardrails. Loops are one part of it.</p></div>
-    <div class="pl-term pl-reveal" style="--rd:.3s"><small>Adjacent</small><h3>Context engineering</h3><p>Choosing what goes into the model's context at each step.</p></div>
-  </div>
 
   <h3 style="margin-top:2.2rem">Why it's a topic now</h3>
   <p><strong>Models can finally use feedback.</strong> They call tools, run code and read their own errors, so retrying actually helps. <strong>Coding tools made loops cheap to build</strong>, and <strong>wording alone hit diminishing returns</strong> on long, multi-step work. So effort moved from the sentence to the cycle.</p>
